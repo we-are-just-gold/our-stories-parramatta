@@ -283,8 +283,8 @@ page('index.html', 'Our Stories, Parramatta. Saturday 28 November 2026',
      home)
 
 
-def hero(label, h1, script, lead):
-    return f'''<section class="page-hero">
+def hero(label, h1, script, lead, cls=''):
+    return f'''<section class="page-hero{cls}">
 {RING}
 <div class="narrow">
 <p class="label">{label}</p>
@@ -768,7 +768,7 @@ HOSTBAR = ('<div class="hostbar" data-hostbar hidden><label>Host code <input typ
            '<button type="button" class="btn small ghost" data-clear>Clear all answers</button></div>')
 
 resultsp = hero('Hear. Dr Ru’s three questions', 'What the room', 'is saying.',
-                'Live, as people send their answers. No names.') + f'''
+                'Live, as people send their answers. No names.', cls=' s-hear') + f'''
 <section class="form"><div class="wrap">
 <p class="filemsg" data-status hidden></p>
 {HOSTBAR}
