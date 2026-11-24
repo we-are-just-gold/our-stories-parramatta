@@ -826,7 +826,7 @@ screen = f'''<!doctype html>
 open(os.path.join(ROOT, 'screen.html'), 'w').write(screen)
 
 # ---------- lunch ----------
-lunchp = f'''<section class="page-hero">
+lunchp = f'''<section class="page-hero s-lunch">
 {RING}
 <div class="narrow">
 <p class="label">12pm to 12.45pm. Civic Gallery foyer, Level 4</p>
@@ -873,6 +873,7 @@ facp = hero('For facilitators and hosts', 'What you heard', 'from the room.',
 <li><strong>The three questions.</strong> “Tap Hear, the light blue one, and go to step 3.” Put <a href="/screen">the live screen</a> on the projector.</li>
 <li><strong>Quick fire.</strong> “Step 4 on the same page.” These do not show on the screen.</li>
 <li><strong>Before lunch.</strong> “If you are leaving now, tap End your day.”</li></ul></div>
+<div class="cue c-lunch"><h3>Lunch. Pink</h3><ul class="list"><li><strong>Going to lunch.</strong> “Tap Lunch, the pink one, for what is on and what is in the food.”</li></ul></div>
 <div class="cue c-create"><h3>Create. Green</h3><ul class="list">
 <li><strong>At the start.</strong> “New today? Tap Start your day first.”</li>
 <li><strong>At the end.</strong> “Tap Create, the green one. Step 3 to send your story, with or without your name. Photos of your pages are fine.”</li>
