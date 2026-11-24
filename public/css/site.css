@@ -163,6 +163,16 @@ h3{margin:0 0 10px;font-size:26px;line-height:1.15;font-weight:600}
 .prose p{margin:0 0 14px}
 .note a{font-weight:600}
 input[type=file]{font:inherit;font-size:16px;border:1.5px dashed var(--field);border-radius:14px;padding:16px;width:100%;background:#fff}
+.js-pics input[type=file]{position:absolute;opacity:0;width:1px;height:1px;padding:0;border:0}
+.js-pics label{display:inline-block;cursor:pointer;font-size:17px;font-weight:600;border:1.5px solid var(--navy);border-radius:999px;padding:14px 26px;background:#fff;color:var(--navy)}
+.js-pics label:hover{background:var(--blush-2)}
+.js-pics input:focus-visible+label,.js-pics label:focus-within{outline:3px solid var(--blue);outline-offset:3px}
+.js-pics.is-full label{border-style:dashed;color:var(--muted);cursor:default}
+.pics{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px}
+.pics li{display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--rule);border-radius:14px;padding:10px 14px}
+.pics img{flex:none;width:56px;height:56px;border-radius:10px;object-fit:cover}
+.pics span{flex:1;font-size:15px;overflow-wrap:anywhere}
+.pics button{flex:none;font:inherit;font-size:14px;font-weight:600;border:1.5px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:6px 14px;cursor:pointer}
 .filemsg{margin:10px 0 0;font-size:16px;font-weight:600;color:var(--navy)}
 .lunchbar{display:flex;align-items:center;gap:14px;margin-top:14px;text-decoration:none;background:#fff;border:1.5px solid var(--navy);border-radius:18px;padding:16px 20px;min-height:64px;color:var(--navy)}
 .lunchbar:hover{background:var(--blush-2);color:var(--navy)}

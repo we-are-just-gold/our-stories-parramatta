@@ -452,11 +452,15 @@ page('during.html', 'Through the day. Our Stories, Parramatta',
 story_inner = '\n'.join([
     q(1, 'Your story', big_area('story', 'Tell it your way', rows=10),
       'You decide what you tell, and what you keep. You can use your mother tongue.'),
-    q(2, 'Add a picture',
-      '<div class="field"><label for="pic">Choose a photo, or take one now</label>'
-      '<input type="file" id="pic" name="picture" accept="image/*"></div><p class="filemsg" data-filemsg hidden></p>',
-      'Optional. A photo of you, one that carries your story, or a photo of the page if you wrote your story by hand. A picture can show who you are even without your name, '
-      'so only send one you are happy for us to use, and ask anyone else in it first.'),
+    q(2, 'Add pictures',
+      '<div data-pics>'
+      '<div class="field"><label for="pic">Choose photos, or take one now</label>'
+      '<input type="file" id="pic" name="picture" accept="image/*"></div>'
+      + ''.join(f'<div class="field" data-extra><label for="pic{i}">Picture {i}</label>'
+                f'<input type="file" id="pic{i}" name="picture_{i}" accept="image/*"></div>' for i in range(2, 6))
+      + '</div><ul class="pics" data-piclist hidden></ul><p class="filemsg" data-filemsg hidden></p>',
+      'Optional. Up to five. Photos of you, of your work, of something that carries your story, or of the pages if you wrote it by hand. '
+      'A picture can show who you are even without your name, so only send ones you are happy for us to use, and ask anyone else in them first.'),
     q(3, 'With your name, or without it?',
       opts('name_me_as', ['Without my name', 'With my first name only', 'With my full name'], required=True)),
     '<div data-reveal="name_me_as=With my first name only|With my full name">'
@@ -470,7 +474,7 @@ story_inner = '\n'.join([
     'We use a story from someone under 18 only with their parent or guardian’s consent.</p></div>',
     q(7, 'Your yes',
       '<div class="opts"><div class="opt"><input type="checkbox" id="yes" name="story_consent" value="Yes" required>'
-      '<label for="yes">I am happy for my story, and my picture if I sent one, to be used in the report, the way I chose above.</label></div></div>',
+      '<label for="yes">I am happy for my story, and any pictures I sent, to be used in the report, the way I chose above.</label></div></div>',
       'The form records the date and time.'),
 ])
 storyp = hero('Share your story', 'What does belonging look like', 'for you?',
@@ -743,7 +747,7 @@ share_steps = '\n'.join([
                    'Send our message')
          + '<p class="hint" style="margin-top:14px">One message from your circle. Anyone at the table can send it. ' + CARE + '</p>'),
     step(4, 'More to say?',
-         '<p>Tell your story in full, with or without your name, and add a picture if you like.</p><p><a class="btn ghost" href="/share-your-story">Share your story</a></p>'),
+         '<p>Tell your story in full, with or without your name, and add pictures if you like.</p><p><a class="btn ghost" href="/share-your-story">Share your story</a></p>'),
     step(5, 'Before you leave', END),
 ])
 session_page('share.html', 'share', 'Share', '3pm to 5pm', 'in a small circle.',
@@ -862,7 +866,7 @@ privacyp = hero('Privacy notice', 'What we collect and', 'what we do with it.',
 <li><strong>Add your voice, the three questions in Hear and your circle’s message in Share.</strong> Only what you write, and the session or table if you tell us. No name.</li>
 <li><strong>A stage spot.</strong> Your name and how long you would like, so we can call you up.</li>
 <li><strong>Facilitator reflection.</strong> The facilitator’s or host’s name and what they heard in the room.</li>
-<li><strong>Share your story.</strong> Your story, and a picture if you add one. Your name and an email or phone number only if you choose to be named.</li>
+<li><strong>Share your story.</strong> Your story, and up to five pictures if you add them. Your name and an email or phone number only if you choose to be named.</li>
 <li><strong>Consent form.</strong> Your name, your choice about photos and video, and your typed signature. If you are signing for someone under 18, their name, your name and your mobile number.</li>
 </ul>
 <p>This site does not use advertising or tracking cookies. It keeps one small note in your own browser so the buttons can show which steps you have finished. That note stays on your phone.</p>
@@ -874,7 +878,7 @@ privacyp = hero('Privacy notice', 'What we collect and', 'what we do with it.',
 <ul class="list">
 <li>Survey answers and what you add through the day are reported as themes and numbers. In reporting, your responses will not be identifiable in any way.</li>
 <li>If we quote something you wrote, identifying details are removed.</li>
-<li>A story is published with a name only if the person who sent it chose to be named. A picture sent with a story is used only with that story.</li>
+<li>A story is published with a name only if the person who sent it chose to be named. Pictures sent with a story are used only with that story.</li>
 <li>The consent form is used on the day so the photographer and volunteers know your choice.</li>
 <li>Once the report is published, what you contributed to it cannot be taken out.</li>
 </ul>

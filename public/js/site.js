@@ -77,16 +77,38 @@
 })();
 
 (function(){
-  // Share your story: shrink a phone photo before sending, so it uploads quickly on venue Wi-Fi
+  // Share your story: up to five pictures, each shrunk before sending so they upload quickly on venue Wi-Fi
   var form=document.querySelector('form[name="share-your-story"]'); if(!form) return;
-  var input=form.querySelector('input[type=file]'); var msg=form.querySelector('[data-filemsg]');
-  if(!input || !window.FormData || !window.fetch) return;
+  var box=form.querySelector('[data-pics]'), list=form.querySelector('[data-piclist]'), msg=form.querySelector('[data-filemsg]');
+  if(!box || !window.FormData || !window.fetch) return;
+  var NAMES=['picture','picture_2','picture_3','picture_4','picture_5'], MAX=NAMES.length, files=[];
+  var picker=form.querySelector('#pic'); picker.multiple=true; picker.removeAttribute('name');
+  box.classList.add('js-pics');
+  box.querySelectorAll('[data-extra]').forEach(function(d){ d.remove(); });
   function say(t){ if(msg){ msg.textContent=t; msg.hidden=!t; } }
-  function shrink(file){
+  function draw(){
+    list.innerHTML=''; list.hidden=!files.length;
+    files.forEach(function(f,n){
+      var li=document.createElement('li'), im=document.createElement('img'), s=document.createElement('span'), b=document.createElement('button');
+      im.alt=''; im.src=URL.createObjectURL(f); im.onload=function(){ URL.revokeObjectURL(im.src); };
+      s.textContent=f.name; b.type='button'; b.textContent='Remove';
+      b.addEventListener('click',function(){ files.splice(n,1); draw(); say(''); });
+      li.appendChild(im); li.appendChild(s); li.appendChild(b); list.appendChild(li);
+    });
+    var lab=box.querySelector('label[for=pic]'); if(lab) lab.textContent=files.length ? (files.length<MAX ? 'Add another picture' : 'Five pictures added') : 'Choose photos, or take one now';
+    picker.disabled=files.length>=MAX;
+    box.classList.toggle('is-full',files.length>=MAX);
+  }
+  picker.addEventListener('change',function(){
+    var extra=false;
+    Array.prototype.forEach.call(picker.files,function(f){ if(files.length<MAX) files.push(f); else extra=true; });
+    picker.value=''; draw(); say(extra ? 'Five pictures is the most we can take. The first five are added.' : '');
+  });
+  function shrink(file,max){
     return new Promise(function(resolve){
       var url=URL.createObjectURL(file), img=new Image();
       img.onload=function(){
-        var max=1800, w=img.naturalWidth, h=img.naturalHeight, k=Math.min(1,max/Math.max(w,h));
+        var w=img.naturalWidth, h=img.naturalHeight, k=Math.min(1,max/Math.max(w,h));
         var c=document.createElement('canvas'); c.width=Math.round(w*k); c.height=Math.round(h*k);
         c.getContext('2d').drawImage(img,0,0,c.width,c.height); URL.revokeObjectURL(url);
         c.toBlob(function(b){ resolve(b||file); },'image/jpeg',0.82);
@@ -95,22 +117,29 @@
       img.src=url;
     });
   }
-  input.addEventListener('change',function(){ say(input.files[0] ? 'Picture added: '+input.files[0].name : ''); });
+  function pack(sizes){
+    var max=sizes.shift();
+    return Promise.all(files.map(function(f){ return shrink(f,max); })).then(function(blobs){
+      var total=blobs.reduce(function(t,b){ return t+b.size; },0);
+      if(total>7*1024*1024){ if(sizes.length) return pack(sizes); throw new Error('big'); }
+      return blobs;
+    });
+  }
   form.addEventListener('submit',function(ev){
-    var file=input.files && input.files[0]; if(!file) return;   // no picture: send the normal way
+    if(!files.length) return;   // no pictures: send the normal way
     ev.preventDefault();
     var btn=form.querySelector('button[type=submit]'); if(btn){ btn.disabled=true; btn.textContent='Sending'; }
-    say('Sending your story and picture.');
-    shrink(file).then(function(blob){
-      if(blob.size>7*1024*1024){ throw new Error('big'); }
-      var fd=new FormData(form); fd.delete('picture'); fd.append('picture',blob,'picture.jpg');
+    say(files.length>1 ? 'Sending your story and '+files.length+' pictures.' : 'Sending your story and picture.');
+    pack([1800,1400,1000]).then(function(blobs){
+      var fd=new FormData(form); NAMES.forEach(function(n){ fd.delete(n); });
+      blobs.forEach(function(b,n){ fd.append(NAMES[n],b,'picture-'+(n+1)+'.jpg'); });
       return fetch('/',{method:'POST',body:fd});
     }).then(function(r){
       if(!r.ok) throw new Error('send');
       window.location.href='/thanks';
     }).catch(function(e){
       if(btn){ btn.disabled=false; btn.textContent='Send my story'; }
-      say(e.message==='big' ? 'That picture is too large to send. Please choose a smaller one, or send your story without it.'
+      say(e.message==='big' ? 'Those pictures are too large to send together. Remove one, or send your story without them.'
                             : 'That did not send. Check your connection and try again.');
     });
   });

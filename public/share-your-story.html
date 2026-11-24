@@ -45,9 +45,9 @@
 <div class="field"><label for="f176">Tell it your way</label><textarea id="f176" name="story" rows="10"></textarea></div>
 </fieldset>
 <fieldset>
-<legend><span class="n">2.</span> Add a picture</legend>
-<p class="hint">Optional. A photo of you, one that carries your story, or a photo of the page if you wrote your story by hand. A picture can show who you are even without your name, so only send one you are happy for us to use, and ask anyone else in it first.</p>
-<div class="field"><label for="pic">Choose a photo, or take one now</label><input type="file" id="pic" name="picture" accept="image/*"></div><p class="filemsg" data-filemsg hidden></p>
+<legend><span class="n">2.</span> Add pictures</legend>
+<p class="hint">Optional. Up to five. Photos of you, of your work, of something that carries your story, or of the pages if you wrote it by hand. A picture can show who you are even without your name, so only send ones you are happy for us to use, and ask anyone else in them first.</p>
+<div data-pics><div class="field"><label for="pic">Choose photos, or take one now</label><input type="file" id="pic" name="picture" accept="image/*"></div><div class="field" data-extra><label for="pic2">Picture 2</label><input type="file" id="pic2" name="picture_2" accept="image/*"></div><div class="field" data-extra><label for="pic3">Picture 3</label><input type="file" id="pic3" name="picture_3" accept="image/*"></div><div class="field" data-extra><label for="pic4">Picture 4</label><input type="file" id="pic4" name="picture_4" accept="image/*"></div><div class="field" data-extra><label for="pic5">Picture 5</label><input type="file" id="pic5" name="picture_5" accept="image/*"></div></div><ul class="pics" data-piclist hidden></ul><p class="filemsg" data-filemsg hidden></p>
 </fieldset>
 <fieldset>
 <legend><span class="n">3.</span> With your name, or without it?</legend>
@@ -82,7 +82,7 @@
 <fieldset>
 <legend><span class="n">7.</span> Your yes</legend>
 <p class="hint">The form records the date and time.</p>
-<div class="opts"><div class="opt"><input type="checkbox" id="yes" name="story_consent" value="Yes" required><label for="yes">I am happy for my story, and my picture if I sent one, to be used in the report, the way I chose above.</label></div></div>
+<div class="opts"><div class="opt"><input type="checkbox" id="yes" name="story_consent" value="Yes" required><label for="yes">I am happy for my story, and any pictures I sent, to be used in the report, the way I chose above.</label></div></div>
 </fieldset>
 <div class="submit"><button class="btn" type="submit">Send my story</button></div>
 </form>
