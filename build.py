@@ -112,7 +112,13 @@ def page(path, title, desc, body, current='', noindex=False, script=False):
 </div>
 <div class="base"><div class="wrap">
 <p>{ACK}</p>
+<div class="credit">
 <p>Design and copyright © Just Gold 2026</p>
+<div class="by">
+<p class="by-t">Powered by <span class="thinkr">Thinkr</span></p>
+<a class="by-l" href="https://justgold.net"><img src="/img/just-gold-white.png" alt="Just Gold" width="497" height="228" loading="lazy"></a>
+</div>
+</div>
 </div></div>
 </footer>
 </body>
