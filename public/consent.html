@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Consent form. Our Stories, Parramatta</title>
+<meta name="description" content="The consent form for Our Stories, Parramatta.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/host-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/site.css">
+<script src="/js/site.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the main content</a>
+<header class="site-head">
+<div class="wrap">
+<a class="brand" href="/" aria-label="Our Stories, Parramatta home"><img src="/img/our-stories.png" alt="Our Stories, Parramatta" width="196" height="92"></a>
+<nav class="nav" aria-label="More">
+<a href="/welcome">Welcome pack</a>
+<a href="/consent" aria-current="page">Consent form</a>
+<a href="/privacy">Privacy</a>
+</nav>
+</div>
+</header>
+<nav class="tabs" aria-label="Sessions"><a href="/hear" data-session="hear"><span class="tl">Hear</span><span class="tt">10am</span></a><a href="/lunch" data-session="lunch"><span class="tl">Lunch</span><span class="tt">12pm</span></a><a href="/create" data-session="create"><span class="tl">Create</span><span class="tt">12.45pm</span></a><a href="/share" data-session="share"><span class="tl">Share</span><span class="tt">3pm</span></a></nav>
+<main id="main">
+<section class="page-hero">
+<svg class="ring" aria-hidden="true" viewBox="0 0 600 600"><circle cx="300" cy="300" r="270" fill="none" stroke="#CDB1AF" stroke-width="34"/></svg>
+<div class="narrow">
+<p class="label">Consent form</p>
+<h1>Photos, filming and</h1>
+<p class="script">your story.</p>
+<p class="lead">One minute. It tells us how you want to be treated on the day.</p>
+</div>
+</section>
+<section class="form"><div class="narrow">
+<div class="note">
+<p>Our Stories, Parramatta is funded by the NSW Government to learn what belonging looks like for the people who live, work, study or visit Parramatta.</p>
+<p>By taking part today you are taking part in the research. What is said in the room, in the surveys and on this site is captured without names and becomes themes in a report for SydWest, the City of Parramatta and the NSW Government. Once the report is published, what you contributed cannot be taken out of it.</p>
+<p>This form is about photos, video and recordings. Saying no changes nothing about how you take part, and you can change your choice on the day by telling a volunteer at the welcome desk.</p>
+</div>
+<form name="consent" method="POST" action="/thanks" data-netlify="true" netlify-honeypot="bot-field" data-form>
+<input type="hidden" name="form-name" value="consent">
+<p class="bot"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+<fieldset>
+<legend><span class="n">1.</span> Your name, as on your booking</legend>
+
+<div class="field"><label for="f163">Full name</label><input type="text" id="f163" name="name" required autocomplete="name"></div>
+</fieldset>
+<fieldset>
+<legend><span class="n">2.</span> Photos and video of the day</legend>
+<p class="hint">We are taking photos and video. They may be used online, in promotion and in the report. Nobody is named unless they choose to be.</p>
+<div class="opts">
+<div class="opt"><input type="radio" id="f164" name="photos_and_video" value="I am happy to be in photos and video." required><label for="f164">I am happy to be in photos and video.</label></div>
+<div class="opt"><input type="radio" id="f165" name="photos_and_video" value="I would rather not be photographed or filmed. Please have a bright sticker ready for me." required><label for="f165">I would rather not be photographed or filmed. Please have a bright sticker ready for me.</label></div>
+</div>
+</fieldset>
+<fieldset>
+<legend><span class="n">3.</span> Is anyone on your booking under 18?</legend>
+
+<div class="opts">
+<div class="opt"><input type="radio" id="f166" name="under_18" value="No" required><label for="f166">No</label></div>
+<div class="opt"><input type="radio" id="f167" name="under_18" value="Yes, and I am their parent or guardian" required><label for="f167">Yes, and I am their parent or guardian</label></div>
+<div class="opt"><input type="radio" id="f168" name="under_18" value="Yes, I am under 18 myself" required><label for="f168">Yes, I am under 18 myself</label></div>
+</div>
+</fieldset>
+<div class="stop" data-minor-stop hidden><p>Please ask your parent or guardian to fill this in for you. Nobody under 18 takes part in any session until a parent or guardian has filled this in.</p></div>
+<div data-reveal="under_18=Yes, and I am their parent or guardian" hidden><fieldset>
+<legend>Parent or guardian only: the young person</legend>
+
+<div class="field"><label for="f158">Their name</label><input type="text" id="f158" name="young_person_name" data-req></div><div class="field"><label for="f159">Your name</label><input type="text" id="f159" name="guardian_name" data-req></div><div class="field"><label for="f160">Your mobile</label><input type="tel" id="f160" name="guardian_mobile" autocomplete="tel" data-req></div><div class="opts" style="margin-top:20px"><div class="opt"><input type="checkbox" id="perm" name="guardian_permission_to_take_part" value="Yes" data-req><label for="perm">I give permission for them to take part in Our Stories, Parramatta on Saturday 28 November 2026.</label></div></div>
+</fieldset><fieldset>
+<legend>Parent or guardian only: photos, video and recordings of them</legend>
+
+<div class="opts">
+<div class="opt"><input type="radio" id="f161" name="young_person_photos_and_video" value="These can be published."><label for="f161">These can be published.</label></div>
+<div class="opt"><input type="radio" id="f162" name="young_person_photos_and_video" value="These cannot be published. Please give them a bright sticker."><label for="f162">These cannot be published. Please give them a bright sticker.</label></div>
+</div>
+</fieldset></div>
+<div data-sign><fieldset>
+<legend><span class="n">4.</span> Sign</legend>
+<p class="hint">The form records the date and time.</p>
+<div class="field"><label for="f169">Type your full name as your signature</label><input type="text" id="f169" name="signature" required></div>
+</fieldset></div>
+<div class="submit"><button class="btn" type="submit">Send my consent form</button></div>
+</form>
+<div class="note" style="margin-top:48px">
+<p>SydWest and Just Gold will not use photos, video or recordings after five years. The NSW Premier’s Department, which funds the day, may also use them.</p>
+<p>The small circles in Share are never recorded, filmed or photographed. Nobody is named unless they choose to be.</p>
+<p>Just Gold holds what you send here on behalf of SydWest. It keeps the record for one month after the day, then hands it to SydWest and deletes its own copy. <a href="/privacy">Read the privacy notice</a>. <a href="https://sydwestms.org.au/privacy-policy/">SydWest privacy policy</a>. We follow the <a href="https://www.ourrace.com.au/story-support">T.E.S.T. principles</a> from Our Race.</p>
+</div>
+<p class="printlink"><button type="button" class="btn ghost small" onclick="window.print()">Print a paper copy</button></p>
+</div></section>
+</main>
+<footer class="site-foot">
+<div class="wrap top">
+<div class="logos">
+<img src="/img/partners.png" alt="Our Stories Parramatta, SydWest, City of Parramatta and NSW Government" width="860" height="108">
+<p>Our Stories, Parramatta is an initiative of SydWest and the City of Parramatta, funded by the NSW Government through the NSW Social Cohesion Grants for Local Government program.</p>
+</div>
+<nav aria-label="Footer">
+<div><b>TODAY</b>
+<a href="/hear">Hear, 10am</a>
+<a href="/lunch">Lunch, 12pm</a>
+<a href="/create">Create, 12.45pm</a>
+<a href="/share">Share, 3pm</a>
+<a href="/arrival-survey">Start your day</a>
+<a href="/during">Add your voice</a>
+<a href="/share-your-story">Share your story</a>
+<a href="/end-of-day-survey">End your day</a></div>
+<div><b>LOOKING AFTER YOU</b>
+<a href="/welcome">Welcome pack</a>
+<a href="/consent">Consent form</a>
+<a href="/#support">Support numbers</a>
+<a href="/facilitators">For facilitators</a>
+<a href="/privacy">Privacy notice</a>
+<a href="https://sydwestms.org.au/privacy-policy/">SydWest privacy policy</a></div>
+</nav>
+</div>
+<div class="base"><div class="wrap">
+<p>Our Stories, Parramatta takes place on the land of the Burramattagal people of the Dharug Nation, the first storytellers of the place we now call Parramatta. We pay our respects to Elders past and present.</p>
+<p>Design and copyright © Just Gold 2026</p>
+</div></div>
+</footer>
+</body>
+</html>
