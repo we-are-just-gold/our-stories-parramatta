@@ -283,14 +283,14 @@ page('index.html', 'Our Stories, Parramatta. Saturday 28 November 2026',
      home)
 
 
-def hero(label, h1, script, lead, cls=''):
+def hero(label, h1, script, lead, cls='', extra=''):
     return f'''<section class="page-hero{cls}">
 {RING}
 <div class="narrow">
 <p class="label">{label}</p>
 <h1>{h1}</h1>
 <p class="script">{script}</p>
-<p class="lead">{lead}</p>
+<p class="lead">{lead}</p>{extra}
 </div>
 </section>'''
 
@@ -415,7 +415,7 @@ consent = hero('Consent form', 'Photos, filming and', 'your story.',
 {form('consent', consent_inner, 'Send my consent form')}
 <div class="note" style="margin-top:48px">
 <p>SydWest and Just Gold will not use photos, video or recordings after five years. The NSW Premier’s Department, which funds the day, may also use them.</p>
-<p>The small circles in Share are never recorded, filmed or photographed. Nobody is named unless they choose to be.</p>
+<p>Nobody is named unless they choose to be.</p>
 <p>{HOLD} <a href="https://sydwestms.org.au/privacy-policy/">SydWest privacy policy</a>. We follow the <a href="https://www.ourrace.com.au/story-support">T.E.S.T. principles</a> from Our Race.</p>
 </div>
 {PRINT}
@@ -504,7 +504,8 @@ SUPPORT_FULL = '''<ul class="support">
 </ul>'''
 
 welcomep = hero('Welcome pack', 'Welcome to', 'Our Stories.',
-                'Everything you need for Saturday 28 November 2026 at PHIVE, Parramatta.') + f'''
+                'Everything you need for Saturday 28 November 2026 at PHIVE, Parramatta.',
+                extra='\n<p class="printlink"><a class="btn small" href="/Our_Stories_Welcome_Pack.pdf" download>Download the welcome pack (PDF)</a></p>') + f'''
 <section class="section" id="day">
 <div class="wrap">
 <p class="label">The day at a glance</p>
@@ -571,7 +572,6 @@ welcomep = hero('Welcome pack', 'Welcome to', 'Our Stories.',
 <ul class="list">
 <li>A bright sticker means: do not photograph or film me, wide shots included. Ask for one at the welcome desk.</li>
 <li>Camera free tables stay out of frame.</li>
-<li>The sharing circles are never recorded, filmed or photographed.</li>
 <li>A stage spot in Share is photographed and filmed, and only happens if you choose one.</li>
 <li>Bringing someone under 18? Tell us before Saturday. A parent or guardian fills in the consent form for them before they join any session.</li>
 <li>Nobody is named unless they choose to be.</li>
@@ -750,7 +750,7 @@ session_page('create.html', 'create', 'Create', '12.45pm to 2.45pm', 'your own s
 share_steps = '\n'.join([
     step(1, 'First session today? Start your day', START),
     step(2, 'What happens in Share',
-         '<ul class="list"><li><strong>About 45 minutes in circles.</strong> You share and listen at your table, with a host. The circles are never recorded, filmed or photographed.</li>'
+         '<ul class="list"><li><strong>About 45 minutes in circles.</strong> You share and listen at your table, with a host.</li>'
          '<li><strong>About half an hour on stage.</strong> A performer opens, then anyone who chose a stage spot shares. The stage is photographed and filmed.</li>'
          '<li><strong>A web of connection.</strong> Back at your table, a ball of wool goes from person to person as you say what you heard from each other that helped you feel connected.</li>'
          '<li>Closing reflections and what happens next. We finish by 4.50pm.</li></ul>'),
@@ -773,7 +773,7 @@ share_steps = '\n'.join([
     step(6, 'Before you leave', END),
 ])
 session_page('share.html', 'share', 'Share', '3pm to 5pm', 'in a small circle.',
-             'Tell your story in a small circle, or simply listen. The circles are never recorded, filmed or photographed.',
+             'Tell your story in a small circle, or simply listen.',
              share_steps, 'Share. Our Stories, Parramatta')
 
 
