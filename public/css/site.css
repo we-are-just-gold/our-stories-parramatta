@@ -5,6 +5,7 @@
 @font-face{font-family:'Qwitcher Grypen';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/qwitcher-grypen-latin-700-normal.woff2') format('woff2')}
 :root{
   --navy:#0C0E3D; --coral:#EF4B35; --coral-text:#C8371F; --blue:#3A52C9; --taupe:#CDB1AF; --peri:#8891D8;
+  --hear:#5CC8F7; --create:#2FD17C; --share:#7A3FF2;
   --blush:#FBEEEC; --blush-2:#FDF1EE; --rule:#EFE3E0; --muted:#33355F; --field:#B9B0C4; --white:#fff;
   --sans:'Host Grotesk',Arial,sans-serif; --script:'Qwitcher Grypen',cursive;
   --wrap:1120px; --narrow:760px;
@@ -88,13 +89,29 @@ h1{margin:0;font-size:clamp(40px,6.4vw,68px);line-height:1.04;font-weight:600;le
 .tabs a:last-child{border-right:0}
 .tabs .tl{font-size:17px;font-weight:700}
 .tabs .tt{font-size:12.5px;font-weight:500;opacity:.9}
-.tabs a[aria-current=page]{background:#fff;color:var(--navy);box-shadow:inset 0 -4px 0 var(--coral)}
+.tabs a[data-session=hear]{box-shadow:inset 0 -5px 0 var(--hear)}
+.tabs a[data-session=lunch]{box-shadow:inset 0 -5px 0 var(--taupe)}
+.tabs a[data-session=create]{box-shadow:inset 0 -5px 0 var(--create)}
+.tabs a[data-session=share]{box-shadow:inset 0 -5px 0 var(--share)}
+.tabs a[aria-current=page]{background:#fff;color:var(--navy)}
+.tabs a[data-session=hear][aria-current=page]{background:var(--hear);box-shadow:none}
+.tabs a[data-session=create][aria-current=page]{background:var(--create);box-shadow:none}
+.tabs a[data-session=share][aria-current=page]{background:var(--share);color:#fff;box-shadow:none}
+.page-hero.s-hear{background:var(--hear)}.page-hero.s-create{background:var(--create)}.page-hero.s-share{background:var(--share)}
+.page-hero[class*=" s-"] .label,.page-hero[class*=" s-"] .script,.page-hero[class*=" s-"] h1,.page-hero[class*=" s-"] .lead{color:var(--navy)}
+.page-hero.s-share .label,.page-hero.s-share .script,.page-hero.s-share h1,.page-hero.s-share .lead{color:#fff}
+.page-hero[class*=" s-"] .ring circle{stroke:#fff;opacity:.45}
+.s-hear~.form .stp .sn{background:var(--hear);color:var(--navy)}
+.s-create~.form .stp .sn{background:var(--create);color:var(--navy)}
+.s-share~.form .stp .sn{background:var(--share);color:#fff}
+.s-hear~.fac .fp img{border-color:var(--hear)}.s-create~.fac .fp img{border-color:var(--create)}.s-share~.fac .fp img{border-color:var(--share)}
 .tabs a.is-now .tt::after{content:" · now"}
 .tiles{display:grid;gap:14px;grid-template-columns:repeat(3,1fr)}
 .tile{position:relative;display:grid;gap:6px;align-content:start;text-decoration:none;color:#fff;border-radius:22px;padding:26px 24px 24px;min-height:210px;box-shadow:0 3px 0 rgba(12,14,61,.18);transition:transform .08s}
 .tile:hover{color:#fff;transform:translateY(-2px)}
 .tile:active{transform:translateY(1px);box-shadow:none}
-.tile.t1{background:var(--coral-text)}.tile.t2{background:var(--navy)}.tile.t3{background:var(--blue)}
+.tile.t1{background:var(--hear);color:var(--navy)}.tile.t2{background:var(--create);color:var(--navy)}.tile.t3{background:var(--share);color:#fff}
+.tile.t1:hover,.tile.t2:hover{color:var(--navy)}
 .tile .time{font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
 .tile .name{font-size:44px;font-weight:700;line-height:1;letter-spacing:-.5px}
 .tile .line{font-size:17px;line-height:1.35;max-width:280px}
