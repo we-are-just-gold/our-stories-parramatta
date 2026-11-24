@@ -175,6 +175,14 @@ def picks(items):
                  + opts(name, options, cols=True) + '</div>')
     return '\n'.join(h)
 
+def self_check(items, options):
+    h = []
+    for i, text_ in enumerate(items):
+        g = uid()
+        h.append(f'<div class="stmt" role="group" aria-labelledby="{g}"><p class="s" id="{g}">{e(text_)}</p>\n'
+                 + opts(f'check_{i + 1}', options, cols=True) + '</div>')
+    return '<div class="selfcheck">' + '\n'.join(h) + '</div>'
+
 def text(name, label, kind='text', required=False, cls='', extra=''):
     i_d = uid()
     req = ' required' if required else ''
@@ -751,15 +759,7 @@ create_steps = '\n'.join([
          '<p>Nobody under 18 joins any session without a parent or guardian’s <a href="/consent">consent form</a>.</p>'
          '<div class="cue c-create"><h3>You are the Story Holder</h3>'
          '<p>A Story Holder is the person who has lived the story. You own it, and you choose whether to share it. '
-         'Our Race’s guide for Story Holders sets out questions to ask yourself first.</p>'
-         '<ul class="list">'
-         '<li>Is it clear why I am being asked to share my story?</li>'
-         '<li>Do I feel safe and comfortable? What do I need to feel safe?</li>'
-         '<li>Who will hear or watch it, and will it be recorded?</li>'
-         '<li>Have I had time to reflect on the story I want to tell, and to practise telling it?</li>'
-         '<li>Who can I talk to afterwards about how I feel?</li>'
-         '<li>What happens if I no longer want my story to be public?</li>'
-         '</ul>'
+         'Step 3 takes you through the questions to ask yourself first.</p>'
          '<p>You have the right to decide if, when and how your story is shared. If you decide later that you no longer want to, that is OK too.</p>'
          '<p><a class="btn ghost" href="/Our_Race_Story_Holder_Guide.pdf">Read the Story Holder guide (PDF)</a></p></div>'
          '<div class="cue c-create"><h3>The five T.E.S.T. Principles</h3>'
@@ -773,17 +773,29 @@ create_steps = '\n'.join([
          '<li><strong>Integrity of Story.</strong> Your story is not changed or adapted without your consent.</li>'
          '</ul>'
          '<p><a class="btn ghost" href="/TEST_Principles_2026.pdf">Read the T.E.S.T. Principles (PDF)</a></p></div>'),
-    step(3, 'Your story',
+    step(3, 'Check in with yourself',
+         '<p>Six questions drawn from Our Race’s guide for Story Holders. Tap an answer for each. Nothing here is sent or saved. It is for you.</p>'
+         + self_check(['Is it clear why I am being asked to share my story?',
+                       'Do I feel safe and comfortable sharing it today?',
+                       'Do I know who will hear it, and whether it will be recorded?',
+                       'Have I had time to reflect on the story I want to tell?',
+                       'Do I know who I can talk to afterwards?',
+                       'Do I know what happens if I change my mind?'],
+                      ['Yes', 'Not yet', 'Not sure'])
+         + '<div class="cue c-create"><h3>Any “Not yet” or “Not sure”?</h3>'
+         '<p>Talk to Doug or Hawanatu before you share. You can also keep your story for another day. '
+         'You decide if, when and how it is shared.</p></div>'),
+    step(4, 'Your story',
          '<p>Write it here if you want to, in full, with or without your name. Wrote it by hand? Take a photo of the page and send that. It does not need to be finished or tidy. You decide what you tell.</p>'
          '<p><a class="btn" href="/share-your-story">Share your story</a></p>'),
-    step(4, '<span id="stage"></span>A stage spot in Share',
+    step(5, '<span id="stage"></span>A stage spot in Share',
          '<p>Stage spots come after the circles in Share. They are photographed and filmed. Only if you want one. Your facilitators confirm the time for each spot on the day.</p>'
          + mini_form('stage-spot',
                      text('name', 'Your name, so we can call you up', required=True, extra=' autocomplete="name"')
                      + '<div class="field"><span style="font-size:17px;font-weight:600">How long would you like?</span></div>'
                      + opts('minutes', ['2 minutes', '3 minutes', '4 minutes', '5 minutes'], required=True, cols=True),
                      'Put my name down')),
-    step(5, 'Staying on, or heading off?',
+    step(6, 'Staying on, or heading off?',
          '<p><strong>Staying.</strong> Share starts at 3pm.</p><p><a class="btn ghost" href="/share">Go to Share</a></p>'
          '<p style="margin-top:22px"><strong>Leaving after Create.</strong></p>' + END),
 ])
@@ -920,8 +932,9 @@ facp = hero('For facilitators and hosts', 'What you heard', 'from the room.',
 <div class="cue c-lunch"><h3>Lunch. Pink</h3><ul class="list"><li><strong>Going to lunch.</strong> “Tap Lunch, the pink one, for what is on and what is in the food.”</li></ul></div>
 <div class="cue c-create"><h3>Create. Green</h3><ul class="list">
 <li><strong>At the start.</strong> “New today? Tap Start your day first.”</li>
-<li><strong>At the end.</strong> “Tap Create, the green one. Step 3 to send your story, with or without your name. Photos of your pages are fine.”</li>
-<li><strong>Stage spots.</strong> “Step 4 to put your name down for the stage.” You can enter a name for someone.</li></ul></div>
+<li><strong>Before people write.</strong> “Tap Create, the green one. Step 3, check in with yourself.” Six questions. Nothing is sent or saved.</li>
+<li><strong>At the end.</strong> “Step 4 to send your story, with or without your name. Photos of your pages are fine.”</li>
+<li><strong>Stage spots.</strong> “Step 5 to put your name down for the stage.” You can enter a name for someone.</li></ul></div>
 <div class="cue c-share"><h3>Share. Purple</h3><ul class="list">
 <li><strong>Before the stage.</strong> “Tap Share, the purple one. Step 3 if you would rather we read it for you.”</li>
 <li><strong>At the tables.</strong> “Step 4 for one message from your circle.”</li>
@@ -1125,6 +1138,7 @@ privacyp = hero('Privacy notice', 'What we collect and', 'what we do with it.',
 <li><strong>Arrival survey and end of day survey.</strong> No name, email or phone number. They ask your age range, some questions about you such as gender, country of birth, language and postcode, and what you think and feel. You can skip any question.</li>
 <li><strong>Add your voice, the three questions in Hear and your circle’s message in Share.</strong> Only what you write, and the session or table if you tell us. No name.</li>
 <li><strong>Quick fire in Hear.</strong> Seven tick questions about your neighbourhood, volunteering, your future and being left out. No name.</li>
+<li><strong>Check in with yourself in Create.</strong> Not sent and not saved. Your answers are for you.</li>
 <li><strong>A stage spot.</strong> Your name and how long you would like, so we can call you up.</li>
 <li><strong>Read it for me.</strong> What you want read from the stage, and a first name only if you add one.</li>
 <li><strong>Facilitator reflection.</strong> The facilitator’s or host’s name, what they heard in the room, and up to five pictures of the work if they add them.</li>
