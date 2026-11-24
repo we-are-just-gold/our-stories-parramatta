@@ -263,6 +263,7 @@ body.screen{min-height:100vh;display:flex;flex-direction:column;background:#fff;
 /* forms */
 .form{padding:56px 0 96px}
 .note{background:var(--blush-2);border-radius:18px;padding:24px 26px;font-size:17px;margin:0 0 40px}
+.flag{background:var(--blush);border-left:4px solid var(--coral);padding:14px 18px;font-weight:700}
 .note p{margin:0 0 10px}.note p:last-child{margin:0}
 .note ul{margin:8px 0 0;padding-left:20px}
 fieldset{border:0;padding:0;margin:0 0 44px;min-width:0}

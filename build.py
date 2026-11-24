@@ -557,7 +557,8 @@ welcomep = hero('Welcome pack', 'Welcome to', 'Our Stories.',
 <h2>Spaces for you</h2>
 <p><strong>Quiet space, Level 4.</strong> In the foyer. Step out of any session whenever you need to, and come back when you are ready.</p>
 <p><strong>Prayer room, Level 3.</strong> On your left as you leave the lift. Press the intercom at the door.</p>
-<p><strong>Lunch.</strong> At 12pm for everyone attending any session, by <a href="https://www.rachasyriankitchen.com.au">Racha’s Syrian Kitchen</a>. All food is halal, with gluten free, vegetarian and vegan options. If you have a nut allergy or any other allergy, tell us at the welcome desk.</p>
+<p><strong>Lunch.</strong> At 12pm for everyone attending any session, by <a href="https://www.rachasyriankitchen.com.au">Racha’s Syrian Kitchen</a>. All food is halal, with gluten free, vegetarian and vegan options.</p>
+<p class="flag">If you have a nut allergy or any other allergy, tell us at the welcome desk.</p>
 <p><strong>Parking.</strong> O’Connell Street Car Park, 21 O’Connell Street, is free on weekends and 14 minutes on foot. Westfield Parramatta gives Westfield members four hours free and is 5 minutes on foot. Parramatta Station Car Park, Wentworth Street, and Justice Precinct Car Park, 13 Hunter Street, are $14 for 3 to 18 hours and 7 minutes on foot.</p>
 </div>
 </div>
@@ -567,7 +568,7 @@ welcomep = hero('Welcome pack', 'Welcome to', 'Our Stories.',
 <div class="wrap two">
 <div>
 <p class="label">Photos, filming and consent</p>
-<h2>You are in unless you say no</h2>
+<h2>Your image, your choice</h2>
 <p>We are taking photos and video. Saying no is easy, and it changes nothing about how you take part.</p>
 <ul class="list">
 <li>A bright sticker means: do not photograph or film me, wide shots included. Ask for one at the welcome desk.</li>
@@ -578,11 +579,11 @@ welcomep = hero('Welcome pack', 'Welcome to', 'Our Stories.',
 <li>Changed your mind? Tell any volunteer. If you ask for a photo or clip of you to be deleted, it is deleted.</li>
 <li>Your own phone: ask before you photograph or record anyone’s story.</li>
 </ul>
-<p><a class="btn small" href="/consent">Open the consent form</a></p>
+<p><a class="btn" href="/consent">Open the consent form</a></p>
 </div>
 <div>
 <p class="label">What happens to what we hear</p>
-<h2>Your story stays yours</h2>
+<h2>How we use what we share</h2>
 <p>{RESEARCH}</p>
 <p>The arrival and end of day surveys feed the report that goes back to everyone who took part.</p>
 <p>Want to tell your story in full? <a href="/share-your-story">Share your story</a>, with or without your name.</p>
