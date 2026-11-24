@@ -451,7 +451,7 @@ page('during.html', 'Through the day. Our Stories, Parramatta',
 
 story_inner = '\n'.join([
     q(1, 'Your story', big_area('story', 'Tell it your way', rows=10),
-      'You decide what you tell, and what you keep. You can use your mother tongue.'),
+      'It does not need to be finished or tidy. You decide what you tell, and what you keep. You can use your mother tongue.'),
     q(2, 'Add pictures',
       '<div data-pics>'
       '<div class="field"><label for="pic">Choose photos, or take one now</label>'
@@ -510,7 +510,7 @@ welcomep = hero('Welcome pack', 'Welcome to', 'Our Stories.',
 <ol class="glance">
 {row('9.30am', 'Doors open. Sign in, pick up your name badge and fill in the <a href="/arrival-survey">arrival survey</a>.', 'Welcome desk, Level 4')}
 {row('10am to 12pm', '<strong>Hear.</strong> Welcome to Country at 10.05am, conversation, performance and the room’s first poll.', 'Civic Gallery, Level 4')}
-{row('12pm to 12.45pm', '<strong>Lunch</strong> for everyone attending any session. A dance performance, and a flautist and pianist.', 'Civic Gallery foyer')}
+{row('12pm to 12.45pm', '<strong>Lunch</strong> for everyone attending any session. Cultural dance, and a conversation between a flautist and an electric guitarist.', 'Civic Gallery foyer')}
 {row('12.45pm to 2.45pm', '<strong>Create.</strong> A storytelling workshop for adults, and a writing and performance session for ages 15 to 25.', 'Adults: Civic Gallery')}
 {row('3pm to 5pm', '<strong>Share.</strong> Small sharing circles, stage spots for people who opt in, the <a href="/end-of-day-survey">end of day survey</a> and wrap up.', 'Civic Gallery, Level 4')}
 </ol>
@@ -553,7 +553,7 @@ welcomep = hero('Welcome pack', 'Welcome to', 'Our Stories.',
 <h2>Spaces for you</h2>
 <p><strong>Quiet space, Level 4.</strong> In the foyer. Step out of any session whenever you need to, and come back when you are ready.</p>
 <p><strong>Prayer room, Level 3.</strong> On your left as you leave the lift. Press the intercom at the door.</p>
-<p><strong>Lunch.</strong> At 12pm for everyone attending any session, by <a href="https://www.rachasyriankitchen.com.au">Racha’s Syrian Kitchen</a>. It is vegetarian, gluten free and halal. If you have a nut allergy or any other allergy, tell us at the welcome desk.</p>
+<p><strong>Lunch.</strong> At 12pm for everyone attending any session, by <a href="https://www.rachasyriankitchen.com.au">Racha’s Syrian Kitchen</a>. All food is halal, with gluten free, vegetarian and vegan options. If you have a nut allergy or any other allergy, tell us at the welcome desk.</p>
 <p><strong>Parking.</strong> O’Connell Street Car Park, 21 O’Connell Street, is free on weekends and 14 minutes on foot. Westfield Parramatta gives Westfield members four hours free and is 5 minutes on foot. Parramatta Station Car Park, Wentworth Street, and Justice Precinct Car Park, 13 Hunter Street, are $14 for 3 to 18 hours and 7 minutes on foot.</p>
 </div>
 </div>
@@ -678,10 +678,9 @@ hear_steps = '\n'.join([
     step(1, 'First session today? Start your day',
          '<p>Dr Ru gives the room five minutes for this after the welcome.</p>' + START),
     step(2, 'What happens in Hear',
-         '<ul class="list"><li>Welcome to Country at 10.05am, and a short reflection.</li>'
-         '<li>A conversation with a children’s author, who reads from his book.</li>'
-         '<li>Spoken word from DEFNE, and a conversation with her.</li>'
-         '<li>Dr Ru’s three questions for the room.</li>'
+         '<ul class="list"><li><strong>10am to 10.30am.</strong> Welcome to Country and an opening reflection, then five minutes to start your day on the app.</li>'
+         '<li><strong>About 45 minutes.</strong> A conversation with a children’s author, who reads from his book. Spoken word from DEFNE, and a conversation with her.</li>'
+         '<li><strong>About 45 minutes.</strong> Dr Ru’s three questions. Your answers come up on the screen and the room talks about them.</li>'
          '<li>Doug from Our Race sets up Create before lunch.</li></ul>'
          '<p>Hear sets the tone for the day and begins drawing out its themes: belonging, resilience, allyship and community.</p>'),
     step(3, '<span id="q"></span>Dr Ru’s three questions',
@@ -695,12 +694,23 @@ hear_steps = '\n'.join([
          + '<p class="hint" style="margin-top:14px">No name. Your answers show on the screen in the room, so everyone can see what the room is saying. ' + CARE + '</p>'
          + '<p><a class="btn ghost" href="/results">See what the room is saying</a></p>'
          + '<script src="/js/poll.js" defer></script>'),
-    step(4, 'Anything else that stayed with you?',
+    step(4, 'Quick fire',
+         '<p>Six quick ones about friends, neighbours and places. These do not go on the screen.</p>'
+         + mini_form('quick-fire',
+                     stmts([('confident_making_friends', 'I feel confident making friends'),
+                            ('can_speak_up_when_i_disagree', 'I can speak up confidently when I disagree'),
+                            ('places_nearby_to_meet_friends', 'There are places nearby where I can hang out with my friends'),
+                            ('neighbours_help_each_other', 'People in my neighbourhood help each other'),
+                            ('know_and_get_along_with_neighbours', 'I know my neighbours and get along with them')])
+                     + big_area('easy_places_in_parramatta', 'Which places in Parramatta do you find easy to get to and hang out with friends?', rows=3),
+                     'Send')
+         + '<p class="hint" style="margin-top:14px">No name. Skip any you like.</p>'),
+    step(5, 'Anything else that stayed with you?',
          mini_form('through-the-day',
                    big_area('insight', 'What stayed with you from Hear?', rows=4),
                    'Send my reflection', '<input type="hidden" name="session" value="Hear">')
          + '<p class="hint" style="margin-top:14px">No name. Send as many as you like.</p>'),
-    step(5, 'Staying on, or heading off?',
+    step(6, 'Staying on, or heading off?',
          '<p><strong>Staying.</strong> Lunch is at 12pm for everyone, and Create starts at 12.45pm.</p>'
          '<p><a class="btn ghost" href="/lunch">Go to lunch</a></p><p style="margin-top:22px"><strong>Leaving after Hear.</strong></p>' + END),
 ])
@@ -712,14 +722,15 @@ create_steps = '\n'.join([
     step(1, 'First session today? Start your day', START),
     step(2, 'What happens in Create',
          '<ul class="list"><li>Two rooms with Our Race: a storytelling workshop for adults, and a writing and performance session for ages 15 to 25.</li>'
-         '<li>The power of a story. Being a story holder. Choosing what to share and what to keep.</li>'
-         '<li>About 45 minutes to develop your own story.</li></ul>'
+         '<li>Why the T.E.S.T. Framework matters. Being a story holder. Choosing what to share and what to keep.</li>'
+         '<li>Short exercises that start a story in an easy way, then space to develop your own.</li>'
+         '<li>At the end, time to send your story on the app if you want to, and to say if you would like a stage spot in Share.</li></ul>'
          '<p>Nobody under 18 joins any session without a parent or guardian’s <a href="/consent">consent form</a>.</p>'),
     step(3, 'Your story',
-         '<p>Write it here if you want to, in full, with or without your name. Wrote it by hand? Take a photo of the page and send that. You decide what you tell.</p>'
+         '<p>Write it here if you want to, in full, with or without your name. Wrote it by hand? Take a photo of the page and send that. It does not need to be finished or tidy. You decide what you tell.</p>'
          '<p><a class="btn" href="/share-your-story">Share your story</a></p>'),
-    step(4, 'A stage spot in Share',
-         '<p>Stage spots are two to five minutes, at 3pm. They are photographed and filmed. Only if you want one.</p>'
+    step(4, '<span id="stage"></span>A stage spot in Share',
+         '<p>Stage spots come after the circles in Share. They are photographed and filmed. Only if you want one. Your facilitators confirm the time for each spot on the day.</p>'
          + mini_form('stage-spot',
                      text('name', 'Your name, so we can call you up', required=True, extra=' autocomplete="name"')
                      + '<div class="field"><span style="font-size:17px;font-weight:600">How long would you like?</span></div>'
@@ -736,19 +747,27 @@ session_page('create.html', 'create', 'Create', '12.45pm to 2.45pm', 'your own s
 share_steps = '\n'.join([
     step(1, 'First session today? Start your day', START),
     step(2, 'What happens in Share',
-         '<ul class="list"><li>Small circles of six to eight people, with a host at each table. Up to five minutes each.</li>'
-         '<li>The circles are never recorded, filmed or photographed.</li>'
-         '<li>Stage spots of two to five minutes for people who chose one.</li>'
-         '<li>Leaders from SydWest and the City of Parramatta are in the room to respond.</li></ul>'),
-    step(3, 'Your circle’s message',
+         '<ul class="list"><li><strong>About 45 minutes in circles.</strong> You share and listen at your table, with a host. The circles are never recorded, filmed or photographed.</li>'
+         '<li><strong>About half an hour on stage.</strong> A performer opens, then anyone who chose a stage spot shares. The stage is photographed and filmed.</li>'
+         '<li><strong>A web of connection.</strong> Back at your table, a ball of wool goes from person to person as you say what you heard from each other that helped you feel connected.</li>'
+         '<li>Closing reflections and what happens next. We finish by 4.50pm.</li></ul>'),
+    step(3, 'On stage, or read for you',
+         '<p><strong>Want to share on stage?</strong></p><p><a class="btn ghost" href="/create#stage">Put my name down for a stage spot</a></p>'
+         '<p style="margin-top:26px"><strong>Rather stay in your seat?</strong> Write it here and a volunteer or performer reads it from the stage for you.</p>'
+         + mini_form('read-for-me',
+                     big_area('to_read_out', 'What you would like read out', rows=6)
+                     + text('first_name', 'A first name to read with it, if you want one'),
+                     'Send it to be read')
+         + '<p class="hint" style="margin-top:14px">What is read from the stage is filmed with the stage. ' + CARE + '</p>'),
+    step(4, 'Your circle’s message',
          mini_form('circle-message',
                    big_area('message', 'What should the people who run this city understand from what we heard today?', rows=5)
                    + text('table', 'Your table, if it has a number', cls='short'),
                    'Send our message')
          + '<p class="hint" style="margin-top:14px">One message from your circle. Anyone at the table can send it. ' + CARE + '</p>'),
-    step(4, 'More to say?',
+    step(5, 'More to say?',
          '<p>Tell your story in full, with or without your name, and add pictures if you like.</p><p><a class="btn ghost" href="/share-your-story">Share your story</a></p>'),
-    step(5, 'Before you leave', END),
+    step(6, 'Before you leave', END),
 ])
 session_page('share.html', 'share', 'Share', '3pm to 5pm', 'in a small circle.',
              'Tell your story in a small circle, or simply listen. The circles are never recorded, filmed or photographed.',
@@ -819,8 +838,8 @@ lunchp = f'''<section class="page-hero">
 </div></section>
 <section class="form"><div class="narrow">
 <ol class="steps">
-{step(1, 'What is on', '<ul class="list"><li>Lunch is vegetarian, gluten free and halal.</li><li>If you have a nut allergy or any other allergy, tell us at the welcome desk before you eat.</li></ul>')}
-{step(2, 'While you eat', '<p>A dance performance, and a flautist and pianist.</p>')}
+{step(1, 'What is on', '<ul class="list"><li>All food is halal, with gluten free, vegetarian and vegan options.</li><li>Tea and coffee are on a table in the foyer.</li><li>If you have a nut allergy or any other allergy, tell us at the welcome desk before you eat.</li></ul>')}
+{step(2, 'While you eat', '<p>Cultural dance, and a conversation between a flautist and an electric guitarist.</p>')}
 {step(3, 'Got a minute?', '<p>Tell us what stayed with you this morning, or share your story in full, with or without your name.</p><p><a class="btn" href="/during">Add your voice</a></p><p><a class="btn ghost" href="/share-your-story">Share your story</a></p>')}
 {step(4, 'Next', '<p><strong>Just arrived for the afternoon?</strong></p>' + START + '<p style="margin-top:22px"><strong>Create starts at 12.45pm.</strong></p><p><a class="btn ghost" href="/create">Go to Create</a></p>')}
 </ol>
@@ -840,8 +859,26 @@ fac_inner = '\n'.join([
       'Leave out participants’ names and anything that could identify them.'),
 ])
 facp = hero('For facilitators and hosts', 'What you heard', 'from the room.',
-            'Five minutes at the end of the day. Your reflections go into the report as what our facilitators heard.') + f'''
-<section class="form"><div class="narrow">
+            'Cues for your script, and five minutes of reflection at the end of the day. Your reflections go into the report as what our facilitators heard.') + f'''
+<section class="form"><div class="narrow prose">
+<h2>Where to send the room, session by session</h2>
+<p>One QR code opens the app. Each session has its own colour in the menu and at the top of its page, so you can say the colour.</p>
+<div class="cue c-hear"><h3>Hear. Light blue</h3><ul class="list">
+<li><strong>After the welcome.</strong> “Open the app and tap Start your day.” Five minutes.</li>
+<li><strong>The three questions.</strong> “Tap Hear, the light blue one, and go to step 3.” Put <a href="/screen">the live screen</a> on the projector.</li>
+<li><strong>Quick fire.</strong> “Step 4 on the same page.” These do not show on the screen.</li>
+<li><strong>Before lunch.</strong> “If you are leaving now, tap End your day.”</li></ul></div>
+<div class="cue c-create"><h3>Create. Green</h3><ul class="list">
+<li><strong>At the start.</strong> “New today? Tap Start your day first.”</li>
+<li><strong>At the end.</strong> “Tap Create, the green one. Step 3 to send your story, with or without your name. Photos of your pages are fine.”</li>
+<li><strong>Stage spots.</strong> “Step 4 to put your name down for the stage.” You can enter a name for someone.</li></ul></div>
+<div class="cue c-share"><h3>Share. Purple</h3><ul class="list">
+<li><strong>Before the stage.</strong> “Tap Share, the purple one. Step 3 if you would rather we read it for you.”</li>
+<li><strong>At the tables.</strong> “Step 4 for one message from your circle.”</li>
+<li><strong>Before 4.50pm.</strong> “Tap End your day before you go.”</li></ul></div>
+<p class="hint">Host controls for the live screen: open <a href="/screen#host">the screen with host controls</a> and enter the host code to hide an answer.</p>
+
+<h2 style="margin-top:56px">Your reflection at the end of the day</h2>
 <div class="note"><p>{HOLD}</p></div>
 {form('facilitator-reflection', fac_inner, 'Send my reflection')}
 </div></section>'''
@@ -864,7 +901,9 @@ privacyp = hero('Privacy notice', 'What we collect and', 'what we do with it.',
 <ul class="list">
 <li><strong>Arrival survey and end of day survey.</strong> No name, email or phone number. They ask your age range, some questions about you such as gender, country of birth, language and postcode, and what you think and feel. You can skip any question.</li>
 <li><strong>Add your voice, the three questions in Hear and your circle’s message in Share.</strong> Only what you write, and the session or table if you tell us. No name.</li>
+<li><strong>Quick fire in Hear.</strong> How far you agree with five statements, and places you name if you want to. No name.</li>
 <li><strong>A stage spot.</strong> Your name and how long you would like, so we can call you up.</li>
+<li><strong>Read it for me.</strong> What you want read from the stage, and a first name only if you add one.</li>
 <li><strong>Facilitator reflection.</strong> The facilitator’s or host’s name and what they heard in the room.</li>
 <li><strong>Share your story.</strong> Your story, and up to five pictures if you add them. Your name and an email or phone number only if you choose to be named.</li>
 <li><strong>Consent form.</strong> Your name, your choice about photos and video, and your typed signature. If you are signing for someone under 18, their name, your name and your mobile number.</li>

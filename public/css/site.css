@@ -242,6 +242,9 @@ body.screen{min-height:100vh;display:flex;flex-direction:column;background:#fff;
 .sfoot{display:flex;justify-content:space-between;gap:20px;margin-top:20px;font-size:18px;color:var(--muted)}
 .sfoot b{color:var(--navy);font-size:22px}
 .screen .shead{border-bottom:8px solid var(--hear);padding-bottom:22px}
+.cue{border-left:10px solid var(--rule);border-radius:6px;padding:6px 0 6px 22px;margin:26px 0}
+.cue h3{margin:0 0 10px;font-size:22px}
+.cue.c-hear{border-color:var(--hear)}.cue.c-create{border-color:var(--create)}.cue.c-share{border-color:var(--share)}
 /* footer */
 .site-foot{border-top:1px solid var(--rule)}
 .site-foot .top{display:flex;gap:40px;flex-wrap:wrap;justify-content:space-between;padding-top:56px;padding-bottom:36px}

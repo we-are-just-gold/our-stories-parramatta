@@ -31,10 +31,28 @@
 <p class="label">For facilitators and hosts</p>
 <h1>What you heard</h1>
 <p class="script">from the room.</p>
-<p class="lead">Five minutes at the end of the day. Your reflections go into the report as what our facilitators heard.</p>
+<p class="lead">Cues for your script, and five minutes of reflection at the end of the day. Your reflections go into the report as what our facilitators heard.</p>
 </div>
 </section>
-<section class="form"><div class="narrow">
+<section class="form"><div class="narrow prose">
+<h2>Where to send the room, session by session</h2>
+<p>One QR code opens the app. Each session has its own colour in the menu and at the top of its page, so you can say the colour.</p>
+<div class="cue c-hear"><h3>Hear. Light blue</h3><ul class="list">
+<li><strong>After the welcome.</strong> “Open the app and tap Start your day.” Five minutes.</li>
+<li><strong>The three questions.</strong> “Tap Hear, the light blue one, and go to step 3.” Put <a href="/screen">the live screen</a> on the projector.</li>
+<li><strong>Quick fire.</strong> “Step 4 on the same page.” These do not show on the screen.</li>
+<li><strong>Before lunch.</strong> “If you are leaving now, tap End your day.”</li></ul></div>
+<div class="cue c-create"><h3>Create. Green</h3><ul class="list">
+<li><strong>At the start.</strong> “New today? Tap Start your day first.”</li>
+<li><strong>At the end.</strong> “Tap Create, the green one. Step 3 to send your story, with or without your name. Photos of your pages are fine.”</li>
+<li><strong>Stage spots.</strong> “Step 4 to put your name down for the stage.” You can enter a name for someone.</li></ul></div>
+<div class="cue c-share"><h3>Share. Purple</h3><ul class="list">
+<li><strong>Before the stage.</strong> “Tap Share, the purple one. Step 3 if you would rather we read it for you.”</li>
+<li><strong>At the tables.</strong> “Step 4 for one message from your circle.”</li>
+<li><strong>Before 4.50pm.</strong> “Tap End your day before you go.”</li></ul></div>
+<p class="hint">Host controls for the live screen: open <a href="/screen#host">the screen with host controls</a> and enter the host code to hide an answer.</p>
+
+<h2 style="margin-top:56px">Your reflection at the end of the day</h2>
 <div class="note"><p>Just Gold holds what you send here on behalf of SydWest. It keeps the record for one month after the day, then hands it to SydWest and deletes its own copy. <a href="/privacy">Read the privacy notice</a>.</p></div>
 <form name="facilitator-reflection" method="POST" action="/thanks" data-netlify="true" netlify-honeypot="bot-field" data-form>
 <input type="hidden" name="form-name" value="facilitator-reflection">
@@ -42,26 +60,26 @@
 <fieldset>
 <legend><span class="n">1.</span> You</legend>
 
-<div class="field"><label for="f197">Your name</label><input type="text" id="f197" name="name" required autocomplete="name"></div><div class="field"><span style="font-size:17px;font-weight:600">Which sessions were you in?</span></div><div class="opts cols">
-<div class="opt"><input type="checkbox" id="f198" name="sessions[]" value="Hear"><label for="f198">Hear</label></div>
-<div class="opt"><input type="checkbox" id="f199" name="sessions[]" value="Create"><label for="f199">Create</label></div>
-<div class="opt"><input type="checkbox" id="f200" name="sessions[]" value="Share"><label for="f200">Share</label></div>
+<div class="field"><label for="f235">Your name</label><input type="text" id="f235" name="name" required autocomplete="name"></div><div class="field"><span style="font-size:17px;font-weight:600">Which sessions were you in?</span></div><div class="opts cols">
+<div class="opt"><input type="checkbox" id="f236" name="sessions[]" value="Hear"><label for="f236">Hear</label></div>
+<div class="opt"><input type="checkbox" id="f237" name="sessions[]" value="Create"><label for="f237">Create</label></div>
+<div class="opt"><input type="checkbox" id="f238" name="sessions[]" value="Share"><label for="f238">Share</label></div>
 </div>
 </fieldset>
 <fieldset>
 <legend><span class="n">2.</span> What you heard</legend>
 
-<div class="field"><label for="f201">What did you hear in the room that the surveys will not capture?</label><textarea id="f201" name="heard" rows="6"></textarea></div>
+<div class="field"><label for="f239">What did you hear in the room that the surveys will not capture?</label><textarea id="f239" name="heard" rows="6"></textarea></div>
 </fieldset>
 <fieldset>
 <legend><span class="n">3.</span> What shifted</legend>
 
-<div class="field"><label for="f202">What changed in the room across your session?</label><textarea id="f202" name="shifted" rows="5"></textarea></div>
+<div class="field"><label for="f240">What changed in the room across your session?</label><textarea id="f240" name="shifted" rows="5"></textarea></div>
 </fieldset>
 <fieldset>
 <legend><span class="n">4.</span> For the report</legend>
 <p class="hint">Leave out participants’ names and anything that could identify them.</p>
-<div class="field"><label for="f203">What should the report not miss?</label><textarea id="f203" name="report" rows="5"></textarea></div>
+<div class="field"><label for="f241">What should the report not miss?</label><textarea id="f241" name="report" rows="5"></textarea></div>
 </fieldset>
 <div class="submit"><button class="btn" type="submit">Send my reflection</button></div>
 </form>
