@@ -167,6 +167,14 @@ def stmts(items):
                  + opts(name, AGREE, cls='scale') + '</div>')
     return '\n'.join(h)
 
+def picks(items):
+    h = []
+    for name, text, options in items:
+        g = uid()
+        h.append(f'<div class="stmt" role="group" aria-labelledby="{g}"><p class="s" id="{g}">{e(text)}</p>\n'
+                 + opts(name, options, cols=True) + '</div>')
+    return '\n'.join(h)
+
 def text(name, label, kind='text', required=False, cls='', extra=''):
     i_d = uid()
     req = ' required' if required else ''
@@ -700,16 +708,24 @@ hear_steps = '\n'.join([
          + '<p><a class="btn ghost" href="/results">See what the room is saying</a></p>'
          + '<script src="/js/poll.js" defer></script>'),
     step(4, 'Quick fire',
-         '<p>Six quick ones about friends, neighbours and places. These do not go on the screen.</p>'
+         '<p>Seven quick questions from Dr Ru. These do not go on the screen.</p>'
          + mini_form('quick-fire',
-                     stmts([('confident_making_friends', 'I feel confident making friends'),
-                            ('can_speak_up_when_i_disagree', 'I can speak up confidently when I disagree'),
-                            ('places_nearby_to_meet_friends', 'There are places nearby where I can hang out with my friends'),
-                            ('neighbours_help_each_other', 'People in my neighbourhood help each other'),
-                            ('know_and_get_along_with_neighbours', 'I know my neighbours and get along with them')])
-                     + big_area('easy_places_in_parramatta', 'Which places in Parramatta do you find easy to get to and hang out with friends?', rows=3),
-                     'Send')
-         + '<p class="hint" style="margin-top:14px">No name. Skip any you like.</p>'),
+                     picks([('confident_making_friends_in_neighbourhood', 'Do you feel confident you can make friends in your neighbourhood?',
+                             ['Very confident', 'Confident', 'Not confident']),
+                            ('how_often_speak_to_neighbours', 'How often do you speak to your neighbours?',
+                             ['At least once a week', 'Once a month', 'Very rarely', 'Have never spoken to them']),
+                            ('neighbours_help_one_another', 'Do people in your neighbourhood help one another when someone needs it?',
+                             ['Yes, all the time', 'Sometimes', 'Never']),
+                            ('feel_safe_walking_in_neighbourhood', 'How safe do you feel when you walk around your neighbourhood?',
+                             ['Very safe', 'Sometimes safe', 'Not safe at all']),
+                            ('know_where_to_find_volunteering', 'If you wanted to volunteer, do you know where you could go to find more information about volunteering?',
+                             ['Yes, I know', 'I am not sure', 'I don’t know', 'I do not want to volunteer']),
+                            ('confident_about_future', 'How confident do you feel about your future?',
+                             ['Very confident', 'Confident', 'Unsure', 'Not confident at all']),
+                            ('left_out_or_seen_left_out', 'Have you been left out, or seen someone else left out, because of race, sexuality or neurodivergence?',
+                             ['Often', 'Sometimes', 'Rarely', 'Never'])])
+                     + '<p class="hint" style="margin-top:18px">No name. Skip any you like.</p>',
+                     'Send')),
     step(5, 'Anything else that stayed with you?',
          mini_form('through-the-day',
                    big_area('insight', 'What stayed with you from Hear?', rows=4),
@@ -1082,7 +1098,7 @@ privacyp = hero('Privacy notice', 'What we collect and', 'what we do with it.',
 <ul class="list">
 <li><strong>Arrival survey and end of day survey.</strong> No name, email or phone number. They ask your age range, some questions about you such as gender, country of birth, language and postcode, and what you think and feel. You can skip any question.</li>
 <li><strong>Add your voice, the three questions in Hear and your circle’s message in Share.</strong> Only what you write, and the session or table if you tell us. No name.</li>
-<li><strong>Quick fire in Hear.</strong> How far you agree with five statements, and places you name if you want to. No name.</li>
+<li><strong>Quick fire in Hear.</strong> Seven tick questions about your neighbourhood, volunteering, your future and being left out. No name.</li>
 <li><strong>A stage spot.</strong> Your name and how long you would like, so we can call you up.</li>
 <li><strong>Read it for me.</strong> What you want read from the stage, and a first name only if you add one.</li>
 <li><strong>Facilitator reflection.</strong> The facilitator’s or host’s name, what they heard in the room, and up to five pictures of the work if they add them.</li>
