@@ -449,16 +449,19 @@ duringp = hero('Through the day', 'Add your', 'voice.',
 page('during.html', 'Through the day. Our Stories, Parramatta',
      'Add your voice during Our Stories, Parramatta.', duringp, current='during', noindex=True, script=True)
 
+def pics(pid, first_label='Choose photos, or take one now'):
+    return ('<div data-pics>'
+            f'<div class="field"><label for="{pid}" data-first="{first_label}">{first_label}</label>'
+            f'<input type="file" id="{pid}" name="picture" accept="image/*"></div>'
+            + ''.join(f'<div class="field" data-extra><label for="{pid}{i}">Picture {i}</label>'
+                      f'<input type="file" id="{pid}{i}" name="picture_{i}" accept="image/*"></div>' for i in range(2, 6))
+            + '</div><ul class="pics" data-piclist hidden></ul><p class="filemsg" data-filemsg hidden></p>')
+
 story_inner = '\n'.join([
     q(1, 'Your story', big_area('story', 'Tell it your way', rows=10),
       'It does not need to be finished or tidy. You decide what you tell, and what you keep. You can use your mother tongue.'),
     q(2, 'Add pictures',
-      '<div data-pics>'
-      '<div class="field"><label for="pic">Choose photos, or take one now</label>'
-      '<input type="file" id="pic" name="picture" accept="image/*"></div>'
-      + ''.join(f'<div class="field" data-extra><label for="pic{i}">Picture {i}</label>'
-                f'<input type="file" id="pic{i}" name="picture_{i}" accept="image/*"></div>' for i in range(2, 6))
-      + '</div><ul class="pics" data-piclist hidden></ul><p class="filemsg" data-filemsg hidden></p>',
+      pics('pic'),
       'Optional. Up to five. Photos of you, of your work, of something that carries your story, or of the pages if you wrote it by hand. '
       'A picture can show who you are even without your name, so only send ones you are happy for us to use, and ask anyone else in them first.'),
     q(3, 'With your name, or without it?',
@@ -857,6 +860,8 @@ fac_inner = '\n'.join([
     q(3, 'What shifted', big_area('shifted', 'What changed in the room across your session?', rows=5)),
     q(4, 'For the report', big_area('report', 'What should the report not miss?', rows=5),
       'Leave out participants’ names and anything that could identify them.'),
+    q(5, 'Pictures', pics('fpic'),
+      'Optional. Up to five. Butcher’s paper, table notes, the wall, the room. Leave out anyone wearing a bright sticker, and the small circles in Share.'),
 ])
 facp = hero('For facilitators and hosts', 'What you heard', 'from the room.',
             'Cues for your script, and five minutes of reflection at the end of the day. Your reflections go into the report as what our facilitators heard.') + f'''
@@ -880,7 +885,7 @@ facp = hero('For facilitators and hosts', 'What you heard', 'from the room.',
 
 <h2 style="margin-top:56px">Your reflection at the end of the day</h2>
 <div class="note"><p>{HOLD}</p></div>
-{form('facilitator-reflection', fac_inner, 'Send my reflection')}
+{form('facilitator-reflection', fac_inner, 'Send my reflection', multipart=True)}
 </div></section>'''
 page('facilitators.html', 'Facilitator reflection. Our Stories, Parramatta',
      'End of day reflection for facilitators and hosts.', facp, noindex=True, script=True)
@@ -904,7 +909,7 @@ privacyp = hero('Privacy notice', 'What we collect and', 'what we do with it.',
 <li><strong>Quick fire in Hear.</strong> How far you agree with five statements, and places you name if you want to. No name.</li>
 <li><strong>A stage spot.</strong> Your name and how long you would like, so we can call you up.</li>
 <li><strong>Read it for me.</strong> What you want read from the stage, and a first name only if you add one.</li>
-<li><strong>Facilitator reflection.</strong> The facilitator’s or host’s name and what they heard in the room.</li>
+<li><strong>Facilitator reflection.</strong> The facilitator’s or host’s name, what they heard in the room, and up to five pictures of the work if they add them.</li>
 <li><strong>Share your story.</strong> Your story, and up to five pictures if you add them. Your name and an email or phone number only if you choose to be named.</li>
 <li><strong>Consent form.</strong> Your name, your choice about photos and video, and your typed signature. If you are signing for someone under 18, their name, your name and your mobile number.</li>
 </ul>

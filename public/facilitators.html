@@ -54,7 +54,7 @@
 
 <h2 style="margin-top:56px">Your reflection at the end of the day</h2>
 <div class="note"><p>Just Gold holds what you send here on behalf of SydWest. It keeps the record for one month after the day, then hands it to SydWest and deletes its own copy. <a href="/privacy">Read the privacy notice</a>.</p></div>
-<form name="facilitator-reflection" method="POST" action="/thanks" data-netlify="true" netlify-honeypot="bot-field" data-form>
+<form name="facilitator-reflection" method="POST" action="/thanks" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" data-form>
 <input type="hidden" name="form-name" value="facilitator-reflection">
 <p class="bot"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 <fieldset>
@@ -80,6 +80,11 @@
 <legend><span class="n">4.</span> For the report</legend>
 <p class="hint">Leave out participants’ names and anything that could identify them.</p>
 <div class="field"><label for="f241">What should the report not miss?</label><textarea id="f241" name="report" rows="5"></textarea></div>
+</fieldset>
+<fieldset>
+<legend><span class="n">5.</span> Pictures</legend>
+<p class="hint">Optional. Up to five. Butcher’s paper, table notes, the wall, the room. Leave out anyone wearing a bright sticker, and the small circles in Share.</p>
+<div data-pics><div class="field"><label for="fpic" data-first="Choose photos, or take one now">Choose photos, or take one now</label><input type="file" id="fpic" name="picture" accept="image/*"></div><div class="field" data-extra><label for="fpic2">Picture 2</label><input type="file" id="fpic2" name="picture_2" accept="image/*"></div><div class="field" data-extra><label for="fpic3">Picture 3</label><input type="file" id="fpic3" name="picture_3" accept="image/*"></div><div class="field" data-extra><label for="fpic4">Picture 4</label><input type="file" id="fpic4" name="picture_4" accept="image/*"></div><div class="field" data-extra><label for="fpic5">Picture 5</label><input type="file" id="fpic5" name="picture_5" accept="image/*"></div></div><ul class="pics" data-piclist hidden></ul><p class="filemsg" data-filemsg hidden></p>
 </fieldset>
 <div class="submit"><button class="btn" type="submit">Send my reflection</button></div>
 </form>

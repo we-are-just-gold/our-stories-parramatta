@@ -77,12 +77,12 @@
 })();
 
 (function(){
-  // Share your story: up to five pictures, each shrunk before sending so they upload quickly on venue Wi-Fi
-  var form=document.querySelector('form[name="share-your-story"]'); if(!form) return;
-  var box=form.querySelector('[data-pics]'), list=form.querySelector('[data-piclist]'), msg=form.querySelector('[data-filemsg]');
-  if(!box || !window.FormData || !window.fetch) return;
+  // Any form with pictures: up to five, each shrunk before sending so they upload quickly on venue Wi-Fi
+  var box=document.querySelector('[data-pics]'); if(!box || !window.FormData || !window.fetch) return;
+  var form=box.closest('form'), list=form.querySelector('[data-piclist]'), msg=form.querySelector('[data-filemsg]');
+  var sendBtn=form.querySelector('button[type=submit]'), sendLabel=sendBtn ? sendBtn.textContent : 'Send';
   var NAMES=['picture','picture_2','picture_3','picture_4','picture_5'], MAX=NAMES.length, files=[];
-  var picker=form.querySelector('#pic'); picker.multiple=true; picker.removeAttribute('name');
+  var picker=box.querySelector('input[type=file]'), lab=box.querySelector('label'), firstLabel=lab.getAttribute('data-first')||lab.textContent; picker.multiple=true; picker.removeAttribute('name');
   box.classList.add('js-pics');
   box.querySelectorAll('[data-extra]').forEach(function(d){ d.remove(); });
   function say(t){ if(msg){ msg.textContent=t; msg.hidden=!t; } }
@@ -95,7 +95,7 @@
       b.addEventListener('click',function(){ files.splice(n,1); draw(); say(''); });
       li.appendChild(im); li.appendChild(s); li.appendChild(b); list.appendChild(li);
     });
-    var lab=box.querySelector('label[for=pic]'); if(lab) lab.textContent=files.length ? (files.length<MAX ? 'Add another picture' : 'Five pictures added') : 'Choose photos, or take one now';
+    lab.textContent=files.length ? (files.length<MAX ? 'Add another picture' : 'Five pictures added') : firstLabel;
     picker.disabled=files.length>=MAX;
     box.classList.toggle('is-full',files.length>=MAX);
   }
@@ -129,7 +129,7 @@
     if(!files.length) return;   // no pictures: send the normal way
     ev.preventDefault();
     var btn=form.querySelector('button[type=submit]'); if(btn){ btn.disabled=true; btn.textContent='Sending'; }
-    say(files.length>1 ? 'Sending your story and '+files.length+' pictures.' : 'Sending your story and picture.');
+    say(files.length>1 ? 'Sending with '+files.length+' pictures.' : 'Sending with your picture.');
     pack([1800,1400,1000]).then(function(blobs){
       var fd=new FormData(form); NAMES.forEach(function(n){ fd.delete(n); });
       blobs.forEach(function(b,n){ fd.append(NAMES[n],b,'picture-'+(n+1)+'.jpg'); });
@@ -138,8 +138,8 @@
       if(!r.ok) throw new Error('send');
       window.location.href='/thanks';
     }).catch(function(e){
-      if(btn){ btn.disabled=false; btn.textContent='Send my story'; }
-      say(e.message==='big' ? 'Those pictures are too large to send together. Remove one, or send your story without them.'
+      if(btn){ btn.disabled=false; btn.textContent=sendLabel; }
+      say(e.message==='big' ? 'Those pictures are too large to send together. Remove one, or send without them.'
                             : 'That did not send. Check your connection and try again.');
     });
   });
