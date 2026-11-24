@@ -5,7 +5,7 @@
 @font-face{font-family:'Qwitcher Grypen';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/qwitcher-grypen-latin-700-normal.woff2') format('woff2')}
 :root{
   --navy:#0C0E3D; --coral:#EF4B35; --coral-text:#C8371F; --blue:#3A52C9; --taupe:#CDB1AF; --peri:#8891D8;
-  --hear:#5CC8F7; --lunch:#FF7AB8; --create:#2FD17C; --share:#7A3FF2;
+  --hear:#5CC8F7; --lunch:#FF7AB8; --create:#2FD17C; --share:#5B1E9E;
   --blush:#FBEEEC; --blush-2:#FDF1EE; --rule:#EFE3E0; --muted:#33355F; --field:#B9B0C4; --white:#fff;
   --sans:'Host Grotesk',Arial,sans-serif; --script:'Qwitcher Grypen',cursive;
   --wrap:1120px; --narrow:760px;
