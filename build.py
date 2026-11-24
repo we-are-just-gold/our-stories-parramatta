@@ -638,7 +638,9 @@ HAWA = person('hawanatu.jpg', 'Hawanatu Bangura', 'Hawanatu Bangura', 'Our Race.
 
 FAC = {
  'hear': '<section class="fac"><div class="narrow"><p class="label">With you in Hear</p>' + RU + DEFNE + '</div></section>',
- 'create': ('<section class="fac"><div class="narrow"><p class="label">Create is led by Our Race</p>'
+ 'create': ('<section class="fac"><div class="narrow">'
+            '<img class="orlogo" src="/img/our-race.png" alt="Our Race. Flipping the power together" width="371" height="482">'
+            '<p class="label">Create is led by Our Race</p>'
             '<p class="about">Our Race Community is an anti-racism storytelling charity that champions authentic narrative '
             'representation. It partners directly with individuals and communities affected by racial and social injustices, '
             'amplifying voices that have historically been marginalised. At the heart of its approach is the Transformational '
@@ -746,7 +748,31 @@ create_steps = '\n'.join([
          '<li>Why the T.E.S.T. Framework matters. Being a story holder. Choosing what to share and what to keep.</li>'
          '<li>Short exercises that start a story in an easy way, then space to develop your own.</li>'
          '<li>At the end, time to send your story on the app if you want to, and to say if you would like a stage spot in Share.</li></ul>'
-         '<p>Nobody under 18 joins any session without a parent or guardian’s <a href="/consent">consent form</a>.</p>'),
+         '<p>Nobody under 18 joins any session without a parent or guardian’s <a href="/consent">consent form</a>.</p>'
+         '<div class="cue c-create"><h3>You are the Story Holder</h3>'
+         '<p>A Story Holder is the person who has lived the story. You own it, and you choose whether to share it. '
+         'Our Race’s guide for Story Holders sets out questions to ask yourself first.</p>'
+         '<ul class="list">'
+         '<li>Is it clear why I am being asked to share my story?</li>'
+         '<li>Do I feel safe and comfortable? What do I need to feel safe?</li>'
+         '<li>Who will hear or watch it, and will it be recorded?</li>'
+         '<li>Have I had time to reflect on the story I want to tell, and to practise telling it?</li>'
+         '<li>Who can I talk to afterwards about how I feel?</li>'
+         '<li>What happens if I no longer want my story to be public?</li>'
+         '</ul>'
+         '<p>You have the right to decide if, when and how your story is shared. If you decide later that you no longer want to, that is OK too.</p>'
+         '<p><a class="btn ghost" href="/Our_Race_Story_Holder_Guide.pdf">Read the Story Holder guide (PDF)</a></p></div>'
+         '<div class="cue c-create"><h3>The five T.E.S.T. Principles</h3>'
+         '<p>Transformational Ethical Story Telling (T.E.S.T.) is Our Race’s framework for keeping the Story Holder at the centre. '
+         'Its five principles are what it asks of anyone who takes care of someone else’s story.</p>'
+         '<ul class="list">'
+         '<li><strong>Free, prior and ongoing informed consent.</strong> You are told the purpose, the risks and the benefits before your story is shared or used again, so the decision is yours.</li>'
+         '<li><strong>Resourcing and sensitivity.</strong> Sharing a story can be hard. The people asking for it give you the practical, emotional and cultural support you need.</li>'
+         '<li><strong>Further empowerment.</strong> You hold the decision over how your story is used, without pressure.</li>'
+         '<li><strong>Co-design and collaboration.</strong> You stay involved in how your story is edited and framed.</li>'
+         '<li><strong>Integrity of Story.</strong> Your story is not changed or adapted without your consent.</li>'
+         '</ul>'
+         '<p><a class="btn ghost" href="/TEST_Principles_2026.pdf">Read the T.E.S.T. Principles (PDF)</a></p></div>'),
     step(3, 'Your story',
          '<p>Write it here if you want to, in full, with or without your name. Wrote it by hand? Take a photo of the page and send that. It does not need to be finished or tidy. You decide what you tell.</p>'
          '<p><a class="btn" href="/share-your-story">Share your story</a></p>'),

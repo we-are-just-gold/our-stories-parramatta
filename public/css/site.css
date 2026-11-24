@@ -198,6 +198,9 @@ input[type=file]{font:inherit;font-size:16px;border:1.5px dashed var(--field);bo
 .fac{background:#fff;border-bottom:1px solid var(--rule)}
 .fac .narrow{padding-top:40px;padding-bottom:40px}
 .fac .about{margin:0 0 6px;font-size:18px}
+.fac .orlogo{display:block;width:118px;height:auto;margin:0 0 26px}
+.stp .cue{margin:30px 0 0}
+.stp .cue .list{margin:0 0 14px}
 .fp{display:flex;gap:20px;align-items:flex-start;margin-top:26px}
 .fp img{flex:none;width:104px;height:104px;border-radius:50%;object-fit:cover;border:7px solid var(--peri)}
 .fp h3{margin:2px 0 2px;font-size:23px}
