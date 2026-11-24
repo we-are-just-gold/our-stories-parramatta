@@ -3,7 +3,6 @@
 @font-face{font-family:'Host Grotesk';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/host-grotesk-latin-600-normal.woff2') format('woff2')}
 @font-face{font-family:'Host Grotesk';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/host-grotesk-latin-700-normal.woff2') format('woff2')}
 @font-face{font-family:'Qwitcher Grypen';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/qwitcher-grypen-latin-700-normal.woff2') format('woff2')}
-@font-face{font-family:'Bungee';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/bungee-latin-400-normal.woff2') format('woff2')}
 :root{
   --navy:#0C0E3D; --coral:#EF4B35; --coral-text:#C8371F; --blue:#3A52C9; --taupe:#CDB1AF; --peri:#8891D8;
   --hear:#5CC8F7; --lunch:#FF7AB8; --create:#2FD17C; --share:#5B1E9E;
@@ -263,13 +262,6 @@ body.screen{min-height:100vh;display:flex;flex-direction:column;background:#fff;
 .site-foot .base{background:var(--navy);color:#fff;font-size:14px;line-height:1.5}
 .site-foot .base .wrap{display:flex;gap:28px;flex-wrap:wrap;justify-content:space-between;padding-top:26px;padding-bottom:26px}
 .site-foot .base p{margin:0;max-width:760px}
-.site-foot .credit{flex:1 1 100%;display:flex;gap:20px 28px;flex-wrap:wrap;align-items:center;justify-content:space-between;border-top:1px solid var(--muted);padding-top:26px;margin-top:6px}
-.site-foot .by{margin-left:auto;display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:flex-end}
-.site-foot .by-l{display:flex;align-items:center;gap:14px}
-.site-foot .by-l{border-left:1px solid var(--peri);padding-left:22px}
-.site-foot .by a{display:block}
-.site-foot .by img{height:34px;width:auto}
-.site-foot .thinkr{font-family:'Bungee',var(--sans);font-weight:400;font-size:17px;letter-spacing:.5px;margin-left:2px}
 
 /* forms */
 .form{padding:56px 0 96px}
@@ -329,8 +321,6 @@ input.short{max-width:200px}
   .two-btn .btn{text-align:center}
 }
 @media (max-width:640px){
-  .site-foot .by{display:grid;gap:14px;justify-items:end}
-  .site-foot .by-l{border-left:0;padding-left:0}
   .submit .btn{width:100%}
   .site-head .wrap{padding-top:10px;padding-bottom:10px}
   .nav{font-size:14px;gap:2px 16px}
