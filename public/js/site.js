@@ -9,7 +9,7 @@
     var name=f.getAttribute('name');
     if(desk && name==='consent'){
       f.setAttribute('action','/desk');
-      var n=document.createElement('p'); n.className='flag'; n.textContent='Welcome desk. Hand this device to the person signing. When they send the form, it goes back to the desk list.';
+      var n=document.createElement('p'); n.className='flag'; n.textContent='Welcome desk. Hand this device to the person signing. The desk is locked while they have it. When they send the form, enter the password to open the desk again.';
       f.parentNode.insertBefore(n,f);
     }
     f.addEventListener('submit',function(){

@@ -452,14 +452,26 @@ input.short{max-width:200px}
 }
 
 /* welcome desk, phone first */
-.desk .wrap{padding-top:8px}
-.desk h2{font-size:24px;margin:40px 0 8px}
+.dh1{font-size:30px;line-height:1.15;margin:0 0 22px}
+.desk{padding-bottom:72px}
+.dtop{position:sticky;top:0;z-index:6;background:#fff;border-bottom:1.5px solid var(--rule);padding:12px 0 0}
+.dfind{display:flex;gap:10px}
+.dfind input{flex:1;min-width:0;font:inherit;font-size:18px;color:var(--navy);border:2px solid var(--navy);border-radius:14px;padding:12px 16px;min-height:52px;background:#fff}
+.dlock{flex:none;font:inherit;font-size:15px;font-weight:600;min-height:52px;padding:0 16px;border-radius:14px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);cursor:pointer}
+.dtabs{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:10px}
+.dtab{font:inherit;font-size:15px;font-weight:600;min-height:48px;padding:6px 4px;background:none;border:0;border-bottom:4px solid transparent;color:var(--muted);cursor:pointer}
+.dtab.is-on{color:var(--navy);border-bottom-color:var(--coral)}
+.dtab{white-space:nowrap}
+.dtab b{display:inline-block;min-width:22px;padding:1px 6px;margin-left:2px;border-radius:999px;background:var(--blush);font-size:13px}
+.dpanel{display:none;padding-top:22px}
+.dpanel.is-on{display:block}
+.desk h2{font-size:24px;margin:0 0 12px}
+.desk h3{font-size:19px;margin:32px 0 6px}
 .desk .hint{margin:0 0 14px}
 .dsum{grid-template-columns:repeat(2,1fr);margin-top:0}
-.deskacts{display:grid;gap:12px;margin:22px 0 0}
-.deskgrid{display:grid;gap:8px}
-.dg-todo{order:1}.dg-people{order:2}.dg-day{order:3}
+.deskacts{display:grid;gap:10px;margin:0 0 14px}
 .dlist,.dpeople{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.dpeople{gap:8px}
 .dtask label{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border:1.5px solid var(--field);border-radius:14px;background:#fff;cursor:pointer;min-height:52px}
 .dtask input,.darr input{flex:none;width:24px;height:24px;margin:2px 0 0;accent-color:var(--navy)}
 .dt{display:grid;gap:3px}
@@ -474,29 +486,43 @@ input.short{max-width:200px}
 .dempty{padding:14px 16px;border:1.5px dashed var(--field);border-radius:14px;color:var(--muted);font-size:16px}
 .ddone{margin-top:14px}
 .ddone summary{cursor:pointer;font-weight:600;padding:10px 0;min-height:44px}
-.dperson{display:flex;gap:14px;justify-content:space-between;align-items:flex-start;padding:16px;border:1.5px solid var(--field);border-radius:16px;background:#fff}
+.dperson{display:grid;grid-template-columns:1fr auto;align-items:center;border:1.5px solid var(--field);border-radius:14px;background:#fff}
 .dperson.is-here{background:var(--blush-2);border-color:var(--rule)}
-.dbody{display:grid;gap:8px;min-width:0}
-.dbody>b{font-size:19px;line-height:1.25;overflow-wrap:anywhere}
-.dpills{margin:0;display:flex;flex-wrap:wrap;gap:6px}
-.dpill{border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600;border:1.5px solid var(--navy)}
+.drow{font:inherit;color:inherit;text-align:left;background:none;border:0;cursor:pointer;display:grid;gap:6px;padding:10px 6px 10px 14px;min-height:60px;min-width:0;align-content:center}
+.drow>b{font-size:17px;line-height:1.25;overflow-wrap:anywhere}
+.dpills{display:flex;flex-wrap:wrap;gap:5px}
+.dpill{border-radius:999px;padding:1px 10px;font-size:14px;font-weight:600;border:1.5px solid var(--navy);white-space:nowrap}
+.dpill.yes{border-color:var(--field);color:var(--muted)}
 .dpill.no{background:var(--navy);color:#fff}
 .dpill.warn{background:var(--coral);border-color:var(--coral);color:#fff}
-.dsess{margin:0;font-size:15px;line-height:1.45}
+.darr{display:grid;justify-items:center;align-content:center;gap:2px;font-size:14px;font-weight:600;min-width:72px;min-height:60px;padding:6px 10px;cursor:pointer;border-left:1.5px solid var(--rule)}
+.darr input{margin:0;width:28px;height:28px}
+.dmore{grid-column:1/-1;border-top:1.5px solid var(--rule);padding:12px 14px 14px;display:grid;gap:6px}
+.dline{margin:0;font-size:15px;line-height:1.45}
+.dwarn{margin:0;font-size:15px;font-weight:600;border-left:4px solid var(--coral);background:var(--blush);padding:8px 12px}
 .dhx{margin:14px 0 0;font-weight:600;color:var(--coral-text)}
-.dchips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.dchips{display:flex;flex-wrap:nowrap;gap:8px;margin:0 -24px 14px;padding:2px 24px 6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.dchips::-webkit-scrollbar{display:none}
+.dchip{flex:none;white-space:nowrap}
+.site-head.is-slim .nav{display:none}
+.site-head.is-slim .wrap{padding-top:10px;padding-bottom:10px}
+.site-head.is-slim .brand img{height:40px;width:auto}
+.deskacts .hint{margin:0;align-self:center}
 .dchip{font:inherit;font-size:15px;font-weight:600;min-height:44px;padding:8px 16px;border-radius:999px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);cursor:pointer}
 .dchip.is-on{background:var(--navy);color:#fff}
-.dyoung{margin:0;font-size:15px;line-height:1.45}
-.dwarn{margin:0;font-size:15px;font-weight:600;border-left:4px solid var(--coral);background:var(--blush);padding:8px 12px}
-.darr{flex:none;display:grid;justify-items:center;gap:4px;font-size:14px;font-weight:600;min-width:56px;min-height:52px;cursor:pointer}
-.darr input{margin:0;width:28px;height:28px}
 @media (min-width:700px){
   .dsum{grid-template-columns:repeat(3,1fr)}
   .deskacts{display:flex;flex-wrap:wrap}
+  .dtab{font-size:16px}
 }
+/* wide screens: everything at once, no tabs */
 @media (min-width:980px){
-  .dsum{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
-  .deskgrid{grid-template-columns:1fr 1fr;gap:0 48px;align-items:start;grid-template-areas:"todo people" "day people"}
-  .dg-todo{grid-area:todo}.dg-day{grid-area:day}.dg-people{grid-area:people}
+  .dtabs{display:none}
+  .dtop{padding-bottom:12px}
+  .dfind{max-width:560px}
+  .dchips{flex-wrap:wrap;margin:0 0 14px;padding:0;overflow:visible}
+  .dpanels{display:grid;grid-template-columns:1.25fr 1fr;gap:0 48px;align-items:start;grid-template-areas:"people todo" "people day" "people counts"}
+  .dpanel{display:block;padding-top:32px}
+  .dp-people{grid-area:people}.dp-todo{grid-area:todo}.dp-day{grid-area:day}.dp-counts{grid-area:counts}
+  .dsum{grid-template-columns:repeat(2,1fr)}
 }

@@ -65,7 +65,7 @@ def page(path, title, desc, body, current='', noindex=False, script=False, guard
     robots = '<meta name="robots" content="noindex">' if noindex else ''
     js = '<script src="/js/site.js" defer></script>'
     teambtns = ''
-    if path == 'index.html' or current in ('hosts', 'volunteers', 'desk'):
+    if path == 'index.html' or current in ('hosts', 'volunteers'):
         teambtns = ('<span class="teambtns"><a class="teambtn" href="/hosts"'
                     + (' aria-current="page"' if current == 'hosts' else '') + '>Hosts</a><a class="teambtn" href="/volunteers"'
                     + (' aria-current="page"' if current == 'volunteers' else '') + '>Volunteers</a><a class="teambtn" href="/desk"'
@@ -87,7 +87,7 @@ def page(path, title, desc, body, current='', noindex=False, script=False, guard
 </head>
 <body>
 <a class="skip" href="#main">Skip to the main content</a>
-<header class="site-head">
+<header class="site-head{' is-slim' if current == 'desk' else ''}">
 <div class="wrap">
 <a class="brand" href="/" aria-label="Our Stories, Parramatta home"><img src="/img/our-stories.png" alt="Our Stories, Parramatta" width="196" height="92"></a>
 <nav class="nav" aria-label="More">
@@ -98,7 +98,7 @@ def page(path, title, desc, body, current='', noindex=False, script=False, guard
 {teambtns}
 </div>
 </header>
-{tabs(current)}
+{'' if current == 'desk' else tabs(current)}
 <main id="main">
 {body}
 </main>
@@ -1254,10 +1254,12 @@ page('hosts.html', 'Hosts and facilitators. Our Stories, Parramatta',
 
 
 # ---------- welcome desk ----------
-deskp = hero('Welcome desk', 'Everyone arriving,', 'in one place.',
-             'For the welcome desk and coordinators on Saturday 28 November 2026.') + '''
+deskp = '''
 <section class="form" data-deskgate><div class="narrow prose">
-<h2 style="margin-top:0">Enter the welcome desk password</h2>
+<p class="label">Welcome desk</p>
+<h1 class="dh1">For the welcome desk and coordinators</h1>
+<p class="flag" data-saved hidden>Saved. That consent form is in. Enter the password to open the desk again.</p>
+<h2>Enter the welcome desk password</h2>
 <p>It is given out at the briefing. If you do not have it, ask Thom or Kyriakos.</p>
 <form class="gate">
 <div class="field"><label for="deskpw">Password</label>
@@ -1266,9 +1268,50 @@ deskp = hero('Welcome desk', 'Everyone arriving,', 'in one place.',
 </form>
 <p class="filemsg" data-gatemsg hidden></p>
 </div></section>
-<section class="form desk" data-deskinside hidden><div class="wrap">
-<p class="flag" data-saved hidden>Saved. That consent form is in the list.</p>
+<section class="desk" data-deskinside hidden>
+<div class="dtop"><div class="wrap">
+<div class="dfind">
+<label class="vh" for="dsearch">Find a name</label>
+<input type="search" id="dsearch" data-search autocomplete="off" placeholder="Find a name">
+<button type="button" class="dlock" data-lock>Lock</button>
+</div>
+<div class="dtabs" role="tablist" aria-label="Welcome desk">
+<button type="button" role="tab" class="dtab is-on" data-tab="people" aria-selected="true">People <b data-t-people>0</b></button>
+<button type="button" role="tab" class="dtab" data-tab="todo" aria-selected="false">To do <b data-t-todo>0</b></button>
+<button type="button" role="tab" class="dtab" data-tab="day" aria-selected="false">The day</button>
+<button type="button" role="tab" class="dtab" data-tab="counts" aria-selected="false">Counts</button>
+</div>
+</div></div>
+<div class="wrap">
 <p class="filemsg" data-deskstatus hidden></p>
+<p class="hint dhx" data-hxnote hidden></p>
+<div class="dpanels">
+<div class="dpanel dp-people is-on" data-panel="people">
+<h2>People</h2>
+<p class="deskacts"><a class="btn small" href="/consent?desk=1" data-handover>Consent form on this device</a><span class="hint">Tap a name for the detail. The desk locks when you hand the device over.</span></p>
+<div class="dchips" role="group" aria-label="Show">
+<button type="button" class="dchip is-on" data-show="all">Everyone</button>
+<button type="button" class="dchip" data-show="noconsent" data-hxonly hidden>No consent form yet</button>
+<button type="button" class="dchip" data-show="sticker">Bright sticker</button>
+<button type="button" class="dchip" data-show="young">Young people</button>
+<button type="button" class="dchip" data-show="needs" data-hxonly hidden>Dietary and access</button>
+<button type="button" class="dchip" data-show="here">Arrived</button>
+<button type="button" class="dchip" data-show="nothere">Not arrived</button>
+</div>
+<ul class="dpeople" data-people></ul>
+</div>
+<div class="dpanel dp-todo" data-panel="todo">
+<h2>To do</h2>
+<p class="hint">Made from the consent forms as they come in. Tick each one when it is done. Every desk device sees the same list.</p>
+<ul class="dlist" data-todo></ul>
+<details class="ddone" data-donewrap hidden><summary>Done (<span data-donecount>0</span>)</summary><ul class="dlist" data-done></ul></details>
+</div>
+<div class="dpanel dp-day" data-panel="day">
+<h2>The day</h2>
+<ul class="dlist" data-run></ul>
+</div>
+<div class="dpanel dp-counts" data-panel="counts">
+<h2>Counts</h2>
 <ul class="counts dsum">
 <li data-hxonly hidden><b data-n-booked>0</b><span>people booked</span></li>
 <li><b data-n-people>0</b><span>people with a consent form</span></li>
@@ -1277,37 +1320,11 @@ deskp = hero('Welcome desk', 'Everyone arriving,', 'in one place.',
 <li><b data-n-stickers>0</b><span>bright stickers to hand out</span></li>
 <li><b data-n-young>0</b><span>forms signed for young people</span></li>
 </ul>
-<p class="hint dhx" data-hxnote hidden></p>
-<p class="deskacts"><a class="btn" href="/consent?desk=1">Fill in a consent form on this device</a><button type="button" class="btn ghost" data-lock>Lock this screen</button></p>
-<div class="deskgrid">
-<div class="dg-todo">
-<h2>To do</h2>
-<p class="hint">Made from the consent forms as they come in. Tick each one when it is done. Every desk device sees the same list.</p>
-<ul class="dlist" data-todo></ul>
-<details class="ddone" data-donewrap hidden><summary>Done (<span data-donecount>0</span>)</summary><ul class="dlist" data-done></ul></details>
-</div>
-<div class="dg-day">
-<h2>The day</h2>
-<ul class="dlist" data-run></ul>
-</div>
-<div class="dg-people">
-<h2>People</h2>
-<p class="hint">Everyone who has booked or sent a consent form. Updates every five seconds. No consent form yet? They fill it in on their own phone or on this device. Nobody under 18 joins a session until a parent or guardian has.</p>
-<div class="field"><label for="dsearch">Find a name</label><input type="text" id="dsearch" data-search autocomplete="off"></div>
-<div class="dchips" role="group" aria-label="Show">
-<button type="button" class="dchip is-on" data-show="all">Everyone</button>
-<button type="button" class="dchip" data-show="noconsent" data-hxonly hidden>No consent form yet</button>
-<button type="button" class="dchip" data-show="sticker">Bright sticker</button>
-<button type="button" class="dchip" data-show="young">Young people</button>
-<button type="button" class="dchip" data-show="needs" data-hxonly hidden>Dietary and access</button>
-<button type="button" class="dchip" data-show="here">Arrived</button>
-</div>
-<ul class="dpeople" data-people></ul>
-</div>
-</div>
-<h2>Today so far</h2>
-<p class="hint">How many of each have been sent today. Counts only, no names.</p>
+<h3>Sent today</h3>
+<p class="hint">How many of each form have been sent today. Counts only, no names.</p>
 ''' + COUNTS + '''
+</div>
+</div>
 </div></section>
 <script src="/js/desk.js" defer></script>
 <script src="/js/count.js" defer></script>'''

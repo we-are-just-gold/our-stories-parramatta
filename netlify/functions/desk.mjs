@@ -179,7 +179,8 @@ export async function handle(req, store) {
   if (req.method !== "POST") {
     // Counts only, no names: lets anyone check that Humanitix is connected.
     const hx = await humanitix();
-    return json({ humanitix: hx.status, code: hx.code || 0, tickets: hx.tickets || 0, booked: hx.people.length });
+    const { blobs } = await store.list({ prefix: "p/" });
+    return json({ humanitix: hx.status, code: hx.code || 0, tickets: hx.tickets || 0, booked: hx.people.length, consentForms: blobs.length });
   }
   let b;
   try { b = await req.json(); } catch { return json({ error: "bad request" }, 400); }
@@ -198,7 +199,19 @@ export async function handle(req, store) {
       desk: !!c.desk,
     };
     const at = Number(c.at);
-    const ts = at > 1.79e12 && at <= Date.now() ? Math.floor(at) : Date.now();
+    const topUp = at > 1.79e12 && at <= Date.now();
+    const ts = topUp ? Math.floor(at) : Date.now();
+    if (topUp) {
+      // A top up from the signed records: skip a form the desk already holds.
+      const { blobs } = await store.list({ prefix: "p/" });
+      const near = blobs.map((x) => x.key).filter((k) => Math.abs(sentAt(k) - ts) <= 180000);
+      for (const k of near) {
+        const f = cache.get(k) || (await store.get(k, { type: "json" }));
+        if (f && keyOf(f.name) === keyOf(name) && f.photos === rec.photos && !!f.under18 === rec.under18 && (f.youngPhotos || "") === rec.youngPhotos) {
+          return json({ ok: true, skipped: true });
+        }
+      }
+    }
     await store.setJSON("p/" + ts + "-" + Math.random().toString(36).slice(2, 8), rec);
     return json({ ok: true });
   }
