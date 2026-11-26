@@ -200,7 +200,7 @@
 <p class="label">Before you go</p>
 <h2 style="margin-top:0">Your reflection at the end of the day</h2>
 <p>Five minutes, after pack down or on the way home. What you tell us goes into the report as what our volunteers saw and heard.</p>
-<form name="volunteer-reflection" method="POST" action="/thanks" data-netlify="true" netlify-honeypot="bot-field" data-form>
+<form name="volunteer-reflection" method="POST" action="/thanks" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" data-form>
 <input type="hidden" name="form-name" value="volunteer-reflection">
 <p class="bot"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 <fieldset>
@@ -230,6 +230,11 @@
 <legend><span class="n">4.</span> For the report</legend>
 <p class="hint">Leave out participants’ names and anything that could identify them.</p>
 <div class="field"><label for="f272">What should the report not miss?</label><textarea id="f272" name="report" rows="5"></textarea></div>
+</fieldset>
+<fieldset>
+<legend><span class="n">5.</span> Pictures</legend>
+<p class="hint">Optional. Up to five. The welcome desk, the wall, the room. Leave out anyone wearing a bright sticker, and the small circles in Share.</p>
+<div data-pics><div class="field"><label for="vpic" data-first="Choose photos, or take one now">Choose photos, or take one now</label><input type="file" id="vpic" name="picture" accept="image/*"></div><div class="field" data-extra><label for="vpic2">Picture 2</label><input type="file" id="vpic2" name="picture_2" accept="image/*"></div><div class="field" data-extra><label for="vpic3">Picture 3</label><input type="file" id="vpic3" name="picture_3" accept="image/*"></div><div class="field" data-extra><label for="vpic4">Picture 4</label><input type="file" id="vpic4" name="picture_4" accept="image/*"></div><div class="field" data-extra><label for="vpic5">Picture 5</label><input type="file" id="vpic5" name="picture_5" accept="image/*"></div></div><ul class="pics" data-piclist hidden></ul><p class="filemsg" data-filemsg hidden></p>
 </fieldset>
 <div class="submit"><button class="btn" type="submit">Send my reflection</button></div>
 </form>

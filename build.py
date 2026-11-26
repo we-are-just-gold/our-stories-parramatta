@@ -1176,13 +1176,15 @@ vol_inner = '\n'.join([
     q(3, 'What worked', big_area('worked', 'What worked, and what should we do differently next time?', rows=5)),
     q(4, 'For the report', big_area('report', 'What should the report not miss?', rows=5),
       'Leave out participants’ names and anything that could identify them.'),
+    q(5, 'Pictures', pics('vpic'),
+      'Optional. Up to five. The welcome desk, the wall, the room. Leave out anyone wearing a bright sticker, and the small circles in Share.'),
 ])
 VOL_FORM = f'''
 <section class="form" id="reflection"><div class="narrow prose">
 <p class="label">Before you go</p>
 <h2 style="margin-top:0">Your reflection at the end of the day</h2>
 <p>Five minutes, after pack down or on the way home. What you tell us goes into the report as what our volunteers saw and heard.</p>
-{form('volunteer-reflection', vol_inner, 'Send my reflection')}
+{form('volunteer-reflection', vol_inner, 'Send my reflection', multipart=True)}
 </div></section>
 '''
 MARK = '<section class="section" id="who">'
@@ -1237,7 +1239,7 @@ privacyp = hero('Privacy notice', 'What we collect and', 'what we do with it.',
 <li><strong>A stage spot.</strong> Your name and how long you would like, so we can call you up.</li>
 <li><strong>Read it for me.</strong> What you want read from the stage, and a first name only if you add one.</li>
 <li><strong>Facilitator reflection.</strong> The facilitator’s or host’s name, what they heard in the room, and up to five pictures of the work if they add them.</li>
-<li><strong>Volunteer reflection.</strong> The volunteer’s name, where they were on the day, and what they heard, saw and thought worked.</li>
+<li><strong>Volunteer reflection.</strong> The volunteer’s name, where they were on the day, what they heard, saw and thought worked, and up to five pictures if they add them.</li>
 <li><strong>Share your story.</strong> Your story, and up to five pictures if you add them. Your name and an email or phone number only if you choose to be named.</li>
 <li><strong>Consent form.</strong> Your name, your choice about photos and video, and your typed signature. If you are signing for someone under 18, their name, your name and your mobile number.</li>
 </ul>
