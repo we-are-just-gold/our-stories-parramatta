@@ -897,8 +897,8 @@ screen = f'''<!doctype html>
 <body class="screen">
 <header class="shead">
 <img src="/img/our-stories.png" alt="Our Stories, Parramatta" class="slogo">
-<div class="sjoin"><div><p class="sk">Scan to answer</p><p class="su">ourstoriesparramatta.netlify.app/hear</p></div>
-<img src="/img/qr-hear.svg" alt="QR code for the Hear page" class="sqr"></div>
+<div class="sjoin"><div><p class="sk">Scan, then tap Hear, the light blue one</p><p class="su">ourstoriesparramatta.netlify.app</p></div>
+<img src="/img/qr-home.svg" alt="QR code that opens the app" class="sqr"></div>
 </header>
 <p class="filemsg" data-status hidden></p>
 {HOSTBAR}
@@ -1172,12 +1172,12 @@ teamp = hero('Hosts and volunteers', 'This part is', 'for the team.',
 <a class="teamcard" href="/facilitators"><b>Facilitators and hosts</b><span>Where to send the room, session by session, and your reflection at the end of the day.</span></a>
 <a class="teamcard" href="/volunteers"><b>Volunteers</b><span>Where to be, what to do and who to ask.</span></a>
 </div>
-<h2>Screens for the room</h2>
-<ul class="list">
-<li><a href="/">The main page</a>. On a laptop or the projector it opens with the welcome and the QR code. Put it up as people arrive.</li>
-<li><a href="/screen">Live screen</a>. Dr Ru’s three questions, as the room answers.</li>
-<li><a href="/screen#host">Live screen with host controls</a>. Needs the host code.</li>
-</ul>
+<h2>Screens for the projector</h2>
+<div class="teamgrid three">
+<a class="teamcard alt" href="/"><b>Welcome and QR code</b><span>The main page. Put it up as people arrive.</span></a>
+<a class="teamcard alt" href="/screen"><b>Live poll</b><span>Dr Ru’s three questions in Hear. Answers appear as the room sends them.</span></a>
+<a class="teamcard alt" href="/screen#host"><b>Live poll, host controls</b><span>Hide an answer or clear the screen. Needs the host code.</span></a>
+</div>
 </div>
 </div></section>
 <script src="/js/team.js" defer></script>'''
