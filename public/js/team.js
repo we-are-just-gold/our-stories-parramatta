@@ -9,7 +9,27 @@
   function roleOf(v){ return v===HOST?'host':(v===VOL?'vol':''); }
   function stored(){ try{ return roleOf(localStorage.getItem(K)); }catch(e){ return ''; } }
   function allowed(r){ return r==='host' || (want==='vol' && r==='vol'); }
-  function open(){ if(next){ location.replace(next); return; } gate.hidden=true; inside.hidden=false; if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t) t.scrollIntoView(); } }
+  function open(){ if(next){ location.replace(next); return; } gate.hidden=true; inside.hidden=false; contacts(); if(location.hash){ var t=document.getElementById(location.hash.slice(1)); if(t) t.scrollIntoView(); } }
+  var cur='';
+  function contacts(){
+    var box=document.querySelector('[data-contacts]'); if(!box||!window.fetch) return;
+    var k=cur; try{ k=k||localStorage.getItem(K)||''; }catch(e){}
+    fetch('/api/team',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({k:k})})
+      .then(function(r){ return r.ok?r.json():null; })
+      .then(function(j){
+        if(!j||!j.contacts||!j.contacts.length) return;
+        box.textContent='';
+        j.contacts.forEach(function(c){
+          var d=document.createElement('p'); d.className='contactcard';
+          var b=document.createElement('b'); b.textContent=c.name; d.appendChild(b);
+          var r=document.createElement('span'); r.textContent=c.role; d.appendChild(r);
+          var t=document.createElement('a'); t.href='tel:'+String(c.phone).replace(/[^0-9+]/g,''); t.textContent=c.phone; d.appendChild(t);
+          var m=document.createElement('a'); m.href='mailto:'+c.email; m.textContent=c.email; d.appendChild(m);
+          box.appendChild(d);
+        });
+        box.hidden=false;
+      }).catch(function(){});
+  }
   function hex(buf){ return Array.prototype.map.call(new Uint8Array(buf),function(b){ return ('0'+b.toString(16)).slice(-2); }).join(''); }
   if(allowed(stored())){ open(); return; }
   form.addEventListener('submit',function(ev){
@@ -20,6 +40,7 @@
       msg.hidden=true; if(other) other.hidden=true;
       if(!r){ msg.hidden=false; input.value=''; input.focus(); return; }
       if(!allowed(r)){ if(other) other.hidden=false; input.value=''; input.focus(); return; }
+      cur=h;
       try{ if(stored()!=='host') localStorage.setItem(K,h); }catch(e){}
       open();
     });

@@ -92,6 +92,7 @@ def page(path, title, desc, body, current='', noindex=False, script=False, guard
 <a class="brand" href="/" aria-label="Our Stories, Parramatta home"><img src="/img/our-stories.png" alt="Our Stories, Parramatta" width="196" height="92"></a>
 <nav class="nav" aria-label="More">
 {nav('/welcome', 'Welcome pack', 'welcome')}
+{nav('/visual-story', 'Visual story', 'visual')}
 {nav('/consent', 'Consent form', 'consent')}
 {nav('/privacy', 'Privacy', 'privacy')}
 </nav>
@@ -120,6 +121,7 @@ def page(path, title, desc, body, current='', noindex=False, script=False, guard
 <a href="/end-of-day-survey">End your day</a></div>
 <div><b>LOOKING AFTER YOU</b>
 <a href="/welcome">Welcome pack</a>
+<a href="/visual-story">Visual story</a>
 <a href="/consent">Consent form</a>
 <a href="/#support">Support numbers</a>
 <a href="/hosts">For hosts</a>
@@ -276,6 +278,7 @@ def about_you():
 
 
 # ---------- home ----------
+VSBAR = ('<a class="vsbar" href="/visual-story"><svg aria-hidden="true" focusable="false" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="38" height="32" rx="6"/><circle cx="17" cy="20" r="4"/><path d="m5 34 11-9 8 6 7-8 12 10"/></svg><span class="vb-t"><b>Visual story</b><span>See the day in pictures, one step at a time.</span></span>' + ARROW + '</a>')
 home = f'''
 <section class="hwelcome" aria-label="Welcome">
 <div class="wrap">
@@ -297,6 +300,7 @@ home = f'''
 <h1 class="h-start">Three things to do today</h1>
 {actions()}
 <div class="also two-btn"><a class="btn" href="/consent">Consent form. Photos, filming and your story</a><a class="btn ghost" href="/share-your-story">Share your story, with or without your name</a></div>
+{VSBAR}
 <h2 class="h-sub">The three sessions</h2>
 {tiles()}
 <div class="teamrow">
@@ -312,7 +316,7 @@ home = f'''
 <p class="label">Welcome pack</p>
 <h2>Everything about the day</h2>
 <p>The times, the people, how to get to PHIVE, where the quiet space and prayer room are, and how we look after you.</p>
-<p><a class="btn small" href="/welcome">Open the welcome pack</a></p>
+<p><a class="btn small" href="/welcome">Open the welcome pack</a> <a class="btn ghost small" href="/visual-story">Visual story</a></p>
 </div>
 <div>
 <p class="label">Consent form</p>
@@ -566,7 +570,7 @@ SUPPORT_FULL = '''<ul class="support">
 
 welcomep = hero('Welcome pack', 'Welcome to', 'Our Stories.',
                 'Everything you need for Saturday 28 November 2026 at PHIVE, Parramatta.',
-                extra='\n<p class="printlink"><a class="btn small" href="/Our_Stories_Welcome_Pack.pdf" download>Download the welcome pack (PDF)</a></p>') + f'''
+                extra='\n<p class="printlink"><a class="btn small" href="/Our_Stories_Welcome_Pack.pdf" download>Download the welcome pack (PDF)</a> <a class="btn ghost small" href="/visual-story">Visual story. The day in pictures</a></p>') + f'''
 <section class="section" id="day">
 <div class="wrap">
 <p class="label">The day at a glance</p>
@@ -667,6 +671,9 @@ page('welcome.html', 'Welcome pack. Our Stories, Parramatta',
 
 
 
+
+import visual_story
+visual_story.build(page, hero, row)
 
 # ---------- people ----------
 def person(img, alt, name, role, bio, link='', linktext=''):
@@ -1180,6 +1187,7 @@ volp = hero('Volunteer pack', 'Thank you for', 'being part of this.',
 <p><strong>Thom Calma.</strong> SydWest lead. Parking, access and medical needs. If you are unwell and cannot come, call Thom as early as you can so your role can be covered.</p>
 <p><strong>Kyriakos Gold.</strong> Just Gold, event lead. Set up, pack down and photos.</p>
 <p><strong>PHIVE duty manager.</strong> One central number for whoever is on duty. Thom gives it out at the Thursday briefing.</p>
+<div data-contacts hidden></div>
 <p class="flag">In an emergency call triple zero (000) and follow the directions of PHIVE staff.</p>
 </div>
 <div>
