@@ -461,7 +461,8 @@ consent_inner = '\n'.join([
     '<div class="stop" data-minor-stop hidden><p>Please ask your parent or guardian to fill this in for you. Nobody under 18 '
     'takes part in any session until a parent or guardian has filled this in.</p></div>',
     guardian,
-    '<div data-sign>' + q(4, 'Sign', text('signature', 'Type your full name as your signature', required=True),
+    '<div data-sign>' + q(4, 'Sign', text('signature', 'Type your full name as your signature', required=True)
+                          + '<div class="printonly paperline"><span>Signature</span><span>Date</span></div>',
                           'The form records the date and time.') + '</div>',
 ])
 consent = hero('Consent form', 'Photos, filming and', 'your story.',
