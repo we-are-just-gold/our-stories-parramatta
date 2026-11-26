@@ -5,6 +5,9 @@
 import { getStore } from "@netlify/blobs";
 
 const QS = ["i_like", "i_do_not_like", "i_wish"];
+// Answers sent before this moment were tests. They are deleted the next time the poll is read.
+const PURGE_BEFORE = 1795667793049; // Thursday 26 November 2026, 3.36pm Sydney time
+const sentAt = (key) => parseInt(String(key).slice(2), 10) || 0;
 const cache = new Map();
 
 const json = (body, status = 200) =>
@@ -46,6 +49,13 @@ export async function handle(req, store) {
     return json({ ok: true, saved: n });
   }
   const [a, h] = await Promise.all([store.list({ prefix: "a/" }), store.list({ prefix: "h/" })]);
+  const old = [...a.blobs, ...h.blobs].filter((x) => sentAt(x.key) < PURGE_BEFORE);
+  if (old.length) {
+    await Promise.all(old.map((x) => store.delete(x.key)));
+    old.forEach((x) => cache.delete(x.key));
+    a.blobs = a.blobs.filter((x) => sentAt(x.key) >= PURGE_BEFORE);
+    h.blobs = h.blobs.filter((x) => sentAt(x.key) >= PURGE_BEFORE);
+  }
   const hidden = new Set(h.blobs.map((x) => x.key.slice(2)));
   await Promise.all(a.blobs.filter((x) => !cache.has(x.key)).map(async (x) => {
     const v = await store.get(x.key, { type: "json" });
