@@ -51,7 +51,7 @@
 <button type="button" role="tab" class="dtab is-on" data-tab="people" aria-selected="true">People <b data-t-people>0</b></button>
 <button type="button" role="tab" class="dtab" data-tab="todo" aria-selected="false">To do <b data-t-todo>0</b></button>
 <button type="button" role="tab" class="dtab" data-tab="day" aria-selected="false">The day</button>
-<button type="button" role="tab" class="dtab" data-tab="counts" aria-selected="false">Counts</button>
+<button type="button" role="tab" class="dtab" data-tab="counts" aria-selected="false">Tickets</button>
 </div>
 </div></div>
 <div class="wrap">
@@ -83,7 +83,12 @@
 <ul class="dlist" data-run></ul>
 </div>
 <div class="dpanel dp-counts" data-panel="counts">
-<h2>Counts</h2>
+<div data-hxonly hidden>
+<h2>Tickets</h2>
+<p class="hint">From Humanitix, refreshed every minute. Arrived counts the tickets of people you have ticked as arrived.</p>
+<ul class="dtix" data-tickets></ul>
+</div>
+<h2 class="dcounts-h">Counts</h2>
 <ul class="counts dsum">
 <li data-hxonly hidden><b data-n-booked>0</b><span>people booked</span></li>
 <li><b data-n-people>0</b><span>people with a consent form</span></li>

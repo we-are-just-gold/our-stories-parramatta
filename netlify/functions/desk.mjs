@@ -69,6 +69,19 @@ function questionLabels(node, map = new Map(), depth = 0) {
   Object.values(node).forEach((v) => questionLabels(v, map, depth + 1));
   return map;
 }
+// Ticket types and how many of each can be sold, wherever the event keeps them: any list of {name, quantity}.
+function ticketCaps(node, out = [], depth = 0) {
+  if (!node || typeof node !== "object" || depth > 6) return out;
+  if (Array.isArray(node)) { node.forEach((x) => ticketCaps(x, out, depth + 1)); return out; }
+  if (typeof node.name === "string" && Number.isFinite(node.quantity) && !node.deleted) {
+    if (!out.some((x) => x.name === clean(node.name, 60))) out.push({ name: clean(node.name, 60), capacity: node.quantity });
+    return out;
+  }
+  Object.values(node).forEach((v) => ticketCaps(v, out, depth + 1));
+  return out;
+}
+// "Create for adults: 12.45pm to 2.45pm" sorts by its first time when the event gives no order.
+const startOf = (name) => { const m = /(\d{1,2})(?:[.:](\d{2}))?\s*(am|pm)/i.exec(name); if (!m) return 9999; return ((+m[1] % 12) + (/pm/i.test(m[3]) ? 12 : 0)) * 60 + (+m[2] || 0); };
 const needLabel = (q) => (/diet|allerg|food/i.test(q) ? "Dietary" : /access|support|mobility|interpret/i.test(q) ? "Access" : "");
 const emptyAnswer = (v) => !v || /^(no|none|nil|n\/?a|na|no thanks?|nothing|-+)\.?$/i.test(v);
 
@@ -107,7 +120,13 @@ async function humanitix() {
       }
     }
     const people = [...by.values()].map((p) => ({ ...p, sessions: [...p.sessions].map(([name, count]) => ({ name, count })) }));
-    hxCache = { at: Date.now(), data: { status: "ok", people, tickets: tickets.length, orders: orders.length } };
+    const caps = ticketCaps(event);
+    const sold = new Map();
+    for (const t of tickets) { const n = clean(t.ticketTypeName, 60) || "Ticket"; sold.set(n, (sold.get(n) || 0) + 1); }
+    const names = [...new Set([...caps.map((c) => c.name), ...sold.keys()])];
+    if (!caps.length) names.sort((x, y) => startOf(x) - startOf(y));
+    const types = names.map((name) => ({ name, sold: sold.get(name) || 0, capacity: (caps.find((c) => c.name === name) || {}).capacity || 0 }));
+    hxCache = { at: Date.now(), data: { status: "ok", people, types, tickets: tickets.length, orders: orders.length } };
   } catch (e) {
     // Keep showing the last good list if Humanitix stops answering.
     if (hxCache.data && hxCache.data.status === "ok") return { ...hxCache.data, stale: true };
@@ -169,10 +188,16 @@ async function view(store) {
         forms: 0, at: 0, desk: false, differs: [], arrived: arrived.has(b.key), noConsent: true, ...extra });
     }
   }
+  // Tickets by session, with how many belong to people ticked as arrived.
+  const types = (hx.types || []).map((t) => ({ ...t, arrived: 0 }));
+  for (const p of people) {
+    if (!p.arrived || !p.sessions) continue;
+    for (const se of p.sessions) { const t = types.find((x) => x.name === se.name); if (t) t.arrived += se.count; }
+  }
   people.sort((a, b) => a.name.localeCompare(b.name));
   tasks.forEach((t) => { t.done = ticks.has(t.id); });
   const run = RUN.map(([at, title, text]) => ({ id: "run-" + at, at, title, text, done: ticks.has("run-" + at) }));
-  return { people, tasks, run, humanitix: { status: hx.status, code: hx.code || 0, stale: !!hx.stale, tickets: hx.tickets || 0, booked: hx.people.length } };
+  return { people, tasks, run, types, humanitix: { status: hx.status, code: hx.code || 0, stale: !!hx.stale, tickets: hx.tickets || 0, orders: hx.orders || 0, booked: hx.people.length } };
 }
 
 export async function handle(req, store) {
@@ -180,7 +205,8 @@ export async function handle(req, store) {
     // Counts only, no names: lets anyone check that Humanitix is connected.
     const hx = await humanitix();
     const { blobs } = await store.list({ prefix: "p/" });
-    return json({ humanitix: hx.status, code: hx.code || 0, tickets: hx.tickets || 0, booked: hx.people.length, consentForms: blobs.length });
+    return json({ humanitix: hx.status, code: hx.code || 0, tickets: hx.tickets || 0, booked: hx.people.length, consentForms: blobs.length,
+      types: (hx.types || []).map((t) => ({ name: t.name, sold: t.sold, capacity: t.capacity })) });
   }
   let b;
   try { b = await req.json(); } catch { return json({ error: "bad request" }, 400); }

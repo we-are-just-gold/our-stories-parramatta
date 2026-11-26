@@ -98,6 +98,23 @@
     $('[data-n-young]').textContent=j.people.filter(function(p){ return p.under18; }).length;
     $('[data-n-booked]').textContent=j.people.filter(function(p){ return p.booked; }).length;
     $('[data-n-noconsent]').textContent=j.people.filter(function(p){ return p.noConsent; }).length;
+    var tix=$('[data-tickets]'); tix.textContent='';
+    var sold=0, cap=0, arr=0, allCap=true;
+    function tixRow(name,s,c,a,total){
+      var li=el('li','dtx'+(total?' is-total':''));
+      li.appendChild(el('b','dtx-name',name));
+      var top=el('div','dtx-top');
+      top.appendChild(el('span','dtx-pct',c?Math.round(s/c*100)+'%':''));
+      top.appendChild(el('span','dtx-n',c?s+' / '+c:String(s)));
+      li.appendChild(top);
+      var bar=el('div','dtx-bar'), fill=el('i'), here=el('i','here');
+      var base=c||s||1; fill.style.width=Math.min(100,Math.round(s/base*100))+'%'; here.style.width=Math.min(100,Math.round(a/base*100))+'%';
+      bar.appendChild(fill); bar.appendChild(here); li.appendChild(bar);
+      li.appendChild(el('small',null,a+' arrived.'+(c&&s>=c?' Full.':c?' '+(c-s)+' left.':'')));
+      return li;
+    }
+    (j.types||[]).forEach(function(x){ sold+=x.sold; cap+=x.capacity; arr+=x.arrived||0; if(!x.capacity) allCap=false; tix.appendChild(tixRow(x.name,x.sold,x.capacity,x.arrived||0)); });
+    if((j.types||[]).length) tix.appendChild(tixRow('All tickets',sold,allCap?cap:0,arr,true));
     $('[data-t-people]').textContent=j.people.length;
     $('[data-t-todo]').textContent=openT.length;
   }

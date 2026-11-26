@@ -515,13 +515,25 @@ input.short{max-width:200px}
   .deskacts{display:flex;flex-wrap:wrap}
   .dtab{font-size:16px}
 }
+.dtix{list-style:none;margin:0 0 8px;padding:0;display:grid;gap:10px}
+.dtx{border:1.5px solid var(--field);border-radius:14px;padding:14px 16px;display:grid;gap:8px;background:#fff}
+.dtx.is-total{background:var(--blush-2);border-color:var(--rule)}
+.dtx-name{font-size:16px;line-height:1.3;font-weight:600}
+.dtx-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.dtx-pct{font-size:20px;font-weight:700}
+.dtx-n{font-size:17px;font-weight:600;white-space:nowrap}
+.dtx-bar{position:relative;height:10px;border-radius:999px;background:var(--rule);overflow:hidden}
+.dtx-bar i{position:absolute;left:0;top:0;bottom:0;background:#2F8A5B;border-radius:999px}
+.dtx-bar i.here{background:var(--navy)}
+.dtx small{font-size:14px;color:var(--muted)}
+.dcounts-h{margin-top:32px!important}
 /* wide screens: everything at once, no tabs */
 @media (min-width:980px){
   .dtabs{display:none}
   .dtop{padding-bottom:12px}
   .dfind{max-width:560px}
   .dchips{flex-wrap:wrap;margin:0 0 14px;padding:0;overflow:visible}
-  .dpanels{display:grid;grid-template-columns:1.25fr 1fr;gap:0 48px;align-items:start;grid-template-areas:"people todo" "people day" "people counts"}
+  .dpanels{display:grid;grid-template-columns:1.25fr 1fr;gap:0 48px;align-items:start;grid-template-areas:"people counts" "people todo" "people day"}
   .dpanel{display:block;padding-top:32px}
   .dp-people{grid-area:people}.dp-todo{grid-area:todo}.dp-day{grid-area:day}.dp-counts{grid-area:counts}
   .dsum{grid-template-columns:repeat(2,1fr)}
