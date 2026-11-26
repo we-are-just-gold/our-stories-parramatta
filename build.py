@@ -49,12 +49,18 @@ def tiles():
               '<span class="ln">Lunch, from Racha’s Syrian Kitchen</span>' + ARROW + '</a>')
 
 
-def page(path, title, desc, body, current='', noindex=False, script=False):
+TEAM_HASH = '60b431a615e7edd696656543796a02e2acbe69e31e8fb6a6b2b6ee034e152da7'
+GUARD = ("<script>try{if(localStorage.getItem('os_team')!=='" + TEAM_HASH + "')"
+         "location.replace('/team?next='+location.pathname.replace(/\\.html$/,''))}catch(e){}</script>")
+
+def page(path, title, desc, body, current='', noindex=False, script=False, guard=False):
     def nav(href, text, key):
         cur = ' aria-current="page"' if key == current else ''
         return f'<a href="{href}"{cur}>{text}</a>'
     robots = '<meta name="robots" content="noindex">' if noindex else ''
     js = '<script src="/js/site.js" defer></script>'
+    if guard:
+        js = GUARD + '\n' + js
     out = f'''<!doctype html>
 <html lang="en-AU">
 <head>
@@ -78,6 +84,7 @@ def page(path, title, desc, body, current='', noindex=False, script=False):
 {nav('/consent', 'Consent form', 'consent')}
 {nav('/privacy', 'Privacy', 'privacy')}
 </nav>
+<a class="teambtn" href="/team"{' aria-current="page"' if current == 'team' else ''}>Hosts and volunteers</a>
 </div>
 </header>
 {tabs(current)}
@@ -104,8 +111,7 @@ def page(path, title, desc, body, current='', noindex=False, script=False):
 <a href="/welcome">Welcome pack</a>
 <a href="/consent">Consent form</a>
 <a href="/#support">Support numbers</a>
-<a href="/facilitators">For facilitators</a>
-<a href="/volunteers">For volunteers</a>
+<a href="/team">Hosts and volunteers</a>
 <a href="/privacy">Privacy notice</a>
 <a href="https://sydwestms.org.au/privacy-policy/">SydWest privacy policy</a></div>
 </nav>
@@ -931,6 +937,7 @@ facp = hero('For facilitators and hosts', 'What you heard', 'from the room.',
 <h2>Where to send the room, session by session</h2>
 <p>One QR code opens the app. Each session has its own colour in the menu and at the top of its page, so you can say the colour.</p>
 <div class="cue c-hear"><h3>Hear. Light blue</h3><ul class="list">
+<li><strong>As people arrive.</strong> Put <a href="/welcome-screen">the welcome screen</a> on the projector. It shows the QR code that opens the app.</li>
 <li><strong>After the welcome.</strong> “Open the app and tap Start your day.” Five minutes.</li>
 <li><strong>The three questions.</strong> “Tap Hear, the light blue one, and go to step 3.” Put <a href="/screen">the live screen</a> on the projector.</li>
 <li><strong>Quick fire.</strong> “Step 4 on the same page.” These do not show on the screen.</li>
@@ -952,7 +959,7 @@ facp = hero('For facilitators and hosts', 'What you heard', 'from the room.',
 {form('facilitator-reflection', fac_inner, 'Send my reflection', multipart=True)}
 </div></section>'''
 page('facilitators.html', 'Facilitator reflection. Our Stories, Parramatta',
-     'End of day reflection for facilitators and hosts.', facp, noindex=True, script=True)
+     'End of day reflection for facilitators and hosts.', facp, noindex=True, script=True, guard=True)
 
 # ---------- volunteers ----------
 volp = hero('Volunteer pack', 'Thank you for', 'being part of this.',
@@ -1125,7 +1132,64 @@ volp = hero('Volunteer pack', 'Thank you for', 'being part of this.',
 </section>
 """
 page('volunteers.html', 'Volunteer pack. Our Stories, Parramatta',
-     'The volunteer pack for Our Stories, Parramatta on Saturday 28 November 2026.', volp, noindex=True)
+     'The volunteer pack for Our Stories, Parramatta on Saturday 28 November 2026.', volp, noindex=True, guard=True)
+
+# ---------- hosts and volunteers ----------
+teamp = hero('Hosts and volunteers', 'This part is', 'for the team.',
+             'For facilitators, hosts and volunteers on Saturday 28 November 2026.') + '''
+<section class="form"><div class="narrow prose">
+<div data-gate>
+<h2 style="margin-top:0">Enter the password</h2>
+<p>The password is given out at the briefing. If you do not have it, ask Thom or Kyriakos.</p>
+<form class="gate" data-gateform>
+<div class="field"><label for="teampw">Password</label>
+<input type="password" id="teampw" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" required></div>
+<button type="submit" class="btn">Go in</button>
+</form>
+<p class="filemsg" data-gatemsg hidden>That password is not right. Try again, or ask Thom or Kyriakos.</p>
+</div>
+<div data-inside hidden>
+<h2 style="margin-top:0">Choose your page</h2>
+<div class="teamgrid">
+<a class="teamcard" href="/facilitators"><b>Facilitators and hosts</b><span>Where to send the room, session by session, and your reflection at the end of the day.</span></a>
+<a class="teamcard" href="/volunteers"><b>Volunteers</b><span>Where to be, what to do and who to ask.</span></a>
+</div>
+<h2>Screens for the room</h2>
+<ul class="list">
+<li><a href="/welcome-screen">Welcome screen</a>. The QR code that opens the app, for the projector as people arrive.</li>
+<li><a href="/screen">Live screen</a>. Dr Ru’s three questions, as the room answers.</li>
+<li><a href="/screen#host">Live screen with host controls</a>. Needs the host code.</li>
+</ul>
+</div>
+</div></section>
+<script src="/js/team.js" defer></script>'''
+page('team.html', 'Hosts and volunteers. Our Stories, Parramatta',
+     'For facilitators, hosts and volunteers.', teamp, current='team', noindex=True)
+
+wscreen = '''<!doctype html>
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex"><title>Welcome screen. Our Stories, Parramatta</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/css/site.css"></head>
+<body class="screen wscreen">
+<main class="wmain">
+<div class="wtext">
+<img src="/img/our-stories.png" alt="Our Stories, Parramatta" class="wlogo">
+<p class="wscript">Welcome.</p>
+<h1>Scan the code to open the app</h1>
+<ol class="wsteps">
+<li>Point your phone camera at the code.</li>
+<li>Tap <b>Start your day</b>.</li>
+</ol>
+<p class="wurl">ourstoriesparramatta.netlify.app</p>
+</div>
+<img src="/img/qr-home.svg" alt="QR code that opens the Our Stories, Parramatta app" class="wqr">
+</main>
+<div class="wday">
+<span class="s-hear"><b>Hear</b>10am</span><span class="s-lunch"><b>Lunch</b>12pm</span><span class="s-create"><b>Create</b>12.45pm</span><span class="s-share"><b>Share</b>3pm</span>
+</div>
+<footer class="wfoot"><img src="/img/partners.png" alt="Our Stories Parramatta, SydWest, City of Parramatta and NSW Government"></footer>
+</body></html>'''
+open(os.path.join(ROOT, 'welcome-screen.html'), 'w').write(wscreen)
 
 # ---------- privacy ----------
 privacyp = hero('Privacy notice', 'What we collect and', 'what we do with it.',
