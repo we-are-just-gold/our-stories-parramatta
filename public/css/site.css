@@ -415,3 +415,38 @@ input.short{max-width:200px}
   [data-screen-out],[data-minor-stop]{display:none!important}
   a{text-decoration:none;color:#000}
 }
+
+/* live screen and host controls on a phone */
+@media (max-width:820px){
+  body.screen{padding:16px 16px 14px}
+  .shead{flex-wrap:wrap;gap:14px;margin-bottom:16px}
+  .screen .shead{border-bottom-width:5px;padding-bottom:14px}
+  .slogo{height:44px}
+  .sjoin{gap:12px;text-align:left;min-width:0;flex:1 1 220px}
+  .sjoin>div{min-width:0}
+  .sk{font-size:17px;line-height:1.25}
+  .su{font-size:14px;overflow-wrap:anywhere}
+  .sqr{width:72px;height:72px;border-width:2px;border-radius:8px;flex:none}
+  .hostbar{gap:12px;padding:14px;margin-bottom:16px}
+  .hostbar label:first-child{display:grid;gap:6px;flex:1 1 100%}
+  .hostbar input[type=password]{margin-left:0;width:100%;min-height:48px;font-size:16px}
+  .hostbar .btn{flex:1 1 auto}
+  .screen .wall{gap:14px}
+  .screen .wall .empty{font-size:19px}
+  .screen .wcol{padding:18px 16px}
+  .screen .wcol h2{font-size:21px;margin-bottom:14px}
+  .screen .wcol .count{min-width:40px;height:40px;border-radius:20px;font-size:19px}
+  .screen .ans{flex-direction:column;gap:12px;padding:14px 16px}
+  .screen .ans p{font-size:18px}
+  .ans .acts{align-self:stretch}
+  .ans .acts .hide{flex:1;min-height:44px;font-size:15px}
+  .screen .waitnote{font-size:17px}
+  .sfoot{flex-direction:column;gap:4px;font-size:14px;margin-top:14px}
+}
+
+/* phone: tap targets of at least 44px and no text under 14px */
+@media (max-width:640px){
+  .site-head .nav a{padding:12px 0;min-height:44px;display:inline-flex;align-items:center}
+  .teambtn{min-height:44px;display:inline-flex;align-items:center}
+  .act .when,.tile .when,.when{font-size:14px!important}
+}

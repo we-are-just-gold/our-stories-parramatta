@@ -74,5 +74,8 @@
     var armed=false, clr=bar.querySelector('[data-clear]');
     clr.addEventListener('click',function(){ if(!armed){ armed=true; clr.textContent='Tap again to clear every answer'; setTimeout(function(){ armed=false; clr.textContent='Clear all answers'; },4000); return; } armed=false; clr.textContent='Clear all answers'; send({clear:true,code:code}); });
   }
-  load(); setInterval(load,3000);
+  // The big screen and the host ask every 3 seconds. Phones ask every 6, and not at all in the background.
+  var big=document.body.classList.contains('screen');
+  load(); setInterval(function(){ if(!document.hidden) load(); }, big?3000:6000);
+  document.addEventListener('visibilitychange',function(){ if(!document.hidden) load(); });
 })();

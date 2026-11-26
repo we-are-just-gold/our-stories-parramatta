@@ -1114,6 +1114,8 @@ volp = hero('Volunteer pack', 'Thank you for', 'being part of this.',
 <li>A bright sticker means: do not photograph or film me, wide shots included. Stickers are at the welcome desk.</li>
 <li>Camera free tables stay out of frame. Facilitators will point them out.</li>
 <li>Nobody under 18 joins any session until a parent or guardian has filled in the <a href="/consent">consent form</a> for them.</li>
+<li><strong>Signed on the day?</strong> Ask to see the “Thank you. That is in.” screen on their phone before they go in. For anyone under 18, see it on the parent’s or guardian’s phone.</li>
+<li><strong>No phone?</strong> Paper copies of the consent form and both surveys are at the welcome desk.</li>
 <li>Nobody is named unless they choose to be.</li>
 <li>People are told to tell any volunteer if they change their mind. If someone tells you, tell Kyriakos so the photo or clip is deleted.</li>
 </ul>
