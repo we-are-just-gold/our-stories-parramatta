@@ -3,8 +3,28 @@
   var KEY='os_done';
   function read(){ try{ return JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ return {}; } }
   function write(d){ try{ localStorage.setItem(KEY,JSON.stringify(d)); }catch(e){} }
-  document.querySelectorAll('form[data-form]').forEach(function(f){ f.addEventListener('submit',function(){ var d=read(); d[f.getAttribute('name')]=1; write(d);
-    try{ navigator.sendBeacon('/api/count',new Blob([JSON.stringify({form:f.getAttribute('name')})],{type:'application/json'})); }catch(e){} }); });
+  // Welcome desk mode: the consent form on the desk device goes back to the desk list
+  var desk=/[?&]desk=1/.test(location.search);
+  document.querySelectorAll('form[data-form]').forEach(function(f){
+    var name=f.getAttribute('name');
+    if(desk && name==='consent'){
+      f.setAttribute('action','/desk');
+      var n=document.createElement('p'); n.className='flag'; n.textContent='Welcome desk. Hand this device to the person signing. When they send the form, it goes back to the desk list.';
+      f.parentNode.insertBefore(n,f);
+    }
+    f.addEventListener('submit',function(){
+      if(!(desk && name==='consent')){ var d=read(); d[name]=1; write(d); }
+      try{ navigator.sendBeacon('/api/count',new Blob([JSON.stringify({form:name})],{type:'application/json'})); }catch(e){}
+      if(name==='consent'){
+        try{
+          var fd=new FormData(f), c={};
+          ['name','photos_and_video','under_18','young_person_name','guardian_name','guardian_permission_to_take_part','young_person_photos_and_video'].forEach(function(k){ c[k]=fd.get(k)||''; });
+          if(desk){ c.desk=1; sessionStorage.setItem('desk_saved','1'); }
+          navigator.sendBeacon('/api/desk',new Blob([JSON.stringify({consent:c})],{type:'application/json'}));
+        }catch(e){}
+      }
+    });
+  });
   var d=read();
   document.querySelectorAll('[data-key]').forEach(function(a){
     if(d[a.getAttribute('data-key')]){ var t=a.querySelector('.done'); if(t) t.hidden=false; a.classList.add('is-done'); }

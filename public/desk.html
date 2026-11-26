@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome desk. Our Stories, Parramatta</title>
+<meta name="description" content="For the welcome desk and coordinators.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/host-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/site.css">
+<script src="/js/site.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the main content</a>
+<header class="site-head">
+<div class="wrap">
+<a class="brand" href="/" aria-label="Our Stories, Parramatta home"><img src="/img/our-stories.png" alt="Our Stories, Parramatta" width="196" height="92"></a>
+<nav class="nav" aria-label="More">
+<a href="/welcome">Welcome pack</a>
+<a href="/consent">Consent form</a>
+<a href="/privacy">Privacy</a>
+</nav>
+<span class="teambtns"><a class="teambtn" href="/hosts">Hosts</a><a class="teambtn" href="/volunteers">Volunteers</a><a class="teambtn" href="/desk" aria-current="page">Desk</a></span>
+</div>
+</header>
+<nav class="tabs" aria-label="Sessions"><a href="/hear" data-session="hear"><span class="tl">Hear</span><span class="tt">10am</span></a><a href="/lunch" data-session="lunch"><span class="tl">Lunch</span><span class="tt">12pm</span></a><a href="/create" data-session="create"><span class="tl">Create</span><span class="tt">12.45pm</span></a><a href="/share" data-session="share"><span class="tl">Share</span><span class="tt">3pm</span></a></nav>
+<main id="main">
+<section class="page-hero">
+<svg class="ring" aria-hidden="true" viewBox="0 0 600 600"><circle cx="300" cy="300" r="270" fill="none" stroke="#CDB1AF" stroke-width="34"/></svg>
+<div class="narrow">
+<p class="label">Welcome desk</p>
+<h1>Everyone arriving,</h1>
+<p class="script">in one place.</p>
+<p class="lead">For the welcome desk and coordinators on Saturday 28 November 2026.</p>
+</div>
+</section>
+<section class="form" data-deskgate><div class="narrow prose">
+<h2 style="margin-top:0">Enter the welcome desk password</h2>
+<p>It is given out at the briefing. If you do not have it, ask Thom or Kyriakos.</p>
+<form class="gate">
+<div class="field"><label for="deskpw">Password</label>
+<input type="password" id="deskpw" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" required></div>
+<button type="submit" class="btn">Go in</button>
+</form>
+<p class="filemsg" data-gatemsg hidden></p>
+</div></section>
+<section class="form desk" data-deskinside hidden><div class="wrap">
+<p class="flag" data-saved hidden>Saved. That consent form is in the list.</p>
+<p class="filemsg" data-deskstatus hidden></p>
+<ul class="counts dsum">
+<li><b data-n-people>0</b><span>people with a consent form</span></li>
+<li><b data-n-here>0</b><span>arrived</span></li>
+<li><b data-n-stickers>0</b><span>bright stickers to hand out</span></li>
+<li><b data-n-young>0</b><span>forms signed for young people</span></li>
+</ul>
+<p class="deskacts"><a class="btn" href="/consent?desk=1">Fill in a consent form on this device</a><button type="button" class="btn ghost" data-lock>Lock this screen</button></p>
+<div class="deskgrid">
+<div class="dg-todo">
+<h2>To do</h2>
+<p class="hint">Made from the consent forms as they come in. Tick each one when it is done. Every desk device sees the same list.</p>
+<ul class="dlist" data-todo></ul>
+<details class="ddone" data-donewrap hidden><summary>Done (<span data-donecount>0</span>)</summary><ul class="dlist" data-done></ul></details>
+</div>
+<div class="dg-day">
+<h2>The day</h2>
+<ul class="dlist" data-run></ul>
+</div>
+<div class="dg-people">
+<h2>Consent forms</h2>
+<p class="hint">Updates every five seconds. Not on the list? They fill in the consent form, on their own phone or on this device. Nobody under 18 joins a session until a parent or guardian has.</p>
+<div class="field"><label for="dsearch">Find a name</label><input type="text" id="dsearch" data-search autocomplete="off"></div>
+<ul class="dpeople" data-people></ul>
+</div>
+</div>
+<h2>Today so far</h2>
+<p class="hint">How many of each have been sent today. Counts only, no names.</p>
+<ul class="counts" data-counts>
+<li><b data-c="arrival-survey">0</b><span>started their day</span></li>
+<li><b data-c="in-my-community">0</b><span>answered the live poll</span></li>
+<li><b data-c="quick-fire">0</b><span>did quick fire</span></li>
+<li><b data-c="through-the-day">0</b><span>added their voice</span></li>
+<li><b data-c="share-your-story">0</b><span>shared a story</span></li>
+<li><b data-c="end-of-day-survey">0</b><span>ended their day</span></li>
+<li><b data-c="consent">0</b><span>consent forms today</span></li>
+</ul>
+</div></section>
+<script src="/js/desk.js" defer></script>
+<script src="/js/count.js" defer></script>
+</main>
+<footer class="site-foot">
+<div class="wrap top">
+<div class="logos">
+<img src="/img/partners.png" alt="Our Stories Parramatta, SydWest, City of Parramatta and NSW Government" width="860" height="108">
+<p>Our Stories, Parramatta is an initiative of SydWest and the City of Parramatta, funded by the NSW Government through the NSW Social Cohesion Grants for Local Government program.</p>
+</div>
+<nav aria-label="Footer">
+<div><b>TODAY</b>
+<a href="/hear">Hear, 10am</a>
+<a href="/lunch">Lunch, 12pm</a>
+<a href="/create">Create, 12.45pm</a>
+<a href="/share">Share, 3pm</a>
+<a href="/arrival-survey">Start your day</a>
+<a href="/during">Add your voice</a>
+<a href="/share-your-story">Share your story</a>
+<a href="/end-of-day-survey">End your day</a></div>
+<div><b>LOOKING AFTER YOU</b>
+<a href="/welcome">Welcome pack</a>
+<a href="/consent">Consent form</a>
+<a href="/#support">Support numbers</a>
+<a href="/hosts">For hosts</a>
+<a href="/volunteers">For volunteers</a>
+<a href="/desk">Welcome desk</a>
+<a href="/privacy">Privacy notice</a>
+<a href="https://sydwestms.org.au/privacy-policy/">SydWest privacy policy</a></div>
+</nav>
+</div>
+<div class="base"><div class="wrap">
+<p>Our Stories, Parramatta takes place on the land of the Burramattagal people of the Dharug Nation, the first storytellers of the place we now call Parramatta. We pay our respects to Elders past and present.</p>
+<div class="credit">
+<p>Design and copyright © Just Gold 2026</p>
+<div class="by">
+<p class="by-t">Powered by <span class="thinkr">Thinkr</span></p>
+<a class="by-l" href="https://justgold.net"><img src="/img/just-gold-white.png" alt="Just Gold" width="497" height="228" loading="lazy"></a>
+</div>
+</div>
+</div></div>
+</footer>
+</body>
+</html>

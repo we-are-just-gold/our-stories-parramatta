@@ -1,0 +1,127 @@
+// Welcome desk. A live list built from the consent forms, with a task list.
+// POST /api/desk  {consent: {...}}                 a copy of a consent form just sent (no mobile number kept here)
+// Desk only, with the desk password:
+//   {list: true}            people, tasks and the run sheet
+//   {tick: id, on: bool}    tick or untick a task
+//   {arrived: key, on: bool} mark a person as arrived
+import { getStore } from "@netlify/blobs";
+
+const json = (body, status = 200) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
+  });
+
+const norm = (v) => String(v || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+const deskCode = () => {
+  try { return (globalThis.Netlify && Netlify.env.get("DESK_CODE")) || process.env.DESK_CODE || ""; }
+  catch { return process.env.DESK_CODE || ""; }
+};
+const clean = (v, n = 120) => String(v || "").replace(/\s+/g, " ").trim().slice(0, n);
+const keyOf = (name) => clean(name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60);
+const cleanId = (v) => String(v || "").replace(/[^0-9a-z-]/g, "").slice(0, 80);
+const sentAt = (key) => parseInt(key.slice(key.indexOf("/") + 1), 10) || 0;
+
+// The day at a glance, from the volunteer pack. Minutes after midnight, Sydney time.
+const RUN = [
+  [540, "Set up", "Rooms, the welcome desk, signage, camera free tables and a support card on every table."],
+  [570, "Doors open", "Sign people in, hand out name badges and bright stickers, and point people to Start your day in the app."],
+  [675, "Catering arrives", "Catering sets up in the Civic Gallery foyer."],
+  [720, "Lunch", "Lunch is for everyone attending any session, volunteers too."],
+  [735, "Welcome desk open for Create", "The desk opens 30 minutes before each session."],
+  [870, "Welcome desk open for Share", "The desk opens 30 minutes before each session."],
+  [885, "Break", "Reset the room into circles for Share."],
+  [1020, "Pack down", "Collect equipment and signage."],
+];
+
+const cache = new Map();
+
+async function view(store) {
+  const { blobs } = await store.list();
+  const keys = blobs.map((x) => x.key);
+  const ticks = new Set(keys.filter((k) => k.startsWith("t/")).map((k) => k.slice(2)));
+  const arrived = new Set(keys.filter((k) => k.startsWith("r/")).map((k) => k.slice(2)));
+  const pKeys = keys.filter((k) => k.startsWith("p/")).sort((a, b) => sentAt(a) - sentAt(b));
+  await Promise.all(pKeys.filter((k) => !cache.has(k)).map(async (k) => {
+    const v = await store.get(k, { type: "json" });
+    if (v) cache.set(k, v);
+  }));
+  const byKey = new Map();
+  for (const k of pKeys) {
+    const f = cache.get(k);
+    if (!f || !f.name) continue;
+    const key = keyOf(f.name);
+    if (!byKey.has(key)) byKey.set(key, []);
+    byKey.get(key).push({ ...f, at: sentAt(k) });
+  }
+  const people = [], tasks = [];
+  for (const [key, forms] of byKey) {
+    const last = forms[forms.length - 1];
+    const differs = [];
+    if (forms.some((f) => f.photos !== last.photos)) differs.push("their own photos");
+    if (forms.some((f) => f.under18 && last.under18 && f.youngPhotos !== last.youngPhotos)) differs.push("the young people’s photos");
+    people.push({
+      key, name: last.name, photos: last.photos, under18: !!last.under18, young: last.young || "",
+      youngPhotos: last.youngPhotos || "", permission: !!last.permission, forms: forms.length, at: last.at,
+      desk: !!last.desk, differs, arrived: arrived.has(key),
+    });
+    const youngUnsure = differs.includes("the young people’s photos");
+    if (last.photos === "sticker") tasks.push({ id: "sticker-" + key, kind: "sticker", text: `Bright sticker for ${last.name}.` });
+    if (last.under18 && last.young && (last.youngPhotos === "sticker" || youngUnsure)) {
+      tasks.push({ id: "ysticker-" + key, kind: "sticker", text: `Bright stickers for ${last.young}, with ${last.name}.` });
+    }
+    if (differs.length) {
+      tasks.push({ id: "check-" + key, kind: "check",
+        text: `Ask ${last.name} about ${differs.join(" and ")}. Their forms disagree.` + (youngUnsure ? " Use bright stickers until they confirm." : "") });
+    }
+    if (last.under18 && !last.permission) {
+      tasks.push({ id: "perm-" + key, kind: "check", text: `${last.name} has not ticked permission for ${last.young || "the young person"} to take part.` });
+    }
+  }
+  people.sort((a, b) => a.name.localeCompare(b.name));
+  tasks.forEach((t) => { t.done = ticks.has(t.id); });
+  const run = RUN.map(([at, title, text]) => ({ id: "run-" + at, at, title, text, done: ticks.has("run-" + at) }));
+  return { people, tasks, run };
+}
+
+export async function handle(req, store) {
+  if (req.method !== "POST") return json({ error: "not found" }, 404);
+  let b;
+  try { b = await req.json(); } catch { return json({ error: "bad request" }, 400); }
+  if (b.consent && typeof b.consent === "object") {
+    const c = b.consent;
+    const name = clean(c.name, 100);
+    if (!name) return json({ error: "no name" }, 400);
+    const under18 = /^yes, and/i.test(String(c.under_18 || ""));
+    const rec = {
+      name,
+      photos: /rather not/i.test(String(c.photos_and_video || "")) ? "sticker" : "ok",
+      under18,
+      young: under18 ? clean(c.young_person_name, 160) : "",
+      permission: under18 && /yes/i.test(String(c.guardian_permission_to_take_part || "")),
+      youngPhotos: !under18 ? "" : (/cannot/i.test(String(c.young_person_photos_and_video || "")) ? "sticker" : "ok"),
+      desk: !!c.desk,
+    };
+    const at = Number(c.at);
+    const ts = at > 1.79e12 && at <= Date.now() ? Math.floor(at) : Date.now();
+    await store.setJSON("p/" + ts + "-" + Math.random().toString(36).slice(2, 8), rec);
+    return json({ ok: true });
+  }
+  const code = deskCode();
+  if (!code || norm(b.code) !== norm(code)) return json({ error: "wrong password" }, 403);
+  if (b.tick) {
+    const id = cleanId(b.tick);
+    if (b.on === false) await store.delete("t/" + id); else await store.set("t/" + id, "1");
+    return json({ ok: true });
+  }
+  if (b.arrived) {
+    const id = cleanId(b.arrived);
+    if (b.on === false) await store.delete("r/" + id); else await store.set("r/" + id, "1");
+    return json({ ok: true });
+  }
+  return json(await view(store));
+}
+
+export default async (req) => handle(req, getStore({ name: "welcome-desk", consistency: "strong" }));
+
+export const config = { path: "/api/desk" };

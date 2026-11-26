@@ -65,10 +65,11 @@ def page(path, title, desc, body, current='', noindex=False, script=False, guard
     robots = '<meta name="robots" content="noindex">' if noindex else ''
     js = '<script src="/js/site.js" defer></script>'
     teambtns = ''
-    if path == 'index.html' or current in ('hosts', 'volunteers'):
+    if path == 'index.html' or current in ('hosts', 'volunteers', 'desk'):
         teambtns = ('<span class="teambtns"><a class="teambtn" href="/hosts"'
                     + (' aria-current="page"' if current == 'hosts' else '') + '>Hosts</a><a class="teambtn" href="/volunteers"'
-                    + (' aria-current="page"' if current == 'volunteers' else '') + '>Volunteers</a></span>')
+                    + (' aria-current="page"' if current == 'volunteers' else '') + '>Volunteers</a><a class="teambtn" href="/desk"'
+                    + (' aria-current="page"' if current == 'desk' else '') + '>Desk</a></span>')
     if guard:
         js = guard_script(guard) + '\n' + js
     out = f'''<!doctype html>
@@ -123,6 +124,7 @@ def page(path, title, desc, body, current='', noindex=False, script=False, guard
 <a href="/#support">Support numbers</a>
 <a href="/hosts">For hosts</a>
 <a href="/volunteers">For volunteers</a>
+<a href="/desk">Welcome desk</a>
 <a href="/privacy">Privacy notice</a>
 <a href="https://sydwestms.org.au/privacy-policy/">SydWest privacy policy</a></div>
 </nav>
@@ -298,8 +300,8 @@ home = f'''
 <h2 class="h-sub">The three sessions</h2>
 {tiles()}
 <div class="teamrow">
-<p><b>Running the day?</b> Hosts and volunteers each have their own page and their own password.</p>
-<div><a class="btn ghost small" href="/hosts">Hosts and facilitators</a><a class="btn ghost small" href="/volunteers">Volunteers</a></div>
+<p><b>Running the day?</b> Hosts, volunteers and the welcome desk each have their own page and their own password.</p>
+<div><a class="btn ghost small" href="/hosts">Hosts and facilitators</a><a class="btn ghost small" href="/volunteers">Volunteers</a><a class="btn ghost small" href="/desk">Welcome desk</a></div>
 </div>
 </div>
 </section>
@@ -1115,7 +1117,7 @@ volp = hero('Volunteer pack', 'Thank you for', 'being part of this.',
 <li>Camera free tables stay out of frame. Facilitators will point them out.</li>
 <li>Nobody under 18 joins any session until a parent or guardian has filled in the <a href="/consent">consent form</a> for them.</li>
 <li><strong>Signed on the day?</strong> Ask to see the “Thank you. That is in.” screen on their phone before they go in. For anyone under 18, see it on the parent’s or guardian’s phone.</li>
-<li><strong>No phone?</strong> Paper copies of the consent form and both surveys are at the welcome desk.</li>
+<li><strong>No phone?</strong> They can fill in the consent form on the welcome desk device. Paper copies of the consent form and both surveys are at the welcome desk too.</li>
 <li>Nobody is named unless they choose to be.</li>
 <li>People are told to tell any volunteer if they change their mind. If someone tells you, tell Kyriakos so the photo or clip is deleted.</li>
 </ul>
@@ -1216,6 +1218,16 @@ page('volunteers.html', 'Volunteer pack. Our Stories, Parramatta',
      'The volunteer pack for Our Stories, Parramatta on Saturday 28 November 2026.', volp, current='volunteers', noindex=True, script=True)
 
 # ---------- hosts, and the password gate ----------
+COUNTS = '''<ul class="counts" data-counts>
+<li><b data-c="arrival-survey">0</b><span>started their day</span></li>
+<li><b data-c="in-my-community">0</b><span>answered the live poll</span></li>
+<li><b data-c="quick-fire">0</b><span>did quick fire</span></li>
+<li><b data-c="through-the-day">0</b><span>added their voice</span></li>
+<li><b data-c="share-your-story">0</b><span>shared a story</span></li>
+<li><b data-c="end-of-day-survey">0</b><span>ended their day</span></li>
+<li><b data-c="consent">0</b><span>consent forms today</span></li>
+</ul>'''
+
 hostsp = hero('Hosts and facilitators', 'This part is', 'for hosts.',
               'Your cues, your reflection and the screens for the room on Saturday 28 November 2026.') + gate(
     'host', 'host', 'That is the volunteer password. This page needs the host password.') + '''
@@ -1233,20 +1245,63 @@ hostsp = hero('Hosts and facilitators', 'This part is', 'for hosts.',
 </div>
 <h2>Today so far</h2>
 <p>How many of each have been sent today. Counts only, no names. It updates every 30 seconds.</p>
-<ul class="counts" data-counts>
-<li><b data-c="arrival-survey">0</b><span>started their day</span></li>
-<li><b data-c="in-my-community">0</b><span>answered the live poll</span></li>
-<li><b data-c="quick-fire">0</b><span>did quick fire</span></li>
-<li><b data-c="through-the-day">0</b><span>added their voice</span></li>
-<li><b data-c="share-your-story">0</b><span>shared a story</span></li>
-<li><b data-c="end-of-day-survey">0</b><span>ended their day</span></li>
-<li><b data-c="consent">0</b><span>consent forms today</span></li>
-</ul>
+''' + COUNTS + '''
 </div></section>
 <script src="/js/team.js" defer></script>
 <script src="/js/count.js" defer></script>'''
 page('hosts.html', 'Hosts and facilitators. Our Stories, Parramatta',
      'For facilitators and hosts.', hostsp, current='hosts', noindex=True)
+
+
+# ---------- welcome desk ----------
+deskp = hero('Welcome desk', 'Everyone arriving,', 'in one place.',
+             'For the welcome desk and coordinators on Saturday 28 November 2026.') + '''
+<section class="form" data-deskgate><div class="narrow prose">
+<h2 style="margin-top:0">Enter the welcome desk password</h2>
+<p>It is given out at the briefing. If you do not have it, ask Thom or Kyriakos.</p>
+<form class="gate">
+<div class="field"><label for="deskpw">Password</label>
+<input type="password" id="deskpw" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" required></div>
+<button type="submit" class="btn">Go in</button>
+</form>
+<p class="filemsg" data-gatemsg hidden></p>
+</div></section>
+<section class="form desk" data-deskinside hidden><div class="wrap">
+<p class="flag" data-saved hidden>Saved. That consent form is in the list.</p>
+<p class="filemsg" data-deskstatus hidden></p>
+<ul class="counts dsum">
+<li><b data-n-people>0</b><span>people with a consent form</span></li>
+<li><b data-n-here>0</b><span>arrived</span></li>
+<li><b data-n-stickers>0</b><span>bright stickers to hand out</span></li>
+<li><b data-n-young>0</b><span>forms signed for young people</span></li>
+</ul>
+<p class="deskacts"><a class="btn" href="/consent?desk=1">Fill in a consent form on this device</a><button type="button" class="btn ghost" data-lock>Lock this screen</button></p>
+<div class="deskgrid">
+<div class="dg-todo">
+<h2>To do</h2>
+<p class="hint">Made from the consent forms as they come in. Tick each one when it is done. Every desk device sees the same list.</p>
+<ul class="dlist" data-todo></ul>
+<details class="ddone" data-donewrap hidden><summary>Done (<span data-donecount>0</span>)</summary><ul class="dlist" data-done></ul></details>
+</div>
+<div class="dg-day">
+<h2>The day</h2>
+<ul class="dlist" data-run></ul>
+</div>
+<div class="dg-people">
+<h2>Consent forms</h2>
+<p class="hint">Updates every five seconds. Not on the list? They fill in the consent form, on their own phone or on this device. Nobody under 18 joins a session until a parent or guardian has.</p>
+<div class="field"><label for="dsearch">Find a name</label><input type="text" id="dsearch" data-search autocomplete="off"></div>
+<ul class="dpeople" data-people></ul>
+</div>
+</div>
+<h2>Today so far</h2>
+<p class="hint">How many of each have been sent today. Counts only, no names.</p>
+''' + COUNTS + '''
+</div></section>
+<script src="/js/desk.js" defer></script>
+<script src="/js/count.js" defer></script>'''
+page('desk.html', 'Welcome desk. Our Stories, Parramatta',
+     'For the welcome desk and coordinators.', deskp, current='desk', noindex=True)
 
 
 # ---------- privacy ----------
@@ -1270,6 +1325,7 @@ privacyp = hero('Privacy notice', 'What we collect and', 'what we do with it.',
 <li><strong>A stage spot.</strong> Your name and how long you would like, so we can call you up.</li>
 <li><strong>Read it for me.</strong> What you want read from the stage, and a first name only if you add one.</li>
 <li><strong>Facilitator reflection.</strong> The facilitator’s or host’s name, what they heard in the room, and up to five pictures of the work if they add them.</li>
+<li><strong>Welcome desk list.</strong> When you send the consent form, your name and your choices about photos also go to a password protected list. The welcome desk uses it on the day to hand out bright stickers and to check that young people are covered. It does not hold your mobile number.</li>
 <li><strong>Head count.</strong> Each time a form is sent, the app adds one to a count for that form. The count holds no names and no answers.</li>
 <li><strong>Volunteer reflection.</strong> The volunteer’s name, where they were on the day, what they heard, saw and thought worked, and up to five pictures if they add them.</li>
 <li><strong>Share your story.</strong> Your story, and up to five pictures if you add them. Your name and an email or phone number only if you choose to be named.</li>

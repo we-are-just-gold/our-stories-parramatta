@@ -450,3 +450,46 @@ input.short{max-width:200px}
   .teambtn{min-height:44px;display:inline-flex;align-items:center}
   .act .when,.tile .when,.when{font-size:14px!important}
 }
+
+/* welcome desk, phone first */
+.desk .wrap{padding-top:8px}
+.desk h2{font-size:24px;margin:40px 0 8px}
+.desk .hint{margin:0 0 14px}
+.dsum{grid-template-columns:repeat(2,1fr);margin-top:0}
+.deskacts{display:grid;gap:12px;margin:22px 0 0}
+.deskgrid{display:grid;gap:8px}
+.dg-todo{order:1}.dg-people{order:2}.dg-day{order:3}
+.dlist,.dpeople{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.dtask label{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border:1.5px solid var(--field);border-radius:14px;background:#fff;cursor:pointer;min-height:52px}
+.dtask input,.darr input{flex:none;width:24px;height:24px;margin:2px 0 0;accent-color:var(--navy)}
+.dt{display:grid;gap:3px}
+.dt b{font-size:17px;line-height:1.35;font-weight:600}
+.dt small{font-size:15px;color:var(--muted);line-height:1.4}
+.dtask.k-sticker label{border-left:8px solid var(--navy)}
+.dtask.k-check label{border-left:8px solid var(--coral)}
+.dtask.k-now label{border-color:var(--navy);background:var(--blush)}
+.dtask.k-due label{border-left:8px solid var(--coral)}
+.dtask.is-done label{background:var(--blush-2);border-color:var(--rule)}
+.dtask.is-done .dt b{text-decoration:line-through;font-weight:400}
+.dempty{padding:14px 16px;border:1.5px dashed var(--field);border-radius:14px;color:var(--muted);font-size:16px}
+.ddone{margin-top:14px}
+.ddone summary{cursor:pointer;font-weight:600;padding:10px 0;min-height:44px}
+.dperson{display:flex;gap:14px;justify-content:space-between;align-items:flex-start;padding:16px;border:1.5px solid var(--field);border-radius:16px;background:#fff}
+.dperson.is-here{background:var(--blush-2);border-color:var(--rule)}
+.dbody{display:grid;gap:8px;min-width:0}
+.dbody>b{font-size:19px;line-height:1.25;overflow-wrap:anywhere}
+.dpills{margin:0;display:flex;flex-wrap:wrap;gap:6px}
+.dpill{border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600;border:1.5px solid var(--navy)}
+.dpill.no{background:var(--navy);color:#fff}
+.dyoung{margin:0;font-size:15px;line-height:1.45}
+.dwarn{margin:0;font-size:15px;font-weight:600;border-left:4px solid var(--coral);background:var(--blush);padding:8px 12px}
+.darr{flex:none;display:grid;justify-items:center;gap:4px;font-size:14px;font-weight:600;min-width:56px;min-height:52px;cursor:pointer}
+.darr input{margin:0;width:28px;height:28px}
+@media (min-width:700px){
+  .dsum{grid-template-columns:repeat(4,1fr)}
+  .deskacts{display:flex;flex-wrap:wrap}
+}
+@media (min-width:980px){
+  .deskgrid{grid-template-columns:1fr 1fr;gap:0 48px;align-items:start;grid-template-areas:"todo people" "day people"}
+  .dg-todo{grid-area:todo}.dg-day{grid-area:day}.dg-people{grid-area:people}
+}
