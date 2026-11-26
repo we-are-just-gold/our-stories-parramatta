@@ -9,7 +9,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/fonts/host-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/site.css">
-<script>try{if(localStorage.getItem('os_team')!=='a3c4480df0d51a006ce17f5712259ec5b05bee492919163137b0d015222607fb')location.replace('/team?next='+location.pathname.replace(/\.html$/,''))}catch(e){}</script>
+<script>try{var v=localStorage.getItem('os_team');if(v!=='9792875ded1497999a4de46722835339cce9346191da1c1ebc4ec5c144d9d407')location.replace('/hosts?next='+location.pathname.replace(/\.html$/,''))}catch(e){}</script>
 <script src="/js/site.js" defer></script>
 </head>
 <body>
@@ -22,7 +22,7 @@
 <a href="/consent">Consent form</a>
 <a href="/privacy">Privacy</a>
 </nav>
-<a class="teambtn" href="/team">Hosts and volunteers</a>
+<span class="teambtns"><a class="teambtn" href="/hosts">Hosts</a><a class="teambtn" href="/volunteers">Volunteers</a></span>
 </div>
 </header>
 <nav class="tabs" aria-label="Sessions"><a href="/hear" data-session="hear"><span class="tl">Hear</span><span class="tt">10am</span></a><a href="/lunch" data-session="lunch"><span class="tl">Lunch</span><span class="tt">12pm</span></a><a href="/create" data-session="create"><span class="tl">Create</span><span class="tt">12.45pm</span></a><a href="/share" data-session="share"><span class="tl">Share</span><span class="tt">3pm</span></a></nav>
@@ -115,7 +115,8 @@
 <a href="/welcome">Welcome pack</a>
 <a href="/consent">Consent form</a>
 <a href="/#support">Support numbers</a>
-<a href="/team">Hosts and volunteers</a>
+<a href="/hosts">For hosts</a>
+<a href="/volunteers">For volunteers</a>
 <a href="/privacy">Privacy notice</a>
 <a href="https://sydwestms.org.au/privacy-policy/">SydWest privacy policy</a></div>
 </nav>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hosts and volunteers. Our Stories, Parramatta</title>
-<meta name="description" content="For facilitators, hosts and volunteers.">
+<title>Hosts and facilitators. Our Stories, Parramatta</title>
+<meta name="description" content="For facilitators and hosts.">
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/fonts/host-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -21,7 +21,7 @@
 <a href="/consent">Consent form</a>
 <a href="/privacy">Privacy</a>
 </nav>
-<a class="teambtn" href="/team" aria-current="page">Hosts and volunteers</a>
+<span class="teambtns"><a class="teambtn" href="/hosts" aria-current="page">Hosts</a><a class="teambtn" href="/volunteers">Volunteers</a></span>
 </div>
 </header>
 <nav class="tabs" aria-label="Sessions"><a href="/hear" data-session="hear"><span class="tl">Hear</span><span class="tt">10am</span></a><a href="/lunch" data-session="lunch"><span class="tl">Lunch</span><span class="tt">12pm</span></a><a href="/create" data-session="create"><span class="tl">Create</span><span class="tt">12.45pm</span></a><a href="/share" data-session="share"><span class="tl">Share</span><span class="tt">3pm</span></a></nav>
@@ -29,35 +29,33 @@
 <section class="page-hero">
 <svg class="ring" aria-hidden="true" viewBox="0 0 600 600"><circle cx="300" cy="300" r="270" fill="none" stroke="#CDB1AF" stroke-width="34"/></svg>
 <div class="narrow">
-<p class="label">Hosts and volunteers</p>
+<p class="label">Hosts and facilitators</p>
 <h1>This part is</h1>
-<p class="script">for the team.</p>
-<p class="lead">For facilitators, hosts and volunteers on Saturday 28 November 2026.</p>
+<p class="script">for hosts.</p>
+<p class="lead">Your cues, your reflection and the screens for the room on Saturday 28 November 2026.</p>
 </div>
-</section>
-<section class="form"><div class="narrow prose">
-<div data-gate>
-<h2 style="margin-top:0">Enter the password</h2>
-<p>The password is given out at the briefing. If you do not have it, ask Thom or Kyriakos.</p>
+</section><section class="form" data-gate data-role="host"><div class="narrow prose">
+<h2 style="margin-top:0">Enter the host password</h2>
+<p>It is given out at the briefing. If you do not have it, ask Thom or Kyriakos.</p>
 <form class="gate" data-gateform>
 <div class="field"><label for="teampw">Password</label>
 <input type="password" id="teampw" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" required></div>
 <button type="submit" class="btn">Go in</button>
 </form>
 <p class="filemsg" data-gatemsg hidden>That password is not right. Try again, or ask Thom or Kyriakos.</p>
-</div>
-<div data-inside hidden>
-<h2 style="margin-top:0">Choose your page</h2>
+<p class="filemsg" data-gateother hidden>That is the volunteer password. This page needs the host password.</p>
+</div></section>
+<section class="form" data-inside hidden><div class="narrow prose">
+<h2 style="margin-top:0">Your page</h2>
 <div class="teamgrid">
-<a class="teamcard" href="/facilitators"><b>Facilitators and hosts</b><span>Where to send the room, session by session, and your reflection at the end of the day.</span></a>
-<a class="teamcard" href="/volunteers"><b>Volunteers</b><span>Where to be, what to do and who to ask, and your reflection at the end of the day.</span></a>
+<a class="teamcard" href="/facilitators"><b>Cues and reflection</b><span>Where to send the room, session by session, and your reflection at the end of the day.</span></a>
+<a class="teamcard alt" href="/volunteers"><b>Volunteer pack</b><span>What the volunteers have been told. Your password opens it too.</span></a>
 </div>
 <h2>Screens for the projector</h2>
 <div class="teamgrid three">
 <a class="teamcard alt" href="/"><b>Welcome and QR code</b><span>The main page. Put it up as people arrive.</span></a>
 <a class="teamcard alt" href="/screen"><b>Live poll</b><span>Dr Ru’s three questions in Hear. Answers appear as the room sends them.</span></a>
 <a class="teamcard alt" href="/screen#host"><b>Live poll, host controls</b><span>Hide an answer or clear the screen. Needs the host code.</span></a>
-</div>
 </div>
 </div></section>
 <script src="/js/team.js" defer></script>
@@ -82,7 +80,8 @@
 <a href="/welcome">Welcome pack</a>
 <a href="/consent">Consent form</a>
 <a href="/#support">Support numbers</a>
-<a href="/team">Hosts and volunteers</a>
+<a href="/hosts">For hosts</a>
+<a href="/volunteers">For volunteers</a>
 <a href="/privacy">Privacy notice</a>
 <a href="https://sydwestms.org.au/privacy-policy/">SydWest privacy policy</a></div>
 </nav>

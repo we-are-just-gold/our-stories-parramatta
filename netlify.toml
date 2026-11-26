@@ -16,3 +16,8 @@
   from = "/welcome-screen"
   to = "/"
   status = 302
+
+[[redirects]]
+  from = "/team"
+  to = "/hosts"
+  status = 302

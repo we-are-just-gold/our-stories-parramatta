@@ -49,18 +49,22 @@ def tiles():
               '<span class="ln">Lunch, from Racha’s Syrian Kitchen</span>' + ARROW + '</a>')
 
 
-TEAM_HASH = 'a3c4480df0d51a006ce17f5712259ec5b05bee492919163137b0d015222607fb'
-GUARD = ("<script>try{if(localStorage.getItem('os_team')!=='" + TEAM_HASH + "')"
-         "location.replace('/team?next='+location.pathname.replace(/\\.html$/,''))}catch(e){}</script>")
+VOL_HASH = 'a3c4480df0d51a006ce17f5712259ec5b05bee492919163137b0d015222607fb'
+HOST_HASH = '9792875ded1497999a4de46722835339cce9346191da1c1ebc4ec5c144d9d407'
+def guard_script(role):
+    ok = [HOST_HASH] if role == 'host' else [HOST_HASH, VOL_HASH]
+    test = '&&'.join("v!=='" + h + "'" for h in ok)
+    return ("<script>try{var v=localStorage.getItem('os_team');if(" + test + ")"
+            "location.replace('/hosts?next='+location.pathname.replace(/\\.html$/,''))}catch(e){}</script>")
 
-def page(path, title, desc, body, current='', noindex=False, script=False, guard=False):
+def page(path, title, desc, body, current='', noindex=False, script=False, guard=''):
     def nav(href, text, key):
         cur = ' aria-current="page"' if key == current else ''
         return f'<a href="{href}"{cur}>{text}</a>'
     robots = '<meta name="robots" content="noindex">' if noindex else ''
     js = '<script src="/js/site.js" defer></script>'
     if guard:
-        js = GUARD + '\n' + js
+        js = guard_script(guard) + '\n' + js
     out = f'''<!doctype html>
 <html lang="en-AU">
 <head>
@@ -84,7 +88,7 @@ def page(path, title, desc, body, current='', noindex=False, script=False, guard
 {nav('/consent', 'Consent form', 'consent')}
 {nav('/privacy', 'Privacy', 'privacy')}
 </nav>
-<a class="teambtn" href="/team"{' aria-current="page"' if current == 'team' else ''}>Hosts and volunteers</a>
+<span class="teambtns"><a class="teambtn" href="/hosts"{' aria-current="page"' if current == 'hosts' else ''}>Hosts</a><a class="teambtn" href="/volunteers"{' aria-current="page"' if current == 'volunteers' else ''}>Volunteers</a></span>
 </div>
 </header>
 {tabs(current)}
@@ -111,7 +115,8 @@ def page(path, title, desc, body, current='', noindex=False, script=False, guard
 <a href="/welcome">Welcome pack</a>
 <a href="/consent">Consent form</a>
 <a href="/#support">Support numbers</a>
-<a href="/team">Hosts and volunteers</a>
+<a href="/hosts">For hosts</a>
+<a href="/volunteers">For volunteers</a>
 <a href="/privacy">Privacy notice</a>
 <a href="https://sydwestms.org.au/privacy-policy/">SydWest privacy policy</a></div>
 </nav>
@@ -287,8 +292,8 @@ home = f'''
 <h2 class="h-sub">The three sessions</h2>
 {tiles()}
 <div class="teamrow">
-<p><b>Running the day?</b> Hosts and volunteers go in here. You need the team password.</p>
-<div><a class="btn ghost small" href="/facilitators">Hosts and facilitators</a><a class="btn ghost small" href="/volunteers">Volunteers</a></div>
+<p><b>Running the day?</b> Hosts and volunteers each have their own page and their own password.</p>
+<div><a class="btn ghost small" href="/hosts">Hosts and facilitators</a><a class="btn ghost small" href="/volunteers">Volunteers</a></div>
 </div>
 </div>
 </section>
@@ -977,7 +982,21 @@ facp = hero('For facilitators and hosts', 'What you heard', 'from the room.',
 {form('facilitator-reflection', fac_inner, 'Send my reflection', multipart=True)}
 </div></section>'''
 page('facilitators.html', 'Facilitator reflection. Our Stories, Parramatta',
-     'End of day reflection for facilitators and hosts.', facp, noindex=True, script=True, guard=True)
+     'End of day reflection for facilitators and hosts.', facp, noindex=True, script=True, guard='host')
+
+def gate(role, who, other=''):
+    other = f'<p class="filemsg" data-gateother hidden>{other}</p>' if other else ''
+    return f'''<section class="form" data-gate data-role="{role}"><div class="narrow prose">
+<h2 style="margin-top:0">Enter the {who} password</h2>
+<p>It is given out at the briefing. If you do not have it, ask Thom or Kyriakos.</p>
+<form class="gate" data-gateform>
+<div class="field"><label for="teampw">Password</label>
+<input type="password" id="teampw" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" required></div>
+<button type="submit" class="btn">Go in</button>
+</form>
+<p class="filemsg" data-gatemsg hidden>That password is not right. Try again, or ask Thom or Kyriakos.</p>
+{other}
+</div></section>'''
 
 # ---------- volunteers ----------
 volp = hero('Volunteer pack', 'Thank you for', 'being part of this.',
@@ -1169,28 +1188,21 @@ VOL_FORM = f'''
 MARK = '<section class="section" id="who">'
 assert volp.count(MARK) == 1
 volp = volp.replace(MARK, VOL_FORM + MARK)
+_cut = volp.index('</section>') + len('</section>')
+volp = (volp[:_cut] + gate('vol', 'volunteer') + '\n<div data-inside hidden>' + volp[_cut:]
+        + '</div>\n<script src="/js/team.js" defer></script>')
 page('volunteers.html', 'Volunteer pack. Our Stories, Parramatta',
-     'The volunteer pack for Our Stories, Parramatta on Saturday 28 November 2026.', volp, noindex=True, script=True, guard=True)
+     'The volunteer pack for Our Stories, Parramatta on Saturday 28 November 2026.', volp, current='volunteers', noindex=True, script=True)
 
-# ---------- hosts and volunteers ----------
-teamp = hero('Hosts and volunteers', 'This part is', 'for the team.',
-             'For facilitators, hosts and volunteers on Saturday 28 November 2026.') + '''
-<section class="form"><div class="narrow prose">
-<div data-gate>
-<h2 style="margin-top:0">Enter the password</h2>
-<p>The password is given out at the briefing. If you do not have it, ask Thom or Kyriakos.</p>
-<form class="gate" data-gateform>
-<div class="field"><label for="teampw">Password</label>
-<input type="password" id="teampw" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" required></div>
-<button type="submit" class="btn">Go in</button>
-</form>
-<p class="filemsg" data-gatemsg hidden>That password is not right. Try again, or ask Thom or Kyriakos.</p>
-</div>
-<div data-inside hidden>
-<h2 style="margin-top:0">Choose your page</h2>
+# ---------- hosts, and the password gate ----------
+hostsp = hero('Hosts and facilitators', 'This part is', 'for hosts.',
+              'Your cues, your reflection and the screens for the room on Saturday 28 November 2026.') + gate(
+    'host', 'host', 'That is the volunteer password. This page needs the host password.') + '''
+<section class="form" data-inside hidden><div class="narrow prose">
+<h2 style="margin-top:0">Your page</h2>
 <div class="teamgrid">
-<a class="teamcard" href="/facilitators"><b>Facilitators and hosts</b><span>Where to send the room, session by session, and your reflection at the end of the day.</span></a>
-<a class="teamcard" href="/volunteers"><b>Volunteers</b><span>Where to be, what to do and who to ask, and your reflection at the end of the day.</span></a>
+<a class="teamcard" href="/facilitators"><b>Cues and reflection</b><span>Where to send the room, session by session, and your reflection at the end of the day.</span></a>
+<a class="teamcard alt" href="/volunteers"><b>Volunteer pack</b><span>What the volunteers have been told. Your password opens it too.</span></a>
 </div>
 <h2>Screens for the projector</h2>
 <div class="teamgrid three">
@@ -1198,11 +1210,10 @@ teamp = hero('Hosts and volunteers', 'This part is', 'for the team.',
 <a class="teamcard alt" href="/screen"><b>Live poll</b><span>Dr Ru’s three questions in Hear. Answers appear as the room sends them.</span></a>
 <a class="teamcard alt" href="/screen#host"><b>Live poll, host controls</b><span>Hide an answer or clear the screen. Needs the host code.</span></a>
 </div>
-</div>
 </div></section>
 <script src="/js/team.js" defer></script>'''
-page('team.html', 'Hosts and volunteers. Our Stories, Parramatta',
-     'For facilitators, hosts and volunteers.', teamp, current='team', noindex=True)
+page('hosts.html', 'Hosts and facilitators. Our Stories, Parramatta',
+     'For facilitators and hosts.', hostsp, current='hosts', noindex=True)
 
 
 # ---------- privacy ----------

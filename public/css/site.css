@@ -32,6 +32,7 @@ a:hover{color:var(--blue)}
 .nav a{text-decoration:none;padding:8px 0}
 .nav a[aria-current=page]{font-weight:700;box-shadow:0 2px 0 var(--coral)}
 .site-head .nav{margin-left:auto}
+.teambtns{display:flex;gap:8px}
 .teambtn{text-decoration:none;border:1.5px solid var(--navy);border-radius:999px;padding:8px 18px;font-size:16px;font-weight:600;white-space:nowrap}
 .teambtn:hover,.teambtn[aria-current=page]{background:var(--navy);color:#fff}
 .btn{display:inline-block;text-decoration:none;font:inherit;font-weight:600;border-radius:999px;padding:15px 28px;min-height:52px;border:1.5px solid var(--navy);background:var(--navy);color:#fff;cursor:pointer;text-align:center}
