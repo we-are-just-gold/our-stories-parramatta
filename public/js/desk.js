@@ -2,7 +2,7 @@
   var gate=document.querySelector('[data-deskgate]'), inside=document.querySelector('[data-deskinside]');
   if(!gate||!inside) return;
   var form=gate.querySelector('form'), input=form.querySelector('input'), msg=gate.querySelector('[data-gatemsg]');
-  var K='os_desk', code='', timer=null, filter='', last=null;
+  var K='os_desk', code='', timer=null, filter='', last=null, show='all';
   try{ code=sessionStorage.getItem(K)||''; }catch(e){}
   var $=function(s){ return inside.querySelector(s); };
   var todo=$('[data-todo]'), done=$('[data-done]'), doneWrap=$('[data-donewrap]'), doneCount=$('[data-donecount]'), run=$('[data-run]'), people=$('[data-people]'),
@@ -40,9 +40,20 @@
       var li=check(r.id,r.done,state?state.toLowerCase():'',clock(r.at)+'. '+r.title+(state?' ('+state+')':''),r.text);
       run.appendChild(li);
     });
+    var hx=j.humanitix||{status:'off'}, on=hx.status==='ok';
+    inside.querySelectorAll('[data-hxonly]').forEach(function(e){ e.hidden=!on; });
+    var hxnote=$('[data-hxnote]');
+    if(hx.status==='error'){ hxnote.textContent='Humanitix did not answer'+(hx.code?' (error '+hx.code+')':'')+', so this shows consent forms only. It tries again every minute.'; hxnote.hidden=false; }
+    else if(on && hx.stale){ hxnote.textContent='Humanitix is not answering right now. The bookings shown are from the last time it did.'; hxnote.hidden=false; }
+    else hxnote.hidden=true;
+    if(!on && (show==='noconsent'||show==='needs')) show='all';
+    inside.querySelectorAll('[data-show]').forEach(function(b){ b.classList.toggle('is-on',b.getAttribute('data-show')===show); b.setAttribute('aria-pressed',b.getAttribute('data-show')===show?'true':'false'); });
     var q=filter.toLowerCase(), shown=0;
+    var pass={all:function(){ return true; }, noconsent:function(p){ return p.noConsent; }, sticker:function(p){ return p.photos==='sticker'||(p.under18&&p.youngPhotos==='sticker'); },
+              young:function(p){ return p.under18; }, needs:function(p){ return p.needs&&p.needs.length; }, here:function(p){ return p.arrived; }}[show];
     people.textContent='';
     j.people.forEach(function(p){
+      if(!pass(p)) return;
       if(q && (p.name+' '+p.young).toLowerCase().indexOf(q)<0) return; shown++;
       var li=el('li','dperson'+(p.arrived?' is-here':''));
       var lab=el('label','darr'), box=el('input'); box.type='checkbox'; box.checked=p.arrived;
@@ -50,10 +61,17 @@
       lab.appendChild(box); lab.appendChild(el('span',null,'Arrived'));
       var body=el('div','dbody'); body.appendChild(el('b',null,p.name));
       var pills=el('p','dpills');
-      pills.appendChild(el('span','dpill '+(p.photos==='sticker'?'no':'yes'),p.photos==='sticker'?'Bright sticker':'Happy to be in photos'));
+      if(p.noConsent) pills.appendChild(el('span','dpill warn','No consent form yet'));
+      else pills.appendChild(el('span','dpill '+(p.photos==='sticker'?'no':'yes'),p.photos==='sticker'?'Bright sticker':'Happy to be in photos'));
       if(p.desk) pills.appendChild(el('span','dpill yes','Signed at the desk'));
       if(p.forms>1) pills.appendChild(el('span','dpill yes',p.forms+' forms'));
+      if(on && !p.booked) pills.appendChild(el('span','dpill yes','No booking under this name'));
+      if(p.checkedIn) pills.appendChild(el('span','dpill yes','Checked in on Humanitix'));
       body.appendChild(pills);
+      if(p.sessions && p.sessions.length){
+        body.appendChild(el('p','dsess','Booked: '+p.sessions.map(function(s){ return s.name+(s.count>1?' ('+s.count+' tickets)':''); }).join(', ')+'.'));
+      }
+      (p.needs||[]).forEach(function(n){ var y=el('p','dyoung'); y.appendChild(el('strong',null,n.label+': ')); y.appendChild(document.createTextNode(n.value)); body.appendChild(y); });
       if(p.under18){
         var y=el('p','dyoung');
         y.appendChild(el('strong',null,'Signed for: '+(p.young||'a young person')+'. '));
@@ -63,13 +81,14 @@
       if(p.differs.length) body.appendChild(el('p','dwarn','Forms disagree on '+p.differs.join(' and ')+'. Ask them.'));
       li.appendChild(body); li.appendChild(lab); people.appendChild(li);
     });
-    if(!shown) people.appendChild(el('li','dempty',q?'Nobody by that name has sent a consent form.':'No consent forms yet.'));
-    var here=j.people.filter(function(p){ return p.arrived; }).length;
-    var young=j.people.filter(function(p){ return p.under18; }).length;
-    $('[data-n-people]').textContent=j.people.length;
-    $('[data-n-here]').textContent=here;
+    if(!shown) people.appendChild(el('li','dempty',q?'Nobody by that name.':(show==='all'?'Nobody yet.':'Nobody in this group.')));
+    var withForm=j.people.filter(function(p){ return !p.noConsent; });
+    $('[data-n-people]').textContent=withForm.length;
+    $('[data-n-here]').textContent=j.people.filter(function(p){ return p.arrived; }).length;
     $('[data-n-stickers]').textContent=j.tasks.filter(function(t){ return t.kind==='sticker' && !t.done; }).length;
-    $('[data-n-young]').textContent=young;
+    $('[data-n-young]').textContent=j.people.filter(function(p){ return p.under18; }).length;
+    $('[data-n-booked]').textContent=j.people.filter(function(p){ return p.booked; }).length;
+    $('[data-n-noconsent]').textContent=j.people.filter(function(p){ return p.noConsent; }).length;
   }
   function load(){
     if(!code) return;
@@ -83,6 +102,7 @@
   function start(){ load(); if(!timer) timer=setInterval(function(){ if(!document.hidden) load(); },5000); }
   form.addEventListener('submit',function(ev){ ev.preventDefault(); code=input.value; msg.hidden=true; try{ sessionStorage.setItem(K,code); }catch(e){} input.value=''; start(); });
   search.addEventListener('input',function(){ filter=search.value.trim(); if(last) draw(last); });
+  inside.querySelectorAll('[data-show]').forEach(function(b){ b.addEventListener('click',function(){ show=b.getAttribute('data-show'); if(last) draw(last); }); });
   document.addEventListener('visibilitychange',function(){ if(!document.hidden) load(); });
   var lockBtn=$('[data-lock]'); if(lockBtn) lockBtn.addEventListener('click',function(){ lock(''); });
   try{ if(sessionStorage.getItem('desk_saved')){ sessionStorage.removeItem('desk_saved'); saved.hidden=false; setTimeout(function(){ saved.hidden=true; },8000); } }catch(e){}

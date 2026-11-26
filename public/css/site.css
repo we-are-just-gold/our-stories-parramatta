@@ -481,15 +481,22 @@ input.short{max-width:200px}
 .dpills{margin:0;display:flex;flex-wrap:wrap;gap:6px}
 .dpill{border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600;border:1.5px solid var(--navy)}
 .dpill.no{background:var(--navy);color:#fff}
+.dpill.warn{background:var(--coral);border-color:var(--coral);color:#fff}
+.dsess{margin:0;font-size:15px;line-height:1.45}
+.dhx{margin:14px 0 0;font-weight:600;color:var(--coral-text)}
+.dchips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.dchip{font:inherit;font-size:15px;font-weight:600;min-height:44px;padding:8px 16px;border-radius:999px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);cursor:pointer}
+.dchip.is-on{background:var(--navy);color:#fff}
 .dyoung{margin:0;font-size:15px;line-height:1.45}
 .dwarn{margin:0;font-size:15px;font-weight:600;border-left:4px solid var(--coral);background:var(--blush);padding:8px 12px}
 .darr{flex:none;display:grid;justify-items:center;gap:4px;font-size:14px;font-weight:600;min-width:56px;min-height:52px;cursor:pointer}
 .darr input{margin:0;width:28px;height:28px}
 @media (min-width:700px){
-  .dsum{grid-template-columns:repeat(4,1fr)}
+  .dsum{grid-template-columns:repeat(3,1fr)}
   .deskacts{display:flex;flex-wrap:wrap}
 }
 @media (min-width:980px){
+  .dsum{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
   .deskgrid{grid-template-columns:1fr 1fr;gap:0 48px;align-items:start;grid-template-areas:"todo people" "day people"}
   .dg-todo{grid-area:todo}.dg-day{grid-area:day}.dg-people{grid-area:people}
 }

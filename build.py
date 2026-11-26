@@ -1270,11 +1270,14 @@ deskp = hero('Welcome desk', 'Everyone arriving,', 'in one place.',
 <p class="flag" data-saved hidden>Saved. That consent form is in the list.</p>
 <p class="filemsg" data-deskstatus hidden></p>
 <ul class="counts dsum">
+<li data-hxonly hidden><b data-n-booked>0</b><span>people booked</span></li>
 <li><b data-n-people>0</b><span>people with a consent form</span></li>
+<li data-hxonly hidden><b data-n-noconsent>0</b><span>booked, no consent form yet</span></li>
 <li><b data-n-here>0</b><span>arrived</span></li>
 <li><b data-n-stickers>0</b><span>bright stickers to hand out</span></li>
 <li><b data-n-young>0</b><span>forms signed for young people</span></li>
 </ul>
+<p class="hint dhx" data-hxnote hidden></p>
 <p class="deskacts"><a class="btn" href="/consent?desk=1">Fill in a consent form on this device</a><button type="button" class="btn ghost" data-lock>Lock this screen</button></p>
 <div class="deskgrid">
 <div class="dg-todo">
@@ -1288,9 +1291,17 @@ deskp = hero('Welcome desk', 'Everyone arriving,', 'in one place.',
 <ul class="dlist" data-run></ul>
 </div>
 <div class="dg-people">
-<h2>Consent forms</h2>
-<p class="hint">Updates every five seconds. Not on the list? They fill in the consent form, on their own phone or on this device. Nobody under 18 joins a session until a parent or guardian has.</p>
+<h2>People</h2>
+<p class="hint">Everyone who has booked or sent a consent form. Updates every five seconds. No consent form yet? They fill it in on their own phone or on this device. Nobody under 18 joins a session until a parent or guardian has.</p>
 <div class="field"><label for="dsearch">Find a name</label><input type="text" id="dsearch" data-search autocomplete="off"></div>
+<div class="dchips" role="group" aria-label="Show">
+<button type="button" class="dchip is-on" data-show="all">Everyone</button>
+<button type="button" class="dchip" data-show="noconsent" data-hxonly hidden>No consent form yet</button>
+<button type="button" class="dchip" data-show="sticker">Bright sticker</button>
+<button type="button" class="dchip" data-show="young">Young people</button>
+<button type="button" class="dchip" data-show="needs" data-hxonly hidden>Dietary and access</button>
+<button type="button" class="dchip" data-show="here">Arrived</button>
+</div>
 <ul class="dpeople" data-people></ul>
 </div>
 </div>
@@ -1325,6 +1336,7 @@ privacyp = hero('Privacy notice', 'What we collect and', 'what we do with it.',
 <li><strong>A stage spot.</strong> Your name and how long you would like, so we can call you up.</li>
 <li><strong>Read it for me.</strong> What you want read from the stage, and a first name only if you add one.</li>
 <li><strong>Facilitator reflection.</strong> The facilitator’s or host’s name, what they heard in the room, and up to five pictures of the work if they add them.</li>
+<li><strong>Your booking.</strong> On the day, the welcome desk can see the name on your Humanitix booking, the sessions you booked and anything you told us about dietary or access needs. It is read from Humanitix and is not copied into this site.</li>
 <li><strong>Welcome desk list.</strong> When you send the consent form, your name and your choices about photos also go to a password protected list. The welcome desk uses it on the day to hand out bright stickers and to check that young people are covered. It does not hold your mobile number.</li>
 <li><strong>Head count.</strong> Each time a form is sent, the app adds one to a count for that form. The count holds no names and no answers.</li>
 <li><strong>Volunteer reflection.</strong> The volunteer’s name, where they were on the day, what they heard, saw and thought worked, and up to five pictures if they add them.</li>
