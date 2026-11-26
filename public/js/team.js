@@ -1,5 +1,5 @@
 (function(){
-  var H='60b431a615e7edd696656543796a02e2acbe69e31e8fb6a6b2b6ee034e152da7', K='os_team';
+  var H='a3c4480df0d51a006ce17f5712259ec5b05bee492919163137b0d015222607fb', K='os_team';
   var gate=document.querySelector('[data-gate]'), inside=document.querySelector('[data-inside]');
   if(!gate||!inside) return;
   var form=gate.querySelector('[data-gateform]'), msg=gate.querySelector('[data-gatemsg]'), input=form.querySelector('input');

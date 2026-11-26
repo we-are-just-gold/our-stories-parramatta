@@ -258,22 +258,23 @@ body.screen{min-height:100vh;display:flex;flex-direction:column;background:#fff;
 .teamcard b{font-size:24px;line-height:1.15}
 .teamcard span{font-size:16px;line-height:1.45}
 .teamcard:hover{background:var(--blue);color:#fff}
-/* welcome screen */
-body.wscreen{padding:4vh 5vw 3vh;gap:3vh}
-.wmain{flex:1;display:flex;align-items:center;justify-content:space-between;gap:6vw}
-.wtext{flex:1 1 0;min-width:0}
-.wlogo{height:clamp(70px,11vh,130px);width:auto}
-.wscript{font-family:var(--script);font-weight:700;font-size:clamp(70px,13vh,170px);line-height:.9;color:var(--coral);margin:5vh 0 1vh}
-.wscreen h1{font-size:clamp(34px,5.4vh,72px);line-height:1.08;letter-spacing:-.5px;margin:0 0 3vh;max-width:15em}
-.wsteps{margin:0;padding-left:1.2em;font-size:clamp(22px,3.2vh,40px);line-height:1.5}
-.wurl{margin:4vh 0 0;font-size:clamp(20px,2.8vh,34px);font-weight:600;color:var(--coral-text)}
-.wqr{flex:0 0 auto;width:min(58vh,38vw);height:min(58vh,38vw);border:6px solid var(--navy);border-radius:24px;padding:10px;background:#fff}
-.wday{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6vw}
-.wday span{display:flex;align-items:baseline;justify-content:space-between;gap:12px;color:#fff;border-radius:16px;padding:1.6vh 1.6vw;font-size:clamp(16px,2.4vh,28px);font-weight:600}
-.wday b{font-size:clamp(20px,3.2vh,38px)}
-.wday .s-hear{background:var(--hear);color:var(--navy)}.wday .s-lunch{background:var(--lunch);color:var(--navy)}.wday .s-create{background:var(--create);color:var(--navy)}.wday .s-share{background:var(--share)}
-.wfoot img{height:clamp(40px,6.5vh,70px);width:auto;margin:0 auto}
-@media (max-width:820px){.wmain{flex-direction:column;align-items:flex-start}.wqr{width:min(80vw,60vh);height:min(80vw,60vh)}.wday{grid-template-columns:repeat(2,1fr)}.teamgrid{grid-template-columns:1fr}}
+/* welcome and QR code on the main page, wide screens only */
+.hwelcome{display:none}
+.teamrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 28px;margin-top:44px;padding:22px 26px;border:1.5px dashed var(--navy);border-radius:18px}
+.teamrow p{margin:0;font-size:17px;flex:1 1 300px}
+.teamrow div{display:flex;flex-wrap:wrap;gap:12px}
+@media (min-width:900px){
+  .hwelcome{display:flex;align-items:center;min-height:calc(100vh - 150px);padding:48px 0;border-bottom:1px solid var(--rule)}
+  .hwelcome .wrap{display:flex;align-items:center;justify-content:space-between;gap:64px;width:100%;max-width:1400px}
+  .hwelcome .wtext{flex:1 1 0;min-width:0}
+  .hwelcome .wscript{font-family:var(--script);font-weight:700;font-size:clamp(84px,15vh,170px);line-height:.9;color:var(--coral);margin:0 0 10px}
+  .hwelcome h2{font-size:clamp(34px,5.4vh,60px);line-height:1.08;letter-spacing:-.5px;margin:0 0 26px;max-width:13em}
+  .hwelcome .wsteps{margin:0;padding-left:1.2em;font-size:clamp(20px,3vh,32px);line-height:1.5}
+  .hwelcome .wurl{margin:30px 0 0;font-size:clamp(18px,2.6vh,28px);font-weight:600;color:var(--coral-text)}
+  .hwelcome .wqr{flex:0 0 auto;width:min(56vh,36vw);height:min(56vh,36vw);max-width:none;border:6px solid var(--navy);border-radius:24px;padding:10px;background:#fff}
+}
+@media (max-width:820px){.teamgrid{grid-template-columns:1fr}}
+@media print{.hwelcome,.teamrow{display:none!important}}
 .screen .shead{border-bottom:8px solid var(--hear);padding-bottom:22px}
 .cue{border-left:10px solid var(--rule);border-radius:6px;padding:6px 0 6px 22px;margin:26px 0}
 .cue h3{margin:0 0 10px;font-size:22px}
