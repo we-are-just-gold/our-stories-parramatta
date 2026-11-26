@@ -232,6 +232,23 @@ input[type=file]{font:inherit;font-size:16px;border:1.5px dashed var(--field);bo
 @keyframes pop{from{transform:translateY(-10px);opacity:0}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){.ans.is-new{animation:none}}
 .ans .hide{flex:none;font:inherit;font-size:13px;font-weight:600;border:1.5px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:4px 12px;cursor:pointer}
+.jump{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:26px}
+.jump span{font-size:15px;font-weight:600;margin-right:4px}
+.jump a{width:44px;height:44px;border-radius:50%;background:#fff;color:var(--navy);border:1.5px solid var(--navy);display:flex;align-items:center;justify-content:center;font-weight:700;text-decoration:none}
+.jump a:hover{background:var(--navy);color:#fff}
+.stp{scroll-margin-top:18px}
+.ans.is-waiting{background:transparent;border:1.5px dashed var(--navy)}
+.ans .acts{display:flex;gap:6px;flex:none}
+.ans .hide.show{background:var(--navy);color:#fff}
+.waitcount{font-size:16px}
+.holdlabel{display:flex;align-items:center;gap:8px;font-weight:600}
+.hostbar .holdlabel input{width:20px;height:20px;margin:0;padding:0}
+.waitnote{margin:0 0 20px;font-size:18px;font-weight:600;color:var(--coral-text)}
+.screen .waitnote{font-size:24px}
+.counts{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.counts li{border:1.5px solid var(--rule);border-radius:16px;padding:16px 18px;display:grid;gap:2px}
+.counts b{font-size:34px;line-height:1.1}
+.counts span{font-size:15px;color:var(--muted)}
 .hostbar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:0 0 24px;padding:14px 18px;border:1.5px dashed var(--navy);border-radius:14px;font-size:15px;font-weight:600}
 .hostbar input{font:inherit;padding:8px 12px;border:1.5px solid var(--field);border-radius:10px;margin-left:8px;width:160px}
 body.screen{min-height:100vh;display:flex;flex-direction:column;background:#fff;padding:28px 40px 20px}

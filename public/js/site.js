@@ -3,7 +3,8 @@
   var KEY='os_done';
   function read(){ try{ return JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ return {}; } }
   function write(d){ try{ localStorage.setItem(KEY,JSON.stringify(d)); }catch(e){} }
-  document.querySelectorAll('form[data-form]').forEach(function(f){ f.addEventListener('submit',function(){ var d=read(); d[f.getAttribute('name')]=1; write(d); }); });
+  document.querySelectorAll('form[data-form]').forEach(function(f){ f.addEventListener('submit',function(){ var d=read(); d[f.getAttribute('name')]=1; write(d);
+    try{ navigator.sendBeacon('/api/count',new Blob([JSON.stringify({form:f.getAttribute('name')})],{type:'application/json'})); }catch(e){} }); });
   var d=read();
   document.querySelectorAll('[data-key]').forEach(function(a){
     if(d[a.getAttribute('data-key')]){ var t=a.querySelector('.done'); if(t) t.hidden=false; a.classList.add('is-done'); }

@@ -1,13 +1,16 @@
 // Live poll for Hear: Dr Ru's three questions.
 // POST /api/poll  {i_like, i_do_not_like, i_wish}   add answers (no names, no IP kept)
-// GET  /api/poll                                   every answer that is not hidden
-// POST /api/poll  {hide: id, code} | {clear: true, code}   host only
+// GET  /api/poll                                   answers a host has shown, and how many are waiting
+// Host only, with the host code:
+//   {pending: true}   every answer, with the waiting ones marked
+//   {show: id}        show one waiting answer        {showAll: true}  show everything waiting now
+//   {hold: bool}      turn the hold on or off        {hide: id}       take an answer off the screen
+//   {clear: true}     delete every answer
 import { getStore } from "@netlify/blobs";
 
 const QS = ["i_like", "i_do_not_like", "i_wish"];
 // Answers sent before this moment were tests. They are deleted the next time the poll is read.
 const PURGE_BEFORE = 1795667793049; // Thursday 26 November 2026, 3.36pm Sydney time
-const sentAt = (key) => parseInt(String(key).slice(2), 10) || 0;
 const cache = new Map();
 
 const json = (body, status = 200) =>
@@ -21,22 +24,76 @@ const hostCode = () => {
   catch { return process.env.POLL_HOST_CODE || ""; }
 };
 
+const idOf = (key) => key.slice(key.indexOf("/") + 1);
+const sentAt = (id) => parseInt(id, 10) || 0;
+const cleanId = (v) => String(v).replace(/[^0-9a-z-]/g, "").slice(0, 40);
+
+// Everything the poll knows, from one listing. Keys:
+//   a/<id> an answer   h/<id> hidden   ok/<id> shown by a host
+//   u/<time> everything sent up to this time is shown   s/hold-off the hold is switched off
+async function read(store) {
+  const { blobs } = await store.list();
+  const old = blobs.filter((x) => /^(a|h|ok)\//.test(x.key) && sentAt(idOf(x.key)) < PURGE_BEFORE);
+  if (old.length) {
+    await Promise.all(old.map((x) => store.delete(x.key)));
+    old.forEach((x) => cache.delete(x.key));
+  }
+  const gone = new Set(old.map((x) => x.key));
+  const keys = blobs.map((x) => x.key).filter((k) => !gone.has(k));
+  const pick = (p) => keys.filter((k) => k.startsWith(p));
+  const hidden = new Set(pick("h/").map(idOf));
+  const ok = new Set(pick("ok/").map(idOf));
+  const upto = Math.max(0, ...pick("u/").map((k) => sentAt(idOf(k))));
+  const hold = !keys.includes("s/hold-off");
+  const aKeys = pick("a/");
+  await Promise.all(aKeys.filter((k) => !cache.has(k)).map(async (k) => {
+    const v = await store.get(k, { type: "json" });
+    if (v) cache.set(k, v);
+  }));
+  const all = aKeys
+    .map((k) => ({ id: idOf(k), ...(cache.get(k) || {}) }))
+    .filter((x) => x.q && !hidden.has(x.id))
+    .sort((x, y) => (x.id < y.id ? -1 : 1));
+  const shown = (x) => !hold || sentAt(x.id) <= upto || ok.has(x.id);
+  return { keys, all, shown, hold };
+}
+
+const setUpto = async (store, keys) => {
+  await store.set("u/" + Date.now(), "1");
+  await Promise.all(keys.filter((k) => k.startsWith("u/")).map((k) => store.delete(k)));
+};
+
 export async function handle(req, store) {
   if (req.method === "POST") {
     let b;
     try { b = await req.json(); } catch { return json({ error: "bad request" }, 400); }
-    if (b.hide || b.clear) {
+    const hostAsk = b.hide || b.clear || b.pending || b.show || b.showAll || typeof b.hold === "boolean";
+    if (hostAsk) {
       const code = hostCode();
       if (!code || b.code !== code) return json({ error: "wrong code" }, 403);
       if (b.clear) {
         const { blobs } = await store.list();
-        await Promise.all(blobs.map((x) => store.delete(x.key)));
+        const del = blobs.filter((x) => /^(a|h|ok|u)\//.test(x.key));
+        await Promise.all(del.map((x) => store.delete(x.key)));
         cache.clear();
-        return json({ ok: true, cleared: blobs.length });
+        return json({ ok: true, cleared: del.filter((x) => x.key.startsWith("a/")).length });
       }
-      const id = String(b.hide).replace(/[^0-9a-z-]/g, "").slice(0, 40);
-      await store.set("h/" + id, "1");
-      return json({ ok: true });
+      if (b.hide) { await store.set("h/" + cleanId(b.hide), "1"); return json({ ok: true }); }
+      if (b.show) { await store.set("ok/" + cleanId(b.show), "1"); return json({ ok: true }); }
+      const s = await read(store);
+      if (b.showAll) { await setUpto(store, s.keys); return json({ ok: true }); }
+      if (typeof b.hold === "boolean") {
+        if (b.hold) {
+          // Switching the hold back on keeps everything already on the screen.
+          await setUpto(store, s.keys);
+          await store.delete("s/hold-off");
+        } else {
+          await store.set("s/hold-off", "1");
+        }
+        return json({ ok: true, hold: b.hold });
+      }
+      const answers = s.all.map((x) => (s.shown(x) ? x : { ...x, w: 1 }));
+      return json({ answers, waiting: answers.filter((x) => x.w).length, hold: s.hold });
     }
     let n = 0;
     for (const q of QS) {
@@ -48,24 +105,9 @@ export async function handle(req, store) {
     }
     return json({ ok: true, saved: n });
   }
-  const [a, h] = await Promise.all([store.list({ prefix: "a/" }), store.list({ prefix: "h/" })]);
-  const old = [...a.blobs, ...h.blobs].filter((x) => sentAt(x.key) < PURGE_BEFORE);
-  if (old.length) {
-    await Promise.all(old.map((x) => store.delete(x.key)));
-    old.forEach((x) => cache.delete(x.key));
-    a.blobs = a.blobs.filter((x) => sentAt(x.key) >= PURGE_BEFORE);
-    h.blobs = h.blobs.filter((x) => sentAt(x.key) >= PURGE_BEFORE);
-  }
-  const hidden = new Set(h.blobs.map((x) => x.key.slice(2)));
-  await Promise.all(a.blobs.filter((x) => !cache.has(x.key)).map(async (x) => {
-    const v = await store.get(x.key, { type: "json" });
-    if (v) cache.set(x.key, v);
-  }));
-  const answers = a.blobs
-    .map((x) => ({ id: x.key.slice(2), ...(cache.get(x.key) || {}) }))
-    .filter((x) => x.q && !hidden.has(x.id))
-    .sort((x, y) => (x.id < y.id ? -1 : 1));
-  return json({ answers });
+  const s = await read(store);
+  const answers = s.all.filter(s.shown);
+  return json({ answers, waiting: s.all.length - answers.length, hold: s.hold });
 }
 
 export default async (req) => handle(req, getStore({ name: "hear-poll", consistency: "strong" }));

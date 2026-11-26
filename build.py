@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Builds the static pages for the Our Stories, Parramatta site. Run: python3 build.py"""
+import re
 import os, html
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'public')
 REG = 'https://events.humanitix.com/our-stories-parramatta'
@@ -63,6 +64,11 @@ def page(path, title, desc, body, current='', noindex=False, script=False, guard
         return f'<a href="{href}"{cur}>{text}</a>'
     robots = '<meta name="robots" content="noindex">' if noindex else ''
     js = '<script src="/js/site.js" defer></script>'
+    teambtns = ''
+    if path == 'index.html' or current in ('hosts', 'volunteers'):
+        teambtns = ('<span class="teambtns"><a class="teambtn" href="/hosts"'
+                    + (' aria-current="page"' if current == 'hosts' else '') + '>Hosts</a><a class="teambtn" href="/volunteers"'
+                    + (' aria-current="page"' if current == 'volunteers' else '') + '>Volunteers</a></span>')
     if guard:
         js = guard_script(guard) + '\n' + js
     out = f'''<!doctype html>
@@ -88,7 +94,7 @@ def page(path, title, desc, body, current='', noindex=False, script=False, guard
 {nav('/consent', 'Consent form', 'consent')}
 {nav('/privacy', 'Privacy', 'privacy')}
 </nav>
-<span class="teambtns"><a class="teambtn" href="/hosts"{' aria-current="page"' if current == 'hosts' else ''}>Hosts</a><a class="teambtn" href="/volunteers"{' aria-current="page"' if current == 'volunteers' else ''}>Volunteers</a></span>
+{teambtns}
 </div>
 </header>
 {tabs(current)}
@@ -698,7 +704,7 @@ FAC = {
 
 # ---------- the three sessions ----------
 def step(n, title, inner):
-    return f'<li class="stp"><span class="sn" aria-hidden="true">{n}</span><div class="sb"><h2>{title}</h2>{inner}</div></li>'
+    return f'<li class="stp" id="step-{n}"><span class="sn" aria-hidden="true">{n}</span><div class="sb"><h2>{title}</h2>{inner}</div></li>'
 
 def mini_form(name, inner, button, hidden=''):
     return f'''<form name="{name}" method="POST" action="/thanks" data-netlify="true" netlify-honeypot="bot-field" data-form>
@@ -709,6 +715,9 @@ def mini_form(name, inner, button, hidden=''):
 </form>'''
 
 def session_page(path, key, name, time, script_word, lead, steps_html, title):
+    nums = re.findall(r'<li class="stp" id="step-(\d+)">', steps_html)
+    jump = ('<nav class="jump" aria-label="Steps on this page"><span>Go to step</span>'
+            + ''.join(f'<a href="#step-{n}" aria-label="Step {n}">{n}</a>' for n in nums) + '</nav>')
     body = f'''<section class="page-hero s-{key}">
 {RING}
 <div class="narrow">
@@ -716,6 +725,7 @@ def session_page(path, key, name, time, script_word, lead, steps_html, title):
 <h1>{name}</h1>
 <p class="script">{script_word}</p>
 <p class="lead">{lead}</p>
+{jump}
 </div>
 </section>
 {FAC[key]}
@@ -878,15 +888,21 @@ def wall_cols():
             + col('i_wish', 'In my community, I wish', 'w3'))
 
 HOSTBAR = ('<div class="hostbar" data-hostbar hidden><label>Host code <input type="password" autocomplete="off"></label>'
+           '<b class="waitcount" data-waitcount>0 waiting</b>'
+           '<button type="button" class="btn small" data-showall>Show all waiting</button>'
+           '<label class="holdlabel"><input type="checkbox" data-hold checked> Hold answers until I show them</label>'
            '<button type="button" class="btn small ghost" data-clear>Clear all answers</button></div>')
+WAITNOTE = '<p class="waitnote" data-waitnote hidden></p>'
+
 
 resultsp = hero('Hear. Dr Ru’s three questions', 'What the room', 'is saying.',
                 'Live, as people send their answers. No names.', cls=' s-hear') + f'''
 <section class="form"><div class="wrap">
 <p class="filemsg" data-status hidden></p>
 {HOSTBAR}
+{WAITNOTE}
 <div class="wall is-empty" data-wall>
-<p class="empty">No answers yet. Yours can be the first.</p>
+<p class="empty">No answers on the screen yet.</p>
 {wall_cols()}
 </div>
 <p style="margin-top:40px"><a class="btn" href="/hear#q">Add your answers</a></p>
@@ -907,6 +923,7 @@ screen = f'''<!doctype html>
 </header>
 <p class="filemsg" data-status hidden></p>
 {HOSTBAR}
+{WAITNOTE}
 <main class="wall is-empty" data-wall>
 <p class="empty">Finish the sentence on your phone. Your answer appears here. No names.</p>
 {wall_cols()}
@@ -962,7 +979,7 @@ facp = hero('For facilitators and hosts', 'What you heard', 'from the room.',
 <div class="cue c-hear"><h3>Hear. Light blue</h3><ul class="list">
 <li><strong>As people arrive.</strong> Put <a href="/">the main page of the app</a> on the projector. It opens with the welcome and the QR code.</li>
 <li><strong>After the welcome.</strong> “Open the app and tap Start your day.” Five minutes.</li>
-<li><strong>The three questions.</strong> “Tap Hear, the light blue one, and go to step 3.” Put <a href="/screen">the live screen</a> on the projector.</li>
+<li><strong>The three questions.</strong> “Tap Hear, the light blue one, and go to step 3.” Put <a href="/screen">the live screen</a> on the projector. Answers wait until a host shows them: on a second phone or laptop open <a href="/screen#host">the screen with host controls</a>, enter the host code and tap Show all waiting.</li>
 <li><strong>Quick fire.</strong> “Step 4 on the same page.” These do not show on the screen.</li>
 <li><strong>Before lunch.</strong> “If you are leaving now, tap End your day.”</li></ul></div>
 <div class="cue c-lunch"><h3>Lunch. Pink</h3><ul class="list"><li><strong>Going to lunch.</strong> “Tap Lunch, the pink one, for what is on and what is in the food.”</li></ul></div>
@@ -975,7 +992,7 @@ facp = hero('For facilitators and hosts', 'What you heard', 'from the room.',
 <li><strong>Before the stage.</strong> “Tap Share, the purple one. Step 3 if you would rather we read it for you.”</li>
 <li><strong>At the tables.</strong> “Step 4 for one message from your circle.”</li>
 <li><strong>Before 4.50pm.</strong> “Tap End your day before you go.”</li></ul></div>
-<p class="hint">Host controls for the live screen: open <a href="/screen#host">the screen with host controls</a> and enter the host code to hide an answer.</p>
+<p class="hint">Host controls for the live screen: open <a href="/screen#host">the screen with host controls</a> and enter the host code. You can show one answer or all of them, hide an answer, or untick the hold so answers show straight away.</p>
 
 <h2 style="margin-top:56px">Your reflection at the end of the day</h2>
 <div class="note"><p>{HOLD}</p></div>
@@ -1210,10 +1227,22 @@ hostsp = hero('Hosts and facilitators', 'This part is', 'for hosts.',
 <div class="teamgrid three">
 <a class="teamcard alt" href="/"><b>Welcome and QR code</b><span>The main page. Put it up as people arrive.</span></a>
 <a class="teamcard alt" href="/screen"><b>Live poll</b><span>Dr Ru’s three questions in Hear. Answers appear as the room sends them.</span></a>
-<a class="teamcard alt" href="/screen#host"><b>Live poll, host controls</b><span>Hide an answer or clear the screen. Needs the host code.</span></a>
+<a class="teamcard alt" href="/screen#host"><b>Live poll, host controls</b><span>Show the answers that are waiting, hide one, or clear the screen. Needs the host code.</span></a>
 </div>
+<h2>Today so far</h2>
+<p>How many of each have been sent today. Counts only, no names. It updates every 30 seconds.</p>
+<ul class="counts" data-counts>
+<li><b data-c="arrival-survey">0</b><span>started their day</span></li>
+<li><b data-c="in-my-community">0</b><span>answered the live poll</span></li>
+<li><b data-c="quick-fire">0</b><span>did quick fire</span></li>
+<li><b data-c="through-the-day">0</b><span>added their voice</span></li>
+<li><b data-c="share-your-story">0</b><span>shared a story</span></li>
+<li><b data-c="end-of-day-survey">0</b><span>ended their day</span></li>
+<li><b data-c="consent">0</b><span>consent forms today</span></li>
+</ul>
 </div></section>
-<script src="/js/team.js" defer></script>'''
+<script src="/js/team.js" defer></script>
+<script src="/js/count.js" defer></script>'''
 page('hosts.html', 'Hosts and facilitators. Our Stories, Parramatta',
      'For facilitators and hosts.', hostsp, current='hosts', noindex=True)
 
@@ -1239,6 +1268,7 @@ privacyp = hero('Privacy notice', 'What we collect and', 'what we do with it.',
 <li><strong>A stage spot.</strong> Your name and how long you would like, so we can call you up.</li>
 <li><strong>Read it for me.</strong> What you want read from the stage, and a first name only if you add one.</li>
 <li><strong>Facilitator reflection.</strong> The facilitator’s or host’s name, what they heard in the room, and up to five pictures of the work if they add them.</li>
+<li><strong>Head count.</strong> Each time a form is sent, the app adds one to a count for that form. The count holds no names and no answers.</li>
 <li><strong>Volunteer reflection.</strong> The volunteer’s name, where they were on the day, what they heard, saw and thought worked, and up to five pictures if they add them.</li>
 <li><strong>Share your story.</strong> Your story, and up to five pictures if you add them. Your name and an email or phone number only if you choose to be named.</li>
 <li><strong>Consent form.</strong> Your name, your choice about photos and video, and your typed signature. If you are signing for someone under 18, their name, your name and your mobile number.</li>

@@ -21,7 +21,7 @@
 <a href="/consent">Consent form</a>
 <a href="/privacy">Privacy</a>
 </nav>
-<span class="teambtns"><a class="teambtn" href="/hosts">Hosts</a><a class="teambtn" href="/volunteers">Volunteers</a></span>
+
 </div>
 </header>
 <nav class="tabs" aria-label="Sessions"><a href="/hear" aria-current="page" data-session="hear"><span class="tl">Hear</span><span class="tt">10am</span></a><a href="/lunch" data-session="lunch"><span class="tl">Lunch</span><span class="tt">12pm</span></a><a href="/create" data-session="create"><span class="tl">Create</span><span class="tt">12.45pm</span></a><a href="/share" data-session="share"><span class="tl">Share</span><span class="tt">3pm</span></a></nav>
@@ -37,9 +37,10 @@
 </section>
 <section class="form"><div class="wrap">
 <p class="filemsg" data-status hidden></p>
-<div class="hostbar" data-hostbar hidden><label>Host code <input type="password" autocomplete="off"></label><button type="button" class="btn small ghost" data-clear>Clear all answers</button></div>
+<div class="hostbar" data-hostbar hidden><label>Host code <input type="password" autocomplete="off"></label><b class="waitcount" data-waitcount>0 waiting</b><button type="button" class="btn small" data-showall>Show all waiting</button><label class="holdlabel"><input type="checkbox" data-hold checked> Hold answers until I show them</label><button type="button" class="btn small ghost" data-clear>Clear all answers</button></div>
+<p class="waitnote" data-waitnote hidden></p>
 <div class="wall is-empty" data-wall>
-<p class="empty">No answers yet. Yours can be the first.</p>
+<p class="empty">No answers on the screen yet.</p>
 <section class="wcol w1" data-col="i_like"><h2><span>In my community, I like</span><b class="count">0</b></h2><ul class="answers"></ul></section><section class="wcol w2" data-col="i_do_not_like"><h2><span>In my community, I do not like</span><b class="count">0</b></h2><ul class="answers"></ul></section><section class="wcol w3" data-col="i_wish"><h2><span>In my community, I wish</span><b class="count">0</b></h2><ul class="answers"></ul></section>
 </div>
 <p style="margin-top:40px"><a class="btn" href="/hear#q">Add your answers</a></p>
