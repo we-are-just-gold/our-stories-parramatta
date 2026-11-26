@@ -71,7 +71,7 @@
 <li><b class="t">12.45pm to 2.45pm</b><span class="w"><strong>Create.</strong> A storytelling workshop for adults, and a writing and performance session for ages 15 to 25.<span class="where">Adults: Civic Gallery</span></span></li>
 <li><b class="t">2.45pm to 3pm</b><span class="w"><strong>Break.</strong> Reset the room into circles for Share.<span class="where">Civic Gallery, Level 4</span></span></li>
 <li><b class="t">3pm to 5pm</b><span class="w"><strong>Share.</strong> Small sharing circles, stage spots for people who opt in, the end of day survey and wrap up.<span class="where">Civic Gallery, Level 4</span></span></li>
-<li><b class="t">From 5pm</b><span class="w"><strong>Pack down.</strong> Collect equipment and signage.<span class="where">All rooms</span></span></li>
+<li><b class="t">From 5pm</b><span class="w"><strong>Pack down.</strong> Collect equipment and signage. Then send <a href="#reflection">your reflection</a>.<span class="where">All rooms</span></span></li>
 </ol>
 </div>
 </section>
@@ -185,6 +185,45 @@
 </div>
 </section>
 
+
+<section class="form" id="reflection"><div class="narrow prose">
+<p class="label">Before you go</p>
+<h2 style="margin-top:0">Your reflection at the end of the day</h2>
+<p>Five minutes, after pack down or on the way home. What you tell us goes into the report as what our volunteers saw and heard.</p>
+<form name="volunteer-reflection" method="POST" action="/thanks" data-netlify="true" netlify-honeypot="bot-field" data-form>
+<input type="hidden" name="form-name" value="volunteer-reflection">
+<p class="bot"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+<fieldset>
+<legend><span class="n">1.</span> You</legend>
+
+<div class="field"><label for="f262">Your name</label><input type="text" id="f262" name="name" required autocomplete="name"></div><div class="field"><span style="font-size:17px;font-weight:600">Where were you on the day?</span></div><div class="opts cols">
+<div class="opt"><input type="checkbox" id="f263" name="where[]" value="Set up"><label for="f263">Set up</label></div>
+<div class="opt"><input type="checkbox" id="f264" name="where[]" value="Welcome desk"><label for="f264">Welcome desk</label></div>
+<div class="opt"><input type="checkbox" id="f265" name="where[]" value="Hear"><label for="f265">Hear</label></div>
+<div class="opt"><input type="checkbox" id="f266" name="where[]" value="Lunch"><label for="f266">Lunch</label></div>
+<div class="opt"><input type="checkbox" id="f267" name="where[]" value="Create"><label for="f267">Create</label></div>
+<div class="opt"><input type="checkbox" id="f268" name="where[]" value="Share"><label for="f268">Share</label></div>
+<div class="opt"><input type="checkbox" id="f269" name="where[]" value="Pack down"><label for="f269">Pack down</label></div>
+</div>
+</fieldset>
+<fieldset>
+<legend><span class="n">2.</span> What you heard or saw</legend>
+
+<div class="field"><label for="f270">What did you hear or see that the surveys will not capture?</label><textarea id="f270" name="heard" rows="6"></textarea></div>
+</fieldset>
+<fieldset>
+<legend><span class="n">3.</span> What worked</legend>
+
+<div class="field"><label for="f271">What worked, and what should we do differently next time?</label><textarea id="f271" name="worked" rows="5"></textarea></div>
+</fieldset>
+<fieldset>
+<legend><span class="n">4.</span> For the report</legend>
+<p class="hint">Leave out participants’ names and anything that could identify them.</p>
+<div class="field"><label for="f272">What should the report not miss?</label><textarea id="f272" name="report" rows="5"></textarea></div>
+</fieldset>
+<div class="submit"><button class="btn" type="submit">Send my reflection</button></div>
+</form>
+</div></section>
 <section class="section" id="who">
 <div class="wrap two">
 <div>

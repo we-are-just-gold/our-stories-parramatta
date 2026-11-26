@@ -1017,7 +1017,7 @@ volp = hero('Volunteer pack', 'Thank you for', 'being part of this.',
 {row('12.45pm to 2.45pm', '<strong>Create.</strong> A storytelling workshop for adults, and a writing and performance session for ages 15 to 25.', 'Adults: Civic Gallery')}
 {row('2.45pm to 3pm', '<strong>Break.</strong> Reset the room into circles for Share.', 'Civic Gallery, Level 4')}
 {row('3pm to 5pm', '<strong>Share.</strong> Small sharing circles, stage spots for people who opt in, the end of day survey and wrap up.', 'Civic Gallery, Level 4')}
-{row('From 5pm', '<strong>Pack down.</strong> Collect equipment and signage.', 'All rooms')}
+{row('From 5pm', '<strong>Pack down.</strong> Collect equipment and signage. Then send <a href="#reflection">your reflection</a>.', 'All rooms')}
 </ol>
 </div>
 </section>
@@ -1149,8 +1149,28 @@ volp = hero('Volunteer pack', 'Thank you for', 'being part of this.',
 </div>
 </section>
 """
+vol_inner = '\n'.join([
+    q(1, 'You', text('name', 'Your name', required=True, extra=' autocomplete="name"')
+      + '<div class="field"><span style="font-size:17px;font-weight:600">Where were you on the day?</span></div>'
+      + opts('where[]', ['Set up', 'Welcome desk', 'Hear', 'Lunch', 'Create', 'Share', 'Pack down'], kind='checkbox', cols=True)),
+    q(2, 'What you heard or saw', big_area('heard', 'What did you hear or see that the surveys will not capture?', rows=6)),
+    q(3, 'What worked', big_area('worked', 'What worked, and what should we do differently next time?', rows=5)),
+    q(4, 'For the report', big_area('report', 'What should the report not miss?', rows=5),
+      'Leave out participants’ names and anything that could identify them.'),
+])
+VOL_FORM = f'''
+<section class="form" id="reflection"><div class="narrow prose">
+<p class="label">Before you go</p>
+<h2 style="margin-top:0">Your reflection at the end of the day</h2>
+<p>Five minutes, after pack down or on the way home. What you tell us goes into the report as what our volunteers saw and heard.</p>
+{form('volunteer-reflection', vol_inner, 'Send my reflection')}
+</div></section>
+'''
+MARK = '<section class="section" id="who">'
+assert volp.count(MARK) == 1
+volp = volp.replace(MARK, VOL_FORM + MARK)
 page('volunteers.html', 'Volunteer pack. Our Stories, Parramatta',
-     'The volunteer pack for Our Stories, Parramatta on Saturday 28 November 2026.', volp, noindex=True, guard=True)
+     'The volunteer pack for Our Stories, Parramatta on Saturday 28 November 2026.', volp, noindex=True, script=True, guard=True)
 
 # ---------- hosts and volunteers ----------
 teamp = hero('Hosts and volunteers', 'This part is', 'for the team.',
@@ -1170,7 +1190,7 @@ teamp = hero('Hosts and volunteers', 'This part is', 'for the team.',
 <h2 style="margin-top:0">Choose your page</h2>
 <div class="teamgrid">
 <a class="teamcard" href="/facilitators"><b>Facilitators and hosts</b><span>Where to send the room, session by session, and your reflection at the end of the day.</span></a>
-<a class="teamcard" href="/volunteers"><b>Volunteers</b><span>Where to be, what to do and who to ask.</span></a>
+<a class="teamcard" href="/volunteers"><b>Volunteers</b><span>Where to be, what to do and who to ask, and your reflection at the end of the day.</span></a>
 </div>
 <h2>Screens for the projector</h2>
 <div class="teamgrid three">
@@ -1206,6 +1226,7 @@ privacyp = hero('Privacy notice', 'What we collect and', 'what we do with it.',
 <li><strong>A stage spot.</strong> Your name and how long you would like, so we can call you up.</li>
 <li><strong>Read it for me.</strong> What you want read from the stage, and a first name only if you add one.</li>
 <li><strong>Facilitator reflection.</strong> The facilitator’s or host’s name, what they heard in the room, and up to five pictures of the work if they add them.</li>
+<li><strong>Volunteer reflection.</strong> The volunteer’s name, where they were on the day, and what they heard, saw and thought worked.</li>
 <li><strong>Share your story.</strong> Your story, and up to five pictures if you add them. Your name and an email or phone number only if you choose to be named.</li>
 <li><strong>Consent form.</strong> Your name, your choice about photos and video, and your typed signature. If you are signing for someone under 18, their name, your name and your mobile number.</li>
 </ul>
