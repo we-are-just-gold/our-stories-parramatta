@@ -69,7 +69,8 @@ def page(path, title, desc, body, current='', noindex=False, script=False, guard
         teambtns = ('<span class="teambtns"><a class="teambtn" href="/hosts"'
                     + (' aria-current="page"' if current == 'hosts' else '') + '>Hosts</a><a class="teambtn" href="/volunteers"'
                     + (' aria-current="page"' if current == 'volunteers' else '') + '>Volunteers</a><a class="teambtn" href="/desk"'
-                    + (' aria-current="page"' if current == 'desk' else '') + '>Desk</a></span>')
+                    + (' aria-current="page"' if current == 'desk' else '') + '>Desk</a><a class="teambtn" href="/the-room"'
+                    + (' aria-current="page"' if current == 'room' else '') + '>The room</a></span>')
     if guard:
         js = guard_script(guard) + '\n' + js
     out = f'''<!doctype html>
@@ -306,7 +307,7 @@ home = f'''
 {tiles()}
 <div class="teamrow">
 <p><b>Running the day?</b> Hosts, volunteers and the welcome desk each have their own page and their own password.</p>
-<div><a class="btn ghost small" href="/hosts">Hosts and facilitators</a><a class="btn ghost small" href="/volunteers">Volunteers</a><a class="btn ghost small" href="/desk">Welcome desk</a></div>
+<div><a class="btn ghost small" href="/hosts">Hosts and facilitators</a><a class="btn ghost small" href="/volunteers">Volunteers</a><a class="btn ghost small" href="/desk">Welcome desk</a><a class="btn ghost small" href="/the-room">The room</a></div>
 </div>
 </div>
 </section>
