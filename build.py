@@ -1297,6 +1297,7 @@ deskp = '''
 </div>
 <div class="dtabs" role="tablist" aria-label="Welcome desk">
 <button type="button" role="tab" class="dtab is-on" data-tab="people" aria-selected="true">People <b data-t-people>0</b></button>
+<button type="button" role="tab" class="dtab" data-tab="consent" aria-selected="false">Consent <b data-t-consent>0</b></button>
 <button type="button" role="tab" class="dtab" data-tab="todo" aria-selected="false">To do <b data-t-todo>0</b></button>
 <button type="button" role="tab" class="dtab" data-tab="day" aria-selected="false">The day</button>
 <button type="button" role="tab" class="dtab" data-tab="counts" aria-selected="false">Tickets</button>
@@ -1319,6 +1320,24 @@ deskp = '''
 <button type="button" class="dchip" data-show="nothere">Not arrived</button>
 </div>
 <ul class="dpeople" data-people></ul>
+</div>
+<div class="dpanel dp-forms" data-panel="consent">
+<h2>Consent forms <span class="dfcount">(<span data-n-forms>0</span>)</span></h2>
+<div class="dnew" data-newwrap hidden>
+<div class="dnew-head"><h3>New forms <b data-newcount>0</b></h3><button type="button" class="btn small ghost" data-seenall>Mark all seen</button></div>
+<p class="hint">Sent since the desk last looked. Tick Seen once you have handled it. Every desk device sees the same list.</p>
+<ul class="dforms" data-newforms></ul>
+</div>
+<h3 class="dall-h">All consent forms</h3>
+<p class="deskacts"><a class="btn small" href="/consent?desk=1" data-handover>Consent form on this device</a><span class="hint">Every consent form sent, newest first. Updates every five seconds. Mobile numbers are never shown here.</span></p>
+<div class="dchips" role="group" aria-label="Show">
+<button type="button" class="dchip is-on" data-fshow="all">All forms</button>
+<button type="button" class="dchip" data-fshow="sticker">Bright sticker</button>
+<button type="button" class="dchip" data-fshow="young">Young people</button>
+<button type="button" class="dchip" data-fshow="desk">Signed at the desk</button>
+<button type="button" class="dchip" data-fshow="nothere">Not arrived</button>
+</div>
+<ul class="dforms" data-forms></ul>
 </div>
 <div class="dpanel dp-todo" data-panel="todo">
 <h2>To do</h2>
@@ -1432,6 +1451,8 @@ thanks = '''<section class="start">
 <p class="eyebrow">Received</p>
 <h1 class="h-start">Thank you. That is in.</h1>
 <p class="lead" style="margin:10px 0 24px">Back to your session, or on to the next step.</p>
+<p data-deskback hidden><a class="btn" href="/desk">Back to the welcome desk</a></p>
+<script>try{if(sessionStorage.getItem('desk_saved')){document.querySelector('[data-deskback]').hidden=false;location.replace('/desk');}}catch(e){}</script>
 ''' + tiles() + '''<h2 class="h-sub">And for everyone, any time</h2>''' + actions() + '''
 </div>
 </section>'''

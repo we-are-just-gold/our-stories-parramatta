@@ -474,7 +474,11 @@ input.short{max-width:200px}
 .dfind{display:flex;gap:10px}
 .dfind input{flex:1;min-width:0;font:inherit;font-size:18px;color:var(--navy);border:2px solid var(--navy);border-radius:14px;padding:12px 16px;min-height:52px;background:#fff}
 .dlock{flex:none;font:inherit;font-size:15px;font-weight:600;min-height:52px;padding:0 16px;border-radius:14px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);cursor:pointer}
-.dtabs{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:10px}
+.dtabs{display:flex;gap:0 14px;margin:10px -24px 0;padding:0 24px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.dtabs::-webkit-scrollbar{display:none}
+.dtab{flex:none}
+.deskbar{position:sticky;top:0;z-index:6;background:var(--navy);padding:10px 24px}
+.deskbar a{color:#fff;font-weight:700;font-size:17px;text-decoration:underline;text-underline-offset:4px;display:inline-block;min-height:44px;line-height:44px}
 .dtab{font:inherit;font-size:15px;font-weight:600;min-height:48px;padding:6px 4px;background:none;border:0;border-bottom:4px solid transparent;color:var(--muted);cursor:pointer}
 .dtab.is-on{color:var(--navy);border-bottom-color:var(--coral)}
 .dtab{white-space:nowrap}
@@ -543,9 +547,30 @@ input.short{max-width:200px}
 .dtx-bar i.here{background:var(--navy)}
 .dtx small{font-size:14px;color:var(--muted)}
 .dcounts-h{margin-top:32px!important}
+.dforms{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.dform{border:1.5px solid var(--field);border-radius:14px;background:#fff;padding:12px 14px;display:grid;gap:6px}
+.dform.is-here{background:var(--blush-2);border-color:var(--rule)}
+.dform-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.dform-top b{font-size:17px;line-height:1.25;overflow-wrap:anywhere}
+.dform-top time{flex:none;font-size:14px;color:var(--muted);white-space:nowrap}
+.dfcount{font-size:18px;font-weight:500;color:var(--muted)}
+.dnew{border:2px solid var(--coral);border-radius:18px;background:var(--blush);padding:16px 16px 18px;margin:0 0 28px}
+.dnew-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:6px}
+.desk .dnew h3{margin:0}
+.dnew h3 b{display:inline-block;min-width:26px;padding:1px 8px;margin-left:4px;border-radius:999px;background:var(--coral);color:#fff;font-size:15px;text-align:center}
+.dform.is-new{border-color:var(--coral)}
+.dseenrow{margin:4px 0 0}
+.desk .dall-h{margin-top:0}
+.backdesk{display:inline-flex;margin-top:10px}
 /* wide screens: everything at once, no tabs */
 @media (min-width:980px){
-  .dtabs{display:none}
+  /* People and Consent share the left column; the switch shows only those two */
+  .dtabs{display:flex;gap:28px;justify-content:flex-start;margin:10px 0 0;padding:0;overflow:visible}
+  .dtab[data-tab=todo],.dtab[data-tab=day],.dtab[data-tab=counts]{display:none}
+  .dp-forms{grid-area:people}
+  .dpanels .dp-people:not(.is-on),.dpanels .dp-forms:not(.is-on){display:none}
+  .dpanels:not(:has(.dp-forms.is-on)) .dp-people{display:block}
+  .dtabs:not(:has(.dtab[data-tab=consent].is-on)) .dtab[data-tab=people]{color:var(--navy);border-bottom-color:var(--coral)}
   .dtop{padding-bottom:12px}
   .dfind{max-width:560px}
   .dchips{flex-wrap:wrap;margin:0 0 14px;padding:0;overflow:visible}

@@ -154,6 +154,15 @@ async function view(store) {
     if (!byKey.has(key)) byKey.set(key, []);
     byKey.get(key).push({ ...f, at: sentAt(k) });
   }
+  // Every consent form on its own, newest first, for the Consent tab. No mobile number is held here.
+  const forms = [];
+  for (const k of pKeys) {
+    const f = cache.get(k);
+    if (!f || !f.name) continue;
+    forms.push({ id: k.slice(2), key: keyOf(f.name), name: f.name, at: sentAt(k), photos: f.photos, under18: !!f.under18, young: f.young || "",
+      permission: !!f.permission, youngPhotos: f.youngPhotos || "", desk: !!f.desk, arrived: arrived.has(keyOf(f.name)), seen: ticks.has("seen-" + k.slice(2)) });
+  }
+  forms.reverse();
   const people = [], tasks = [];
   for (const [key, forms] of byKey) {
     const last = forms[forms.length - 1];
@@ -205,7 +214,7 @@ async function view(store) {
     delete t.who;
   });
   const run = RUN.map(([at, title, text]) => ({ id: "run-" + at, at, title, text, done: ticks.has("run-" + at) }));
-  return { people, tasks, run, types, humanitix: { status: hx.status, code: hx.code || 0, stale: !!hx.stale, tickets: hx.tickets || 0, orders: hx.orders || 0, booked: hx.people.length } };
+  return { people, forms, tasks, run, types, humanitix: { status: hx.status, code: hx.code || 0, stale: !!hx.stale, tickets: hx.tickets || 0, orders: hx.orders || 0, booked: hx.people.length } };
 }
 
 export async function handle(req, store) {
@@ -255,6 +264,10 @@ export async function handle(req, store) {
     const id = cleanId(b.tick);
     if (b.on === false) { await store.delete("t/" + id); await store.set("u/" + id, "1"); }
     else { await store.set("t/" + id, "1"); await store.delete("u/" + id); }
+    return json({ ok: true });
+  }
+  if (Array.isArray(b.seen)) {
+    await Promise.all(b.seen.slice(0, 500).map((x) => cleanId(x)).filter((id) => id.startsWith("seen-")).map((id) => store.set("t/" + id, "1")));
     return json({ ok: true });
   }
   if (b.arrived) {

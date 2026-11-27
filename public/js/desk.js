@@ -2,11 +2,11 @@
   var gate=document.querySelector('[data-deskgate]'), inside=document.querySelector('[data-deskinside]');
   if(!gate||!inside) return;
   var form=gate.querySelector('form'), input=form.querySelector('input'), msg=gate.querySelector('[data-gatemsg]'), saved=gate.querySelector('[data-saved]');
-  var K='os_desk', code='', timer=null, filter='', last=null, lastRaw='', show='all', tab='people', open={};
+  var K='os_desk', code='', timer=null, filter='', last=null, lastRaw='', show='all', fshow='all', tab='people', open={};
   try{ code=sessionStorage.getItem(K)||''; }catch(e){}
   var $=function(s){ return inside.querySelector(s); };
   var todo=$('[data-todo]'), done=$('[data-done]'), doneWrap=$('[data-donewrap]'), doneCount=$('[data-donecount]'), run=$('[data-run]'), people=$('[data-people]'),
-      status=$('[data-deskstatus]'), search=$('[data-search]');
+      status=$('[data-deskstatus]'), search=$('[data-search]'), formsList=$('[data-forms]'), newList=$('[data-newforms]'), newWrap=$('[data-newwrap]');
   function api(body){ body.code=code; return fetch('/api/desk',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); }
   function el(tag,cls,text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
   function sydneyNow(){
@@ -62,6 +62,54 @@
     box.addEventListener('change',function(){ li.classList.toggle('is-here',box.checked); api({arrived:p.key,on:box.checked}).then(function(){ load(true); },function(){ load(true); }); });
     lab.appendChild(box); lab.appendChild(el('span',null,'Arrived'));
     li.appendChild(row); li.appendChild(lab); li.appendChild(more); return li;
+  }
+  function when(ms){
+    try{
+      var p=new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Sydney',weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit',hour12:true}).formatToParts(new Date(ms)), v={};
+      p.forEach(function(x){ v[x.type]=x.value; });
+      var t=v.hour+'.'+v.minute+String(v.dayPeriod||'').toLowerCase().replace(/\s|\./g,'');
+      var d=new Intl.DateTimeFormat('en-CA',{timeZone:'Australia/Sydney'}).format(new Date(ms));
+      return d===sydneyNow().day?'Today '+t:v.weekday+' '+v.day+' '+v.month+', '+t;
+    }catch(e){ return ''; }
+  }
+  function consentForm(f,isNew){
+    var li=el('li','dform'+(f.arrived?' is-here':'')+(isNew?' is-new':''));
+    var top=el('div','dform-top'); top.appendChild(el('b',null,f.name));
+    var tm=el('time',null,when(f.at)); try{ tm.dateTime=new Date(f.at).toISOString(); }catch(e){} top.appendChild(tm); li.appendChild(top);
+    var pills=el('span','dpills');
+    pills.appendChild(f.photos==='sticker'?el('span','dpill no','Bright sticker'):el('span','dpill yes','Photos ok'));
+    if(f.under18) pills.appendChild(el('span','dpill '+(f.youngPhotos==='sticker'?'no':'yes'),'Young people'));
+    if(f.under18&&!f.permission) pills.appendChild(el('span','dpill warn','Permission not ticked'));
+    if(f.desk) pills.appendChild(el('span','dpill yes','Signed at the desk'));
+    if(f.arrived) pills.appendChild(el('span','dpill yes','Arrived'));
+    li.appendChild(pills);
+    if(f.under18) li.appendChild(line('Signed for: ',(f.young||'a young person')+'. '+(f.permission?'Permission to take part: yes. ':'Permission to take part: not ticked. ')+(f.youngPhotos==='sticker'?'Their photos cannot be published: bright stickers.':'Their photos can be published.')));
+    if(isNew){
+      var b=el('button','btn small ghost dseen','Seen'); b.type='button';
+      b.addEventListener('click',function(){ li.remove(); api({tick:'seen-'+f.id,on:true}).then(function(){ load(true); },function(){ load(true); }); });
+      var bp=el('p','dseenrow'); bp.appendChild(b); li.appendChild(bp);
+    }
+    return li;
+  }
+  function drawForms(j){
+    var all=j.forms||[], q=filter.toLowerCase(), shown=0;
+    var fresh=all.filter(function(f){ return !f.seen; });
+    newList.textContent='';
+    fresh.forEach(function(f){ newList.appendChild(consentForm(f,true)); });
+    newWrap.hidden=!fresh.length;
+    $('[data-newcount]').textContent=fresh.length;
+    var pass={all:function(){ return true; }, sticker:function(f){ return f.photos==='sticker'||(f.under18&&f.youngPhotos==='sticker'); },
+              young:function(f){ return f.under18; }, desk:function(f){ return f.desk; }, nothere:function(f){ return !f.arrived; }}[fshow];
+    inside.querySelectorAll('[data-fshow]').forEach(function(b){ var is=b.getAttribute('data-fshow')===fshow; b.classList.toggle('is-on',is); b.setAttribute('aria-pressed',is?'true':'false'); });
+    formsList.textContent='';
+    all.forEach(function(f){
+      if(!pass(f)) return;
+      if(q && (f.name+' '+f.young).toLowerCase().indexOf(q)<0) return;
+      shown++; formsList.appendChild(consentForm(f,false));
+    });
+    if(!shown) formsList.appendChild(el('li','dempty',q?'No consent form under that name.':(fshow==='all'?'No consent forms yet.':'None in this group.')));
+    $('[data-t-consent]').textContent=fresh.length?fresh.length+' new':all.length;
+    $('[data-n-forms]').textContent=all.length;
   }
   function draw(j){
     last=j;
@@ -122,6 +170,7 @@
     if((j.types||[]).length) tix.appendChild(tixRow('All tickets',sold,allCap?cap:0,arr,true));
     $('[data-t-people]').textContent=j.people.length;
     $('[data-t-todo]').textContent=openT.length;
+    drawForms(j);
   }
   function load(force){
     if(!code) return;
@@ -137,21 +186,23 @@
   }
   function lock(text){
     code=''; lastRaw=''; try{ sessionStorage.removeItem(K); }catch(e){}
-    clearInterval(timer); timer=null; inside.hidden=true; gate.hidden=false; people.textContent=''; todo.textContent=''; done.textContent='';
+    clearInterval(timer); timer=null; inside.hidden=true; gate.hidden=false; people.textContent=''; todo.textContent=''; done.textContent=''; formsList.textContent=''; newList.textContent='';
     if(text){ msg.textContent=text; msg.hidden=false; }
   }
   function start(){ load(true); if(!timer) timer=setInterval(function(){ if(!document.hidden) load(); },5000); }
   form.addEventListener('submit',function(ev){ ev.preventDefault(); code=input.value; msg.hidden=true; saved.hidden=true; try{ sessionStorage.setItem(K,code); }catch(e){} input.value=''; start(); });
-  search.addEventListener('input',function(){ filter=search.value.trim(); if(filter && tab!=='people') setTab('people'); if(last) draw(last); });
+  search.addEventListener('input',function(){ filter=search.value.trim(); if(filter && tab!=='people' && tab!=='consent') setTab('people'); if(last) draw(last); });
   inside.querySelectorAll('[data-show]').forEach(function(b){ b.addEventListener('click',function(){ show=b.getAttribute('data-show'); if(last) draw(last); }); });
+  inside.querySelectorAll('[data-fshow]').forEach(function(b){ b.addEventListener('click',function(){ fshow=b.getAttribute('data-fshow'); if(last) draw(last); }); });
+  $('[data-seenall]').addEventListener('click',function(){ var ids=((last&&last.forms)||[]).filter(function(f){ return !f.seen; }).map(function(f){ return 'seen-'+f.id; }); newWrap.hidden=true; api({seen:ids}).then(function(){ load(true); },function(){ load(true); }); });
   inside.querySelectorAll('[data-tab]').forEach(function(b){ b.addEventListener('click',function(){ setTab(b.getAttribute('data-tab')); window.scrollTo(0,0); }); });
   document.addEventListener('visibilitychange',function(){ if(!document.hidden) load(); });
   $('[data-lock]').addEventListener('click',function(){ lock(''); });
   // Handing the device to someone to sign: lock the desk first, so they cannot go back to the list.
-  function handOver(){ try{ sessionStorage.removeItem(K); }catch(e){} code=''; clearInterval(timer); timer=null; people.textContent=''; todo.textContent=''; done.textContent=''; inside.hidden=true; gate.hidden=false; }
+  function handOver(){ try{ sessionStorage.removeItem(K); }catch(e){} code=''; clearInterval(timer); timer=null; people.textContent=''; todo.textContent=''; done.textContent=''; formsList.textContent=''; newList.textContent=''; inside.hidden=true; gate.hidden=false; }
   var hand=$('[data-handover]');
   if(hand) hand.addEventListener('click',function(){ try{ sessionStorage.removeItem('os_prefill'); }catch(e){} handOver(); });
-  try{ if(sessionStorage.getItem('desk_saved')){ sessionStorage.removeItem('desk_saved'); saved.hidden=false; } }catch(e){}
+  try{ if(sessionStorage.getItem('desk_saved')){ sessionStorage.removeItem('desk_saved'); saved.hidden=false; setTab('consent'); } }catch(e){}
   // Coming back with the browser's back button must not show the list either.
   window.addEventListener('pageshow',function(ev){ if(ev.persisted){ var c=''; try{ c=sessionStorage.getItem(K)||''; }catch(e){} if(!c) lock(''); } });
   if(code) start();

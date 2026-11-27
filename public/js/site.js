@@ -11,6 +11,10 @@
       f.setAttribute('action','/desk');
       var n=document.createElement('p'); n.className='flag'; n.textContent='Welcome desk. Hand this device to the person signing. The desk is locked while they have it. When they send the form, enter the password to open the desk again.';
       f.parentNode.insertBefore(n,f);
+      var back=document.createElement('a'); back.className='btn small ghost backdesk'; back.href='/desk'; back.textContent='Back to the welcome desk';
+      n.appendChild(document.createElement('br')); n.appendChild(back);
+      var bar=document.createElement('div'); bar.className='deskbar'; var bl=document.createElement('a'); bl.href='/desk'; bl.textContent='← Back to the welcome desk'; bar.appendChild(bl); var tb=document.querySelector('.tabs'); (tb&&tb.parentNode?tb.parentNode.insertBefore(bar,tb):document.body.insertBefore(bar,document.body.firstChild));
+      var back2=back.cloneNode(true); var sub=f.querySelector('[type=submit]'); if(sub&&sub.parentNode) sub.parentNode.appendChild(back2); else f.appendChild(back2);
       try{ var pre=sessionStorage.getItem('os_prefill'); if(pre){ sessionStorage.removeItem('os_prefill'); var ni=f.querySelector('input[name="name"]'); if(ni&&!ni.value) ni.value=pre; } }catch(e){}
     }
     f.addEventListener('submit',function(){
