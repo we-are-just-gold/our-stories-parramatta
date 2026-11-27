@@ -94,6 +94,23 @@ PICS = {
         f'<circle cx="170" cy="52" r="14" fill="{CREATE}"/>'),
 }
 
+COUNCIL = 'https://www.cityofparramatta.nsw.gov.au/files/assets/public/v/1/publications/phive-visual-story-june-2026.pdf'
+# step key: file, width, height, alt text, caption. All photos are City of Parramatta's.
+PHOTOS = {
+    'travel': ('venue-outside.jpg', 624, 415,
+               'PHIVE seen from Parramatta Square. It has a red roof with a pattern of raised tiles. Parramatta Town Hall is on the left. People are walking and sitting in the square.',
+               'PHIVE from Parramatta Square. Parramatta Town Hall is on the left.'),
+    'door': ('venue-entrance.jpg', 565, 275,
+             'The front of PHIVE. Red signs above the doors say Parramatta Library and PHIVE. The large glass doors on the left are open. The automatic sliding door is on the right.',
+             'The main entrance. The large glass doors are on the left. The automatic sliding door is on the right.'),
+    'lift': ('venue-lifts.jpg', 633, 331,
+             'The Ground Floor foyer of PHIVE, with orange chairs and plants. A red arrow points to a glass lift. A second red arrow points to the glass doors that lead to the stairs.',
+             'The foyer on the Ground Floor. The red arrows point to the lifts, on the left, and to the doors for the stairs, on the right.'),
+    'hear': ('venue-civic-gallery.jpg', 624, 466,
+             'The Civic Gallery. A long room with tall windows along one side, a white folded ceiling and an orange carpet. It is set up with one long table and wooden chairs.',
+             'The Civic Gallery, set up for a different event.'),
+}
+
 ICON = {
     'sound': '<path d="M4 10v4h4l5 4V6L8 10z"/><path d="M16.5 9a4.2 4.2 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/>',
     'people': '<circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 19a5.5 5.5 0 0 1 11 0M14 19a4 4 0 0 1 7.5-1.5"/>',
@@ -129,6 +146,7 @@ STEPS = [
      'Then I follow the train directions.</p>'
      '<p><strong>Car.</strong> There is a drop off zone in front of the entrance doors. The Parramatta Square Carpark entrance ramp is on Darcy Street, '
      'just after the corner of Smith Street. It is paid, with no ticket and no cash. Other car parks are in the <a href="/welcome#venue">welcome pack</a>.</p>'
+     '<p>Photos of each route are in <a href="' + COUNCIL + '">City of Parramatta’s visual story for PHIVE</a>.</p>'
      '</details>'),
     ('door', '', 'Going in', 'I go in the main entrance',
      ['I walk in from Parramatta Square, through the large glass doors or the automatic sliding door.',
@@ -185,12 +203,17 @@ def build(page, hero, row):
     cards = []
     for i, (key, cls, when, title, paras, chips, extra) in enumerate(STEPS, 1):
         chips_html = ('<ul class="vs-chips">' + ''.join(chip(k, t) for k, t in chips) + '</ul>') if chips else ''
+        photo = ''
+        if key in PHOTOS:
+            fn, w, h, alt, cap = PHOTOS[key]
+            photo = (f'<figure class="vs-photo"><img src="/img/{fn}" alt="{alt}" width="{w}" height="{h}" loading="lazy">'
+                     f'<figcaption>{cap} <span>Photo: City of Parramatta.</span></figcaption></figure>')
         cards.append(
             f'<li class="vs-step {cls}" id="step-{i}">'
             f'<div class="vs-pic">{PICS[key]}</div>'
             f'<div class="vs-txt"><p class="vs-n"><span class="vs-num">{i}</span><span class="vh"> of {n}. </span><span class="vs-when">{when}</span></p>'
             f'<h2>{title}</h2>'
-            + ''.join(f'<p>{p}</p>' for p in paras) + chips_html + extra + '</div></li>')
+            + ''.join(f'<p>{p}</p>' for p in paras) + photo + chips_html + extra + '</div></li>')
 
     body = hero('Visual story', 'My day at', 'Our Stories.',
                 'What I will see and do at PHIVE on Saturday 28 November 2026. One step at a time, in pictures.',
@@ -265,8 +288,9 @@ def build(page, hero, row):
 <p class="label">More about the day</p>
 <h2>Times, people and consent</h2>
 <p class="intro">The welcome pack has the full timetable, who is leading the day, parking and support numbers.</p>
-<p><a class="btn" href="/welcome">Open the welcome pack</a></p>
-<p class="vs-src">Details about the building come from City of Parramatta’s visual stories for <a href="https://cityofparramatta.nsw.gov.au/document/51436">PHIVE</a> and <a href="https://www.cityofparramatta.nsw.gov.au/files/assets/public/v/1/publications/parramatta-library-visual-story-2025.pdf">Parramatta Library</a>, made with Autism Spectrum Australia (Aspect).</p>
+<p class="vs-top"><a class="btn" href="/welcome">Open the welcome pack</a><a class="btn ghost" href="{COUNCIL}">City of Parramatta’s visual story for PHIVE (PDF)</a></p>
+<p class="vs-src">Council’s visual story has more photos of the building, the library and the way in from the train, light rail, bus and car park.</p>
+<p class="vs-src">The photos on this page are City of Parramatta’s. Details about the building come from City of Parramatta’s visual stories for <a href="{COUNCIL}">PHIVE</a> and <a href="https://www.cityofparramatta.nsw.gov.au/files/assets/public/v/1/publications/parramatta-library-visual-story-2025.pdf">Parramatta Library</a>, made with Autism Spectrum Australia (Aspect).</p>
 </div>
 </section>
 '''
