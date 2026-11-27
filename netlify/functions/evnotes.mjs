@@ -1,4 +1,4 @@
-// Evaluation notes: the team's own notes, transcripts, audio and pictures from the day. Password needed for everything (DESK_CODE).
+// Evaluation notes: the team's own notes, transcripts, audio and pictures from the day. Password needed for everything (EVAL_CODE).
 // POST /api/evnotes, JSON body with code and op:
 //   {op: "list"}                                   every note, newest first, with its files listed (no file data)
 //   {op: "add", session, kind, text}               a new note; returns its id
@@ -14,8 +14,8 @@ const json = (body, status = 200) =>
   });
 const norm = (v) => String(v || "").toLowerCase().replace(/[^a-z0-9]/g, "");
 const code = () => {
-  try { return (globalThis.Netlify && Netlify.env.get("DESK_CODE")) || process.env.DESK_CODE || ""; }
-  catch { return process.env.DESK_CODE || ""; }
+  try { return (globalThis.Netlify && Netlify.env.get("EVAL_CODE")) || process.env.EVAL_CODE || ""; }
+  catch { return process.env.EVAL_CODE || ""; }
 };
 const SESSIONS = ["General", "Welcome desk", "Hear", "Lunch", "Create", "Share"];
 const KINDS = ["Note", "Transcript", "Audio", "Picture", "Quote"];

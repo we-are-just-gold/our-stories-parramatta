@@ -1382,8 +1382,8 @@ evalpage = """
 <section class="form" data-evgate><div class="narrow prose">
 <p class="label">Evaluation</p>
 <h1 class="dh1">Everything coming in, live</h1>
-<h2>Enter the welcome desk password</h2>
-<p>The same password as the welcome desk.</p>
+<h2>Enter the evaluation password</h2>
+<p>If you do not have it, ask Kyriakos.</p>
 <form class="gate" data-evform>
 <div class="field"><label for="evpw">Password</label>
 <input type="password" id="evpw" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" required></div>

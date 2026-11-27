@@ -1,7 +1,7 @@
 // Live evaluation feed. Keeps a copy of the survey and session answers so the evaluation page can show them as they arrive.
 // No names, contact details, IP addresses or consent forms are kept.
 // POST /api/eval  {form, data, at?}                one more answer set (sent from the page when a form is sent; at, for a backfill, must be earlier today)
-// POST /api/eval  {list: true, code, day?}         every answer set for the day, password needed (DESK_CODE)
+// POST /api/eval  {list: true, code, day?}         every answer set for the day, password needed (EVAL_CODE)
 import { getStore } from "@netlify/blobs";
 
 // The forms the evaluation reads, and for each the fields it keeps (null keeps every field but the dropped ones).
@@ -24,8 +24,8 @@ const json = (body, status = 200) =>
   });
 const norm = (v) => String(v || "").toLowerCase().replace(/[^a-z0-9]/g, "");
 const code = () => {
-  try { return (globalThis.Netlify && Netlify.env.get("DESK_CODE")) || process.env.DESK_CODE || ""; }
-  catch { return process.env.DESK_CODE || ""; }
+  try { return (globalThis.Netlify && Netlify.env.get("EVAL_CODE")) || process.env.EVAL_CODE || ""; }
+  catch { return process.env.EVAL_CODE || ""; }
 };
 export const sydneyDay = (ms) =>
   new Intl.DateTimeFormat("en-CA", { timeZone: "Australia/Sydney", year: "numeric", month: "2-digit", day: "2-digit" })
