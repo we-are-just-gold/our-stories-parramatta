@@ -600,6 +600,9 @@ welcomep = hero('Welcome pack', 'Welcome to', 'Our Stories.',
 <article><img src="/img/hawanatu.jpg" alt="Hawanatu Bangura" width="160" height="160">
 <h3>Hawanatu Bangura</h3><p class="role"><a href="https://www.ourrace.com.au/">Our Race</a>. Facilitator, Create</p>
 <p>A Sierra Leonean-Australian filmmaker, social worker and story coach, and the creator of the Defining Moments Cards.</p></article>
+<article><img src="/img/saurav.jpg" alt="Saurav Shrestha" width="160" height="160">
+<h3>Saurav Shrestha</h3><p class="role">In conversation, Hear</p>
+<p>A storyteller, mentor and editor who loves sharing stories about people, cultures and belonging. He has written many children’s books in the Nepali language and enjoys supporting creative projects that celebrate diverse voices.</p></article>
 <article><img src="/img/defne.jpg" alt="DEFNE" width="160" height="160">
 <h3>DEFNE</h3><p class="role">Performer, Hear</p>
 <p>A queer neurodivergent Turkish-Australian multidisciplinary artist and the Creative Director and Host of West Side Poetry Slam in Parramatta. Photo: Justin Cueno</p></article>
@@ -694,6 +697,8 @@ DOUG = person('doug.jpg', 'Doug Cronin', 'Doug Cronin', 'Our Race. Co-Founder an
               'An ethical storytelling learner, educator and advocate. More than 10 years of learning about the power of '
               'storytelling led Doug to co-create the Transformational Ethical Story Telling Framework and to work on '
               'storytelling projects across Australia and abroad.')
+SAURAV = person('saurav.jpg', 'Saurav Shrestha', 'Saurav Shrestha', 'In conversation in Hear',
+                'A storyteller, mentor and editor who loves sharing stories about people, cultures and belonging. He has written many children’s books in the Nepali language and enjoys supporting creative projects that celebrate diverse voices.')
 DESERT = person('desert-empress.jpg', 'Desert Empress', 'Desert Empress (she/her)', 'Performing in Hear',
                 'A hip hop practitioner. A rapper and singer of Isaan and Iraqi heritage from South West Sydney who has '
                 'performed locally and internationally.')
@@ -702,7 +707,7 @@ HAWA = person('hawanatu.jpg', 'Hawanatu Bangura', 'Hawanatu Bangura', 'Our Race.
               'healing, identity and community. She is the creator of the Defining Moments Cards.')
 
 FAC = {
- 'hear': '<section class="fac"><div class="narrow"><p class="label">With you in Hear</p>' + RU + DEFNE + DESERT + '</div></section>',
+ 'hear': '<section class="fac"><div class="narrow"><p class="label">With you in Hear</p>' + RU + SAURAV + DEFNE + DESERT + '</div></section>',
  'create': ('<section class="fac"><div class="narrow">'
             '<img class="orlogo" src="/img/our-race.png" alt="Our Race. Flipping the power together" width="371" height="482">'
             '<p class="label">Create is led by Our Race</p>'
@@ -763,7 +768,7 @@ hear_steps = '\n'.join([
          '<p>Dr Ru gives the room five minutes for this after the welcome.</p>' + START),
     step(2, 'What happens in Hear',
          '<ul class="list"><li><strong>10am to 10.30am.</strong> Welcome to Country and an opening reflection, then five minutes to start your day on the app.</li>'
-         '<li><strong>About 45 minutes.</strong> A conversation with a children’s author, who reads from his book. Spoken word from DEFNE, and a conversation with her.</li>'
+         '<li><strong>About 45 minutes.</strong> A conversation with Saurav Shrestha, a children’s author, who reads from his book. Spoken word from DEFNE, and a conversation with her.</li>'
          '<li><strong>About 45 minutes.</strong> Dr Ru’s three questions. Your answers come up on the screen and the room talks about them.</li>'
          '<li>Doug from Our Race sets up Create before lunch.</li></ul>'
          '<p>Hear sets the tone for the day and begins drawing out its themes: belonging, resilience, allyship and community.</p>'),
