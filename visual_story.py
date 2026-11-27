@@ -108,7 +108,7 @@ PHOTOS = {
              'The foyer on the Ground Floor. The red arrows point to the lifts, on the left, and to the doors for the stairs, on the right.'),
     'hear': ('venue-civic-gallery.jpg', 624, 466,
              'The Civic Gallery. A long room with tall windows along one side, a white folded ceiling and an orange carpet. It is set up with one long table and wooden chairs.',
-             'The Civic Gallery, set up for a different event.'),
+             'The Civic Gallery. The tables and chairs will be set out differently for Our Stories.'),
 }
 
 ICON = {
