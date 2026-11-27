@@ -140,6 +140,7 @@ async function view(store) {
   const keys = blobs.map((x) => x.key);
   const ticks = new Set(keys.filter((k) => k.startsWith("t/")).map((k) => k.slice(2)));
   const arrived = new Set(keys.filter((k) => k.startsWith("r/")).map((k) => k.slice(2)));
+  const unticks = new Set(keys.filter((k) => k.startsWith("u/")).map((k) => k.slice(2)));
   const pKeys = keys.filter((k) => k.startsWith("p/")).sort((a, b) => sentAt(a) - sentAt(b));
   await Promise.all(pKeys.filter((k) => !cache.has(k)).map(async (k) => {
     const v = await store.get(k, { type: "json" });
@@ -165,9 +166,9 @@ async function view(store) {
       desk: !!last.desk, differs, arrived: arrived.has(key),
     });
     const youngUnsure = differs.includes("the young people’s photos");
-    if (last.photos === "sticker") tasks.push({ id: "sticker-" + key, kind: "sticker", text: `Bright sticker for ${last.name}.` });
+    if (last.photos === "sticker") tasks.push({ id: "sticker-" + key, who: key, kind: "sticker", text: `Bright sticker for ${last.name}.` });
     if (last.under18 && last.young && (last.youngPhotos === "sticker" || youngUnsure)) {
-      tasks.push({ id: "ysticker-" + key, kind: "sticker", text: `Bright stickers for ${last.young}, with ${last.name}.` });
+      tasks.push({ id: "ysticker-" + key, who: key, kind: "sticker", text: `Bright stickers for ${last.young}, with ${last.name}.` });
     }
     if (differs.length) {
       tasks.push({ id: "check-" + key, kind: "check",
@@ -195,7 +196,14 @@ async function view(store) {
     for (const se of p.sessions) { const t = types.find((x) => x.name === se.name); if (t) t.arrived += se.count; }
   }
   people.sort((a, b) => a.name.localeCompare(b.name));
-  tasks.forEach((t) => { t.done = ticks.has(t.id); });
+  // A sticker is handed over at sign in, so ticking someone as arrived ticks their sticker tasks.
+  // Unticking that task by hand keeps it open. Checks (forms that disagree, permission) stay manual.
+  tasks.forEach((t) => {
+    const auto = t.kind === "sticker" && arrived.has(t.who) && !unticks.has(t.id);
+    t.done = ticks.has(t.id) || auto;
+    if (auto && !ticks.has(t.id)) t.auto = true;
+    delete t.who;
+  });
   const run = RUN.map(([at, title, text]) => ({ id: "run-" + at, at, title, text, done: ticks.has("run-" + at) }));
   return { people, tasks, run, types, humanitix: { status: hx.status, code: hx.code || 0, stale: !!hx.stale, tickets: hx.tickets || 0, orders: hx.orders || 0, booked: hx.people.length } };
 }
@@ -245,7 +253,8 @@ export async function handle(req, store) {
   if (!code || norm(b.code) !== norm(code)) return json({ error: "wrong password" }, 403);
   if (b.tick) {
     const id = cleanId(b.tick);
-    if (b.on === false) await store.delete("t/" + id); else await store.set("t/" + id, "1");
+    if (b.on === false) { await store.delete("t/" + id); await store.set("u/" + id, "1"); }
+    else { await store.set("t/" + id, "1"); await store.delete("u/" + id); }
     return json({ ok: true });
   }
   if (b.arrived) {

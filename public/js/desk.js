@@ -43,7 +43,12 @@
     if(p.differs.length) pills.appendChild(el('span','dpill warn','Ask'));
     row.appendChild(pills);
     var more=el('div','dmore'); more.hidden=!open[p.key];
-    if(p.noConsent) more.appendChild(line('','No consent form yet. They fill it in on their own phone or on this device.'));
+    if(p.noConsent){
+      more.appendChild(line('','No consent form yet. They fill it in on their own phone or on this device.'));
+      var fill=el('a','btn small dfill','Consent form on this device, with their name in'); fill.href='/consent?desk=1';
+      fill.addEventListener('click',function(){ try{ sessionStorage.setItem('os_prefill',p.name); }catch(e){} handOver(); });
+      var fp=el('p'); fp.appendChild(fill); more.appendChild(fp);
+    }
     else more.appendChild(line('Photos and video: ',p.photos==='sticker'?'no. Give them a bright sticker.':'happy to be in them.'));
     if(p.sessions&&p.sessions.length) more.appendChild(line('Booked: ',p.sessions.map(function(s){ return s.name+(s.count>1?' ('+s.count+' tickets)':''); }).join(', ')+'.'));
     else if(on) more.appendChild(line('','No booking under this name.'));
@@ -64,7 +69,7 @@
     todo.textContent=''; done.textContent='';
     if(!openT.length) todo.appendChild(el('li','dempty','Nothing waiting. New tasks appear here as consent forms come in.'));
     openT.forEach(function(t){ todo.appendChild(check(t.id,false,t.kind,t.text)); });
-    fin.forEach(function(t){ done.appendChild(check(t.id,true,t.kind,t.text)); });
+    fin.forEach(function(t){ done.appendChild(check(t.id,true,t.kind,t.text,t.auto?'Ticked when they were signed in.':'')); });
     doneWrap.hidden=!fin.length; doneCount.textContent=fin.length;
     var now=sydneyNow(), today=now.day==='2026-11-28';
     run.textContent='';
@@ -143,8 +148,9 @@
   document.addEventListener('visibilitychange',function(){ if(!document.hidden) load(); });
   $('[data-lock]').addEventListener('click',function(){ lock(''); });
   // Handing the device to someone to sign: lock the desk first, so they cannot go back to the list.
+  function handOver(){ try{ sessionStorage.removeItem(K); }catch(e){} code=''; clearInterval(timer); timer=null; people.textContent=''; todo.textContent=''; done.textContent=''; inside.hidden=true; gate.hidden=false; }
   var hand=$('[data-handover]');
-  if(hand) hand.addEventListener('click',function(){ try{ sessionStorage.removeItem(K); }catch(e){} code=''; clearInterval(timer); timer=null; people.textContent=''; todo.textContent=''; done.textContent=''; inside.hidden=true; gate.hidden=false; });
+  if(hand) hand.addEventListener('click',function(){ try{ sessionStorage.removeItem('os_prefill'); }catch(e){} handOver(); });
   try{ if(sessionStorage.getItem('desk_saved')){ sessionStorage.removeItem('desk_saved'); saved.hidden=false; } }catch(e){}
   // Coming back with the browser's back button must not show the list either.
   window.addEventListener('pageshow',function(ev){ if(ev.persisted){ var c=''; try{ c=sessionStorage.getItem(K)||''; }catch(e){} if(!c) lock(''); } });

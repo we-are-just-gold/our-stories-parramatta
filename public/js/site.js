@@ -11,6 +11,7 @@
       f.setAttribute('action','/desk');
       var n=document.createElement('p'); n.className='flag'; n.textContent='Welcome desk. Hand this device to the person signing. The desk is locked while they have it. When they send the form, enter the password to open the desk again.';
       f.parentNode.insertBefore(n,f);
+      try{ var pre=sessionStorage.getItem('os_prefill'); if(pre){ sessionStorage.removeItem('os_prefill'); var ni=f.querySelector('input[name="name"]'); if(ni&&!ni.value) ni.value=pre; } }catch(e){}
     }
     f.addEventListener('submit',function(){
       if(!(desk && name==='consent')){ var d=read(); d[name]=1; write(d); }
