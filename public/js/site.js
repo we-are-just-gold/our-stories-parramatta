@@ -20,6 +20,11 @@
     f.addEventListener('submit',function(){
       if(!(desk && name==='consent')){ var d=read(); d[name]=1; write(d); }
       try{ navigator.sendBeacon('/api/count',new Blob([JSON.stringify({form:name})],{type:'application/json'})); }catch(e){}
+      // Copy survey and session answers to the live evaluation (no names or contact details; the server keeps only what it needs)
+      if(/^(arrival-survey|end-of-day-survey|in-my-community|quick-fire|through-the-day|share-your-story|circle-message)$/.test(name)){
+        try{ var ed={}, efd=new FormData(f); efd.forEach(function(v,k){ if(typeof v!=='string') return; if(k in ed){ ed[k]=[].concat(ed[k],v); } else ed[k]=/\[\]$/.test(k)?[v]:v; });
+          navigator.sendBeacon('/api/eval',new Blob([JSON.stringify({form:name,data:ed})],{type:'application/json'})); }catch(e){}
+      }
       if(name==='consent'){
         try{
           var fd=new FormData(f), c={};

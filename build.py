@@ -127,6 +127,7 @@ def page(path, title, desc, body, current='', noindex=False, script=False, guard
 <a href="/hosts">For hosts</a>
 <a href="/volunteers">For volunteers</a>
 <a href="/desk">Welcome desk</a>
+<a href="/evaluation">Evaluation</a>
 <a href="/privacy">Privacy notice</a>
 <a href="https://sydwestms.org.au/privacy-policy/">SydWest privacy policy</a></div>
 </nav>
@@ -1374,6 +1375,68 @@ deskp = '''
 <script src="/js/count.js" defer></script>'''
 page('desk.html', 'Welcome desk. Our Stories, Parramatta',
      'For the welcome desk and coordinators.', deskp, current='desk', noindex=True)
+
+
+# ---------- evaluation ----------
+evalpage = """
+<section class="form" data-evgate><div class="narrow prose">
+<p class="label">Evaluation</p>
+<h1 class="dh1">Everything coming in, live</h1>
+<h2>Enter the welcome desk password</h2>
+<p>The same password as the welcome desk.</p>
+<form class="gate" data-evform>
+<div class="field"><label for="evpw">Password</label>
+<input type="password" id="evpw" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" required></div>
+<button type="submit" class="btn">Go in</button>
+</form>
+<p class="filemsg" data-evmsg hidden></p>
+</div></section>
+<section class="ev" data-evinside hidden>
+<div class="evtop"><div class="wrap">
+<div class="evbar">
+<div class="dtabs evtabs" role="tablist" aria-label="Evaluation">
+<button type="button" role="tab" class="dtab is-on" data-evtab="results" aria-selected="true">Live results</button>
+<button type="button" role="tab" class="dtab" data-evtab="notes" aria-selected="false">Notes <b data-n-notes>0</b></button>
+</div>
+<button type="button" class="dlock" data-evlock>Lock</button>
+</div>
+<p class="evup" data-evup>Loading</p>
+</div></div>
+<div class="wrap">
+<div data-evpanel="results">
+<p class="evnote">Today only, Sydney time. Updates every 15 seconds. No names: consent forms, stage spots and contact details are not shown here.</p>
+<ul class="evtiles" data-evtiles></ul>
+<div data-evcompare></div>
+<nav class="evjump" aria-label="Go to" data-evjump></nav>
+<div data-evbody></div>
+</div>
+<div data-evpanel="notes" hidden>
+<form class="evadd" data-noteform>
+<h2>Add to the evaluation</h2>
+<p class="evnote">Notes, quotes, transcripts, voice recordings and pictures. Only record or photograph people who have said yes on their consent form, and nobody wearing a bright sticker.</p>
+<div class="evrow">
+<div class="field"><label for="nsession">Session</label><select id="nsession" data-nsession><option>General</option><option>Welcome desk</option><option>Hear</option><option>Lunch</option><option>Create</option><option>Share</option></select></div>
+<div class="field"><label for="nkind">Type</label><select id="nkind" data-nkind><option>Note</option><option>Quote</option><option>Transcript</option><option>Audio</option><option>Picture</option></select></div>
+<div class="field"><label for="nby">Your name</label><input id="nby" data-nby autocomplete="name"></div>
+</div>
+<div class="field"><label for="ntext">Note, quote or transcript</label><textarea id="ntext" data-ntext rows="5"></textarea></div>
+<div class="evfiles">
+<label class="btn ghost small evpick">Add pictures or files<input type="file" data-nfiles multiple accept="image/*,audio/*,video/*,.txt,.pdf,.doc,.docx" hidden></label>
+<button type="button" class="btn ghost small" data-nrec>Record audio</button>
+<span class="evrec" data-nrecstate hidden></span>
+</div>
+<ul class="evpend" data-npend></ul>
+<p><button type="submit" class="btn" data-nsave>Save to the evaluation</button></p>
+<p class="filemsg" data-nmsg hidden></p>
+</form>
+<div class="evfilter" data-nfilter></div>
+<ol class="evnotes" data-nlist></ol>
+</div>
+</div>
+</section>
+<script src="/js/eval.js" defer></script>"""
+page('evaluation.html', 'Evaluation. Our Stories, Parramatta',
+     'Live evaluation for the coordinators.', evalpage, current='desk', noindex=True)
 
 
 # ---------- privacy ----------

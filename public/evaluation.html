@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evaluation. Our Stories, Parramatta</title>
+<meta name="description" content="Live evaluation for the coordinators.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/host-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/site.css">
+<script src="/js/site.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the main content</a>
+<header class="site-head is-slim">
+<div class="wrap">
+<a class="brand" href="/" aria-label="Our Stories, Parramatta home"><img src="/img/our-stories.png" alt="Our Stories, Parramatta" width="196" height="92"></a>
+<nav class="nav" aria-label="More">
+<a href="/welcome">Welcome pack</a>
+<a href="/visual-story">Visual story</a>
+<a href="/consent">Consent form</a>
+<a href="/privacy">Privacy</a>
+</nav>
+
+</div>
+</header>
+
+<main id="main">
+
+<section class="form" data-evgate><div class="narrow prose">
+<p class="label">Evaluation</p>
+<h1 class="dh1">Everything coming in, live</h1>
+<h2>Enter the welcome desk password</h2>
+<p>The same password as the welcome desk.</p>
+<form class="gate" data-evform>
+<div class="field"><label for="evpw">Password</label>
+<input type="password" id="evpw" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" required></div>
+<button type="submit" class="btn">Go in</button>
+</form>
+<p class="filemsg" data-evmsg hidden></p>
+</div></section>
+<section class="ev" data-evinside hidden>
+<div class="evtop"><div class="wrap">
+<div class="evbar">
+<div class="dtabs evtabs" role="tablist" aria-label="Evaluation">
+<button type="button" role="tab" class="dtab is-on" data-evtab="results" aria-selected="true">Live results</button>
+<button type="button" role="tab" class="dtab" data-evtab="notes" aria-selected="false">Notes <b data-n-notes>0</b></button>
+</div>
+<button type="button" class="dlock" data-evlock>Lock</button>
+</div>
+<p class="evup" data-evup>Loading</p>
+</div></div>
+<div class="wrap">
+<div data-evpanel="results">
+<p class="evnote">Today only, Sydney time. Updates every 15 seconds. No names: consent forms, stage spots and contact details are not shown here.</p>
+<ul class="evtiles" data-evtiles></ul>
+<div data-evcompare></div>
+<nav class="evjump" aria-label="Go to" data-evjump></nav>
+<div data-evbody></div>
+</div>
+<div data-evpanel="notes" hidden>
+<form class="evadd" data-noteform>
+<h2>Add to the evaluation</h2>
+<p class="evnote">Notes, quotes, transcripts, voice recordings and pictures. Only record or photograph people who have said yes on their consent form, and nobody wearing a bright sticker.</p>
+<div class="evrow">
+<div class="field"><label for="nsession">Session</label><select id="nsession" data-nsession><option>General</option><option>Welcome desk</option><option>Hear</option><option>Lunch</option><option>Create</option><option>Share</option></select></div>
+<div class="field"><label for="nkind">Type</label><select id="nkind" data-nkind><option>Note</option><option>Quote</option><option>Transcript</option><option>Audio</option><option>Picture</option></select></div>
+<div class="field"><label for="nby">Your name</label><input id="nby" data-nby autocomplete="name"></div>
+</div>
+<div class="field"><label for="ntext">Note, quote or transcript</label><textarea id="ntext" data-ntext rows="5"></textarea></div>
+<div class="evfiles">
+<label class="btn ghost small evpick">Add pictures or files<input type="file" data-nfiles multiple accept="image/*,audio/*,video/*,.txt,.pdf,.doc,.docx" hidden></label>
+<button type="button" class="btn ghost small" data-nrec>Record audio</button>
+<span class="evrec" data-nrecstate hidden></span>
+</div>
+<ul class="evpend" data-npend></ul>
+<p><button type="submit" class="btn" data-nsave>Save to the evaluation</button></p>
+<p class="filemsg" data-nmsg hidden></p>
+</form>
+<div class="evfilter" data-nfilter></div>
+<ol class="evnotes" data-nlist></ol>
+</div>
+</div>
+</section>
+<script src="/js/eval.js" defer></script>
+</main>
+<footer class="site-foot">
+<div class="wrap top">
+<div class="logos">
+<img src="/img/partners.png" alt="Our Stories Parramatta, SydWest, City of Parramatta and NSW Government" width="860" height="108">
+<p>Our Stories, Parramatta is an initiative of SydWest and the City of Parramatta, funded by the NSW Government through the NSW Social Cohesion Grants for Local Government program.</p>
+</div>
+<nav aria-label="Footer">
+<div><b>TODAY</b>
+<a href="/hear">Hear, 10am</a>
+<a href="/lunch">Lunch, 12pm</a>
+<a href="/create">Create, 12.45pm</a>
+<a href="/share">Share, 3pm</a>
+<a href="/arrival-survey">Start your day</a>
+<a href="/during">Add your voice</a>
+<a href="/share-your-story">Share your story</a>
+<a href="/end-of-day-survey">End your day</a></div>
+<div><b>LOOKING AFTER YOU</b>
+<a href="/welcome">Welcome pack</a>
+<a href="/visual-story">Visual story</a>
+<a href="/consent">Consent form</a>
+<a href="/#support">Support numbers</a>
+<a href="/hosts">For hosts</a>
+<a href="/volunteers">For volunteers</a>
+<a href="/desk">Welcome desk</a>
+<a href="/evaluation">Evaluation</a>
+<a href="/privacy">Privacy notice</a>
+<a href="https://sydwestms.org.au/privacy-policy/">SydWest privacy policy</a></div>
+</nav>
+</div>
+<div class="base"><div class="wrap">
+<p>Our Stories, Parramatta takes place on the land of the Burramattagal people of the Dharug Nation, the first storytellers of the place we now call Parramatta. We pay our respects to Elders past and present.</p>
+<div class="credit">
+<p>Design and copyright © Just Gold 2026</p>
+<div class="by">
+<p class="by-t">Powered by <span class="thinkr">Thinkr</span></p>
+<a class="by-l" href="https://justgold.net"><img src="/img/just-gold-white.png" alt="Just Gold" width="497" height="228" loading="lazy"></a>
+</div>
+</div>
+</div></div>
+</footer>
+</body>
+</html>
