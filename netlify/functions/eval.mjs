@@ -1,6 +1,6 @@
 // Live evaluation feed. Keeps a copy of the survey and session answers so the evaluation page can show them as they arrive.
 // No names, contact details, IP addresses or consent forms are kept.
-// POST /api/eval  {form, data, at?}                one more answer set (sent from the page when a form is sent; at, for a backfill, must be earlier today)
+// POST /api/eval  {form, data, at?, nid?}          one more answer set; at and nid (Netlify submission id) mark a backfill from earlier today, skipped if already held
 // POST /api/eval  {list: true, code, day?}         every answer set for the day, password needed (EVAL_CODE)
 import { getStore } from "@netlify/blobs";
 
@@ -57,6 +57,23 @@ export async function handle(req, store) {
     // A backfill from Netlify's own record carries its time; a live answer takes the time it arrives.
     const now = Date.now(), given = Number(b.at) || 0;
     const at = given && given <= now && sydneyDay(given) === sydneyDay(now) ? given : now;
+    if (given) {
+      // A backfill from Netlify's record: skip it if the live copy of the same answers arrived within three minutes.
+      const same = JSON.stringify(data);
+      const { blobs } = await store.list({ prefix: `a/${sydneyDay(at)}/${form}/` });
+      for (const x of blobs) {
+        const t = parseInt(x.key.split("/").pop(), 10) || 0;
+        if (Math.abs(t - at) > 180000) continue;
+        const it = await store.get(x.key, { type: "json" });
+        if (it && JSON.stringify(it.data) === same) return json({ ok: true, skipped: true });
+      }
+      if (b.nid) {
+        const k = `a/${sydneyDay(at)}/${form}/${at}-n${String(b.nid).replace(/[^a-z0-9]/gi, "").slice(0, 30)}`;
+        if (await store.get(k)) return json({ ok: true, skipped: true });
+        await store.setJSON(k, { at, form, data });
+        return json({ ok: true });
+      }
+    }
     await store.setJSON(`a/${sydneyDay(at)}/${form}/${at}-${Math.random().toString(36).slice(2, 8)}`, { at, form, data });
     return json({ ok: true });
   }
