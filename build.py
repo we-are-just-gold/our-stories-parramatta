@@ -748,9 +748,9 @@ def session_page(path, key, name, time, script_word, lead, steps_html, title):
     page(path, title, lead, body, current=key, noindex=True, script=True)
 
 START = ('<p>The arrival survey. 10 short questions about you and your community, with no name.</p>'
-         '<p><a class="btn" href="/arrival-survey" data-key="arrival-survey">Start your day</a></p>')
+         '<p><a class="btn start" href="/arrival-survey" data-key="arrival-survey">Start your day</a></p>')
 END = ('<p>The end of day survey. About five minutes on what you heard, who you met and what you will carry home.</p>'
-       '<p><a class="btn" href="/end-of-day-survey" data-key="end-of-day-survey">End your day</a></p>')
+       '<p><a class="btn end" href="/end-of-day-survey" data-key="end-of-day-survey">End your day</a></p>')
 
 hear_steps = '\n'.join([
     step(1, 'First session today? Start your day',
@@ -797,8 +797,8 @@ hear_steps = '\n'.join([
                    'Send my reflection', '<input type="hidden" name="session" value="Hear">')
          + '<p class="hint" style="margin-top:14px">No name. Send as many as you like.</p>'),
     step(6, 'Staying on, or heading off?',
-         '<p><strong>Staying.</strong> Lunch is at 12pm for everyone, and Create starts at 12.45pm.</p>'
-         '<p><a class="btn ghost" href="/lunch">Go to lunch</a></p><p style="margin-top:22px"><strong>Leaving after Hear.</strong></p>' + END),
+         '<p><strong>Staying?</strong> Lunch is at 12pm for everyone, and Create starts at 12.45pm.</p>'
+         '<p><a class="btn to-lunch" href="/lunch">Go to lunch</a></p><p style="margin-top:22px"><strong>Leaving now?</strong></p>' + END),
 ])
 session_page('hear.html', 'hear', 'Hear', '10am to 12pm', 'local stories.',
              'Local voices on what it takes to belong in Parramatta. Coming just to listen is taking part.',
@@ -851,8 +851,8 @@ create_steps = '\n'.join([
                      + opts('minutes', ['2 minutes', '3 minutes', '4 minutes', '5 minutes'], required=True, cols=True),
                      'Put my name down')),
     step(6, 'Staying on, or heading off?',
-         '<p><strong>Staying.</strong> Share starts at 3pm.</p><p><a class="btn ghost" href="/share">Go to Share</a></p>'
-         '<p style="margin-top:22px"><strong>Leaving after Create.</strong></p>' + END),
+         '<p><strong>Staying?</strong> Share starts at 3pm.</p><p><a class="btn to-share" href="/share">Go to Share</a></p>'
+         '<p style="margin-top:22px"><strong>Leaving now?</strong></p>' + END),
 ])
 session_page('create.html', 'create', 'Create', '12.45pm to 2.45pm', 'your own story.',
              'Shape your own story with Our Race. You decide what you tell, and what you keep.',
@@ -962,7 +962,7 @@ lunchp = f'''<section class="page-hero s-lunch">
 {step(1, 'What is on', '<ul class="list"><li>All food is halal, with gluten free, vegetarian and vegan options.</li><li>Tea and coffee are on a table in the foyer.</li><li>If you have a nut allergy or any other allergy, tell us at the welcome desk before you eat.</li></ul>')}
 {step(2, 'While you eat', '<p>Cultural dance, and a conversation between a flautist and an electric guitarist.</p>')}
 {step(3, 'Got a minute?', '<p>Tell us what stayed with you this morning, or share your story in full, with or without your name.</p><p><a class="btn" href="/during">Add your voice</a></p><p><a class="btn ghost" href="/share-your-story">Share your story</a></p>')}
-{step(4, 'Next', '<p><strong>Just arrived for the afternoon?</strong></p>' + START + '<p style="margin-top:22px"><strong>Create starts at 12.45pm.</strong></p><p><a class="btn ghost" href="/create">Go to Create</a></p>')}
+{step(4, 'Next', '<p><strong>Just arrived for the afternoon?</strong></p>' + START + '<p style="margin-top:22px"><strong>Staying?</strong> Create starts at 12.45pm.</p><p><a class="btn to-create" href="/create">Go to Create</a></p><p style="margin-top:22px"><strong>Leaving now?</strong></p>' + END)}
 </ol>
 </div></section>'''
 page('lunch.html', 'Lunch. Our Stories, Parramatta',
@@ -1086,7 +1086,7 @@ volp = hero('Volunteer pack', 'Thank you for', 'being part of this.',
 <li><strong>Arriving.</strong> “Open the app and tap <a href="/arrival-survey">Start your day</a>.” People arriving for a later session do this first too.</li>
 <li><strong>In a session.</strong> “Tap the session’s colour and follow the steps.”</li>
 <li><strong>Telling a story.</strong> “Tap <a href="/share-your-story">Share your story</a>. You can send it with or without your name.”</li>
-<li><strong>Leaving.</strong> “Tap <a href="/end-of-day-survey">End your day</a> before you go.” This applies to people leaving after one session too.</li>
+<li><strong>Leaving.</strong> “Tap <a href="/end-of-day-survey">End your day</a> before you go.” This applies to people leaving after one session too. End your day is the coral button on every page.</li>
 <li><strong>Consent.</strong> The <a href="/consent">consent form</a> is in the menu at the top of every page.</li>
 </ul>
 </div>

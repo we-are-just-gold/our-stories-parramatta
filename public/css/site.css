@@ -37,6 +37,16 @@ a:hover{color:var(--blue)}
 .teambtn:hover,.teambtn[aria-current=page]{background:var(--navy);color:#fff}
 .btn{display:inline-block;text-decoration:none;font:inherit;font-weight:600;border-radius:999px;padding:15px 28px;min-height:52px;border:1.5px solid var(--navy);background:var(--navy);color:#fff;cursor:pointer;text-align:center}
 .btn:hover{background:#1B1E5A;color:#fff}
+.btn.start{background:var(--blue);border-color:var(--blue)}
+.btn.start:hover{background:#2E43AB;color:#fff}
+.btn.end{background:var(--coral-text);border-color:var(--coral-text)}
+.btn.end:hover{background:#A92C17;color:#fff}
+.btn.to-lunch{background:var(--lunch);border-color:var(--lunch);color:var(--navy)}
+.btn.to-lunch:hover{background:#F2609F;color:var(--navy)}
+.btn.to-create{background:var(--create);border-color:var(--create);color:var(--navy)}
+.btn.to-create:hover{background:#25B96C;color:var(--navy)}
+.btn.to-share{background:var(--share);border-color:var(--share);color:#fff}
+.btn.to-share:hover{background:#4A1784;color:#fff}
 .btn.ghost{background:#fff;color:var(--navy)}
 .btn.ghost:hover{background:var(--blush-2);color:var(--navy)}
 .btn.light{background:#fff;color:var(--navy);border-color:#fff}
@@ -80,7 +90,7 @@ h1{margin:0;font-size:clamp(40px,6.4vw,68px);line-height:1.04;font-weight:600;le
 .act{display:flex;align-items:center;gap:16px;text-decoration:none;color:#fff;border-radius:20px;padding:22px 22px;min-height:120px;box-shadow:0 3px 0 rgba(12,14,61,.18);transition:transform .08s}
 .act:hover{color:#fff;transform:translateY(-2px)}
 .act:active{transform:translateY(1px);box-shadow:none}
-.act.a1{background:var(--coral-text)}.act.a2{background:var(--navy)}.act.a3{background:var(--blue)}
+.act.a1{background:var(--blue)}.act.a2{background:var(--navy)}.act.a3{background:var(--coral-text)}
 .act .num{flex:none;width:48px;height:48px;border-radius:50%;background:#fff;color:var(--navy);font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center}
 .act .txt{flex:1;display:grid;gap:2px;min-width:0}
 .act .when{font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:.92}
