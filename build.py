@@ -127,7 +127,7 @@ def page(path, title, desc, body, current='', noindex=False, script=False, guard
 <a href="/hosts">For hosts</a>
 <a href="/volunteers">For volunteers</a>
 <a href="/desk">Welcome desk</a>
-<a href="/evaluation">Evaluation</a>
+<a href="/the-room">The room</a>
 <a href="/privacy">Privacy notice</a>
 <a href="https://sydwestms.org.au/privacy-policy/">SydWest privacy policy</a></div>
 </nav>
@@ -1380,9 +1380,9 @@ page('desk.html', 'Welcome desk. Our Stories, Parramatta',
 # ---------- evaluation ----------
 evalpage = """
 <section class="form" data-evgate><div class="narrow prose">
-<p class="label">Evaluation</p>
+<p class="label">The room</p>
 <h1 class="dh1">Everything coming in, live</h1>
-<h2>Enter the evaluation password</h2>
+<h2>Enter the password for The room</h2>
 <p>If you do not have it, ask Kyriakos.</p>
 <form class="gate" data-evform>
 <div class="field"><label for="evpw">Password</label>
@@ -1394,7 +1394,7 @@ evalpage = """
 <section class="ev" data-evinside hidden>
 <div class="evtop"><div class="wrap">
 <div class="evbar">
-<div class="dtabs evtabs" role="tablist" aria-label="Evaluation">
+<div class="dtabs evtabs" role="tablist" aria-label="The room">
 <button type="button" role="tab" class="dtab is-on" data-evtab="results" aria-selected="true">Live results</button>
 <button type="button" role="tab" class="dtab" data-evtab="notes" aria-selected="false">Notes <b data-n-notes>0</b></button>
 </div>
@@ -1412,7 +1412,7 @@ evalpage = """
 </div>
 <div data-evpanel="notes" hidden>
 <form class="evadd" data-noteform>
-<h2>Add to the evaluation</h2>
+<h2>Add to The room</h2>
 <p class="evnote">Notes, quotes, transcripts, voice recordings and pictures. Only record or photograph people who have said yes on their consent form, and nobody wearing a bright sticker.</p>
 <div class="evrow">
 <div class="field"><label for="nsession">Session</label><select id="nsession" data-nsession><option>General</option><option>Welcome desk</option><option>Hear</option><option>Lunch</option><option>Create</option><option>Share</option></select></div>
@@ -1426,7 +1426,7 @@ evalpage = """
 <span class="evrec" data-nrecstate hidden></span>
 </div>
 <ul class="evpend" data-npend></ul>
-<p><button type="submit" class="btn" data-nsave>Save to the evaluation</button></p>
+<p><button type="submit" class="btn" data-nsave>Save</button></p>
 <p class="filemsg" data-nmsg hidden></p>
 </form>
 <div class="evfilter" data-nfilter></div>
@@ -1435,8 +1435,8 @@ evalpage = """
 </div>
 </section>
 <script src="/js/eval.js" defer></script>"""
-page('evaluation.html', 'Evaluation. Our Stories, Parramatta',
-     'Live evaluation for the coordinators.', evalpage, current='desk', noindex=True)
+page('the-room.html', 'The room. Our Stories, Parramatta',
+     'What is coming in, live, for the coordinators.', evalpage, current='desk', noindex=True)
 
 
 # ---------- privacy ----------

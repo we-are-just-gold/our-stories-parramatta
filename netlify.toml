@@ -21,3 +21,8 @@
   from = "/team"
   to = "/hosts"
   status = 302
+
+[[redirects]]
+  from = "/evaluation"
+  to = "/the-room"
+  status = 302
