@@ -59,13 +59,14 @@ export async function handle(req, store) {
     const at = given && given <= now && sydneyDay(given) === sydneyDay(now) ? given : now;
     if (given) {
       // A backfill from Netlify's record: skip it if the live copy of the same answers arrived within three minutes.
-      const same = JSON.stringify(data);
+      const flat = (d) => JSON.stringify(Object.keys(d).sort().map((k) => [k, [].concat(d[k]).map((x) => String(x).replace(/\s+/g, " ").trim())]));
+      const same = flat(data);
       const { blobs } = await store.list({ prefix: `a/${sydneyDay(at)}/${form}/` });
       for (const x of blobs) {
         const t = parseInt(x.key.split("/").pop(), 10) || 0;
         if (Math.abs(t - at) > 180000) continue;
         const it = await store.get(x.key, { type: "json" });
-        if (it && JSON.stringify(it.data) === same) return json({ ok: true, skipped: true });
+        if (it && flat(it.data) === same) return json({ ok: true, skipped: true });
       }
       if (b.nid) {
         const k = `a/${sydneyDay(at)}/${form}/${at}-n${String(b.nid).replace(/[^a-z0-9]/gi, "").slice(0, 30)}`;
