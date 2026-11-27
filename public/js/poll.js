@@ -25,20 +25,23 @@
   var bar=document.querySelector('[data-hostbar]'), waitcount=bar&&bar.querySelector('[data-waitcount]'), holdbox=bar&&bar.querySelector('[data-hold]');
   function button(text,cls,fn){ var b=document.createElement('button'); b.type='button'; b.className=cls; b.textContent=text; b.addEventListener('click',fn); return b; }
   function card(a){
-    var li=document.createElement('li'); li.className='ans'+(first?'':' is-new')+(a.w?' is-waiting':''); li.setAttribute('data-id',a.id);
+    var li=document.createElement('li'); li.className='ans'+(first?'':' is-new')+(a.h?' is-hidden':(a.w?' is-waiting':'')); li.setAttribute('data-id',a.id);
     var p=document.createElement('p'); p.textContent=a.t; li.appendChild(p);
     if(host){
       var acts=document.createElement('span'); acts.className='acts';
-      if(a.w) acts.appendChild(button('Show','hide show',function(){ send({show:a.id,code:code}); }));
-      acts.appendChild(button('Hide','hide',function(){ send({hide:a.id,code:code}); }));
+      if(a.h) acts.appendChild(button('Bring back','hide show',function(){ send({unhide:a.id,code:code}); }));
+      else {
+        if(a.w) acts.appendChild(button('Show','hide show',function(){ send({show:a.id,code:code}); }));
+        acts.appendChild(button('Hide','hide',function(){ send({hide:a.id,code:code}); }));
+      }
       li.appendChild(acts);
     }
     return li;
   }
   function draw(j){
     var list=j.answers||[], ids={}, n={}, shown=0;
-    list.forEach(function(a){ ids[a.id]=1; var state=a.w?'w':'s';
-      if(!a.w){ n[a.q]=(n[a.q]||0)+1; shown++; }
+    list.forEach(function(a){ ids[a.id]=1; var state=a.h?'h':(a.w?'w':'s');
+      if(!a.w && !a.h){ n[a.q]=(n[a.q]||0)+1; shown++; }
       if(!cols[a.q]) return;
       if(seen[a.id] && seen[a.id]!==state){ var old=wall.querySelector('[data-id="'+a.id+'"]'); if(old) old.replaceWith(card(a)); seen[a.id]=state; }
       else if(!seen[a.id]){ seen[a.id]=state; cols[a.q].list.insertBefore(card(a),cols[a.q].list.firstChild); } });
@@ -47,7 +50,7 @@
     if(total) total.textContent=shown;
     wall.classList.toggle('is-empty',!list.length);
     var w=j.waiting||0;
-    if(waitcount) waitcount.textContent=w+' waiting';
+    if(waitcount) waitcount.textContent=w+' waiting'+(j.hidden?', '+j.hidden+' hidden':'');
     if(holdbox && typeof j.hold==='boolean' && document.activeElement!==holdbox) holdbox.checked=j.hold;
     if(note){
       if(w && !(host && code)){ note.textContent=(w===1?'1 answer is':w+' answers are')+' waiting for a host to show '+(w===1?'it':'them')+'.'; note.hidden=false; }

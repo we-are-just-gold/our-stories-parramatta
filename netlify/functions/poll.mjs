@@ -5,6 +5,7 @@
 //   {pending: true}   every answer, with the waiting ones marked
 //   {show: id}        show one waiting answer        {showAll: true}  show everything waiting now
 //   {hold: bool}      turn the hold on or off        {hide: id}       take an answer off the screen
+//   {unhide: id}      bring a hidden answer back
 //   {clear: true}     delete every answer
 import { getStore } from "@netlify/blobs";
 
@@ -50,12 +51,14 @@ async function read(store) {
     const v = await store.get(k, { type: "json" });
     if (v) cache.set(k, v);
   }));
-  const all = aKeys
+  const every = aKeys
     .map((k) => ({ id: idOf(k), ...(cache.get(k) || {}) }))
-    .filter((x) => x.q && !hidden.has(x.id))
+    .filter((x) => x.q)
     .sort((x, y) => (x.id < y.id ? -1 : 1));
+  const all = every.filter((x) => !hidden.has(x.id));
+  const gonePile = every.filter((x) => hidden.has(x.id));
   const shown = (x) => !hold || sentAt(x.id) <= upto || ok.has(x.id);
-  return { keys, all, shown, hold };
+  return { keys, all, hiddenList: gonePile, shown, hold };
 }
 
 const setUpto = async (store, keys) => {
@@ -67,7 +70,7 @@ export async function handle(req, store) {
   if (req.method === "POST") {
     let b;
     try { b = await req.json(); } catch { return json({ error: "bad request" }, 400); }
-    const hostAsk = b.hide || b.clear || b.pending || b.show || b.showAll || typeof b.hold === "boolean";
+    const hostAsk = b.hide || b.unhide || b.clear || b.pending || b.show || b.showAll || typeof b.hold === "boolean";
     if (hostAsk) {
       const code = hostCode();
       if (!code || b.code !== code) return json({ error: "wrong code" }, 403);
@@ -79,6 +82,7 @@ export async function handle(req, store) {
         return json({ ok: true, cleared: del.filter((x) => x.key.startsWith("a/")).length });
       }
       if (b.hide) { await store.set("h/" + cleanId(b.hide), "1"); return json({ ok: true }); }
+      if (b.unhide) { await store.delete("h/" + cleanId(b.unhide)); return json({ ok: true }); }
       if (b.show) { await store.set("ok/" + cleanId(b.show), "1"); return json({ ok: true }); }
       const s = await read(store);
       if (b.showAll) { await setUpto(store, s.keys); return json({ ok: true }); }
@@ -93,7 +97,8 @@ export async function handle(req, store) {
         return json({ ok: true, hold: b.hold });
       }
       const answers = s.all.map((x) => (s.shown(x) ? x : { ...x, w: 1 }));
-      return json({ answers, waiting: answers.filter((x) => x.w).length, hold: s.hold });
+      const waiting = answers.filter((x) => x.w).length;
+      return json({ answers: [...answers, ...s.hiddenList.map((x) => ({ ...x, h: 1 }))], waiting, hidden: s.hiddenList.length, hold: s.hold });
     }
     let n = 0;
     for (const q of QS) {

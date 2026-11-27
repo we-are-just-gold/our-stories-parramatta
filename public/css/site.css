@@ -248,6 +248,8 @@ input[type=file]{font:inherit;font-size:16px;border:1.5px dashed var(--field);bo
 .jump a:hover{background:var(--navy);color:#fff}
 .stp{scroll-margin-top:18px}
 .ans.is-waiting{background:transparent;border:1.5px dashed var(--navy)}
+.ans.is-hidden{background:transparent;border:1.5px dashed var(--field);opacity:.6}
+.ans.is-hidden p{text-decoration:line-through}
 .ans .acts{display:flex;gap:6px;flex:none}
 .ans .hide.show{background:var(--navy);color:#fff}
 .waitcount{font-size:16px}
