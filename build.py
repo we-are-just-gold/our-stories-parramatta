@@ -603,6 +603,9 @@ welcomep = hero('Welcome pack', 'Welcome to', 'Our Stories.',
 <article><img src="/img/defne.jpg" alt="DEFNE" width="160" height="160">
 <h3>DEFNE</h3><p class="role">Performer, Hear</p>
 <p>A queer neurodivergent Turkish-Australian multidisciplinary artist and the Creative Director and Host of West Side Poetry Slam in Parramatta. Photo: Justin Cueno</p></article>
+<article><img src="/img/desert-empress.jpg" alt="Desert Empress" width="160" height="160">
+<h3>Desert Empress</h3><p class="role">Performer, Share</p>
+<p>A hip hop practitioner. A rapper and singer of Isaan and Iraqi heritage from South West Sydney who has performed locally and internationally.</p></article>
 </div>
 </div>
 </section>
@@ -691,6 +694,9 @@ DOUG = person('doug.jpg', 'Doug Cronin', 'Doug Cronin', 'Our Race. Co-Founder an
               'An ethical storytelling learner, educator and advocate. More than 10 years of learning about the power of '
               'storytelling led Doug to co-create the Transformational Ethical Story Telling Framework and to work on '
               'storytelling projects across Australia and abroad.')
+DESERT = person('desert-empress.jpg', 'Desert Empress', 'Desert Empress (she/her)', 'Performing in Share',
+                'A hip hop practitioner. A rapper and singer of Isaan and Iraqi heritage from South West Sydney who has '
+                'performed locally and internationally.')
 HAWA = person('hawanatu.jpg', 'Hawanatu Bangura', 'Hawanatu Bangura', 'Our Race. Filmmaker, social worker and story coach',
               'A Sierra Leonean-Australian filmmaker, social worker and story coach whose work sits at the intersection of '
               'healing, identity and community. She is the creator of the Defining Moments Cards.')
@@ -708,7 +714,7 @@ FAC = {
             '<p class="links"><a href="https://www.ourrace.com.au/">ourrace.com.au</a><a href="https://www.ourrace.com.au/t-e-s-t">The T.E.S.T. Framework</a>'
             '<a href="https://www.instagram.com/our_race/">Instagram</a><a href="https://www.linkedin.com/company/our-race/">LinkedIn</a></p>'
             + DOUG + HAWA + '</div></section>'),
- 'share': ('<section class="fac"><div class="narrow"><p class="label">With you in Share</p>' + RU
+ 'share': ('<section class="fac"><div class="narrow"><p class="label">With you in Share</p>' + RU + DESERT
            + '<p class="about" style="margin-top:18px">A host sits at every table.</p></div></section>'),
 }
 
@@ -862,7 +868,7 @@ share_steps = '\n'.join([
     step(1, 'First session today? Start your day', START),
     step(2, 'What happens in Share',
          '<ul class="list"><li><strong>About 45 minutes in circles.</strong> You share and listen at your table, with a host.</li>'
-         '<li><strong>About half an hour on stage.</strong> A performer opens, then anyone who chose a stage spot shares. The stage is photographed and filmed.</li>'
+         '<li><strong>About half an hour on stage.</strong> Desert Empress opens, then anyone who chose a stage spot shares. The stage is photographed and filmed.</li>'
          '<li><strong>A web of connection.</strong> Back at your table, a ball of wool goes from person to person as you say what you heard from each other that helped you feel connected.</li>'
          '<li>Closing reflections and what happens next. We finish by 4.50pm.</li></ul>'),
     step(3, 'On stage, or read for you',
