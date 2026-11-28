@@ -22,6 +22,7 @@ const json = (body, status = 200) =>
     status,
     headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
   });
+const HOST_KEY = "9792875ded1497999a4de46722835339cce9346191da1c1ebc4ec5c144d9d407"; // what the Hosts gate stores after the host password
 const norm = (v) => String(v || "").toLowerCase().replace(/[^a-z0-9]/g, "");
 const code = () => {
   try { return (globalThis.Netlify && Netlify.env.get("EVAL_CODE")) || process.env.EVAL_CODE || ""; }
@@ -46,10 +47,14 @@ export function keep(form, data) {
 }
 
 export async function handle(req, store) {
-  if (req.method !== "POST") {
-    // Public totals for quick fire only: counts per answer for today, never a single answer set.
-    const u = new URL(req.url);
-    if (u.searchParams.get("tally") !== "quick-fire") return json({ error: "use POST" }, 405);
+  if (req.method !== "POST") return json({ error: "use POST" }, 405);
+  let b;
+  try { b = await req.json(); } catch { return json({ error: "bad request" }, 400); }
+  if (b.tally === "quick-fire") {
+    // Quick fire totals: hosts (their stored key) or The room (its password) only. Counts per answer for today.
+    const hostOk = String(b.k || "") === HOST_KEY;
+    const roomOk = code() && norm(b.code) === norm(code());
+    if (!hostOk && !roomOk) return json({ error: "locked" }, 403);
     const { blobs } = await store.list({ prefix: `a/${sydneyDay(Date.now())}/quick-fire/` });
     const items = (await Promise.all(blobs.map((x) => store.get(x.key, { type: "json" })))).filter(Boolean);
     const counts = {};
@@ -58,8 +63,6 @@ export async function handle(req, store) {
     }
     return json({ total: items.length, counts });
   }
-  let b;
-  try { b = await req.json(); } catch { return json({ error: "bad request" }, 400); }
   if (b.form) {
     const form = String(b.form);
     if (!(form in FORMS)) return json({ error: "unknown form" }, 400);

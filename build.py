@@ -809,12 +809,11 @@ hear_steps = '\n'.join([
          + '<p><a class="btn ghost" href="/results">See what the room is saying</a></p>'
          + '<script src="/js/poll.js" defer></script>'),
     step(4, 'Quick fire',
-         '<p>Seven quick questions from Dr Ru. The room sees the totals on the screen, never who answered what.</p>'
+         '<p>Seven quick questions from Dr Ru. These do not go on the screen.</p>'
          + mini_form('quick-fire',
                      picks(QUICK)
                      + '<p class="hint" style="margin-top:18px">No name. Skip any you like.</p>',
-                     'Send').replace('action="/thanks"', 'action="/quickfire"', 1)
-         + '<p><a class="btn ghost" href="/quickfire">See how the room answered</a></p>'),
+                     'Send')),
     step(5, 'Anything else that stayed with you?',
          mini_form('through-the-day',
                    big_area('insight', 'What stayed with you from Hear?', rows=4),
@@ -980,14 +979,14 @@ quickp = f'''<!doctype html>
 <body class="screen qfscreen">
 <header class="shead">
 <div><img src="/img/our-stories.png" alt="Our Stories, Parramatta" class="slogo"><h1 class="qfh">Quick fire. How the room answered.</h1></div>
-<div class="sjoin"><div><p class="sk">Scan, then tap Hear, the light blue one</p><p class="su">ourstoriesparramatta.netlify.app</p></div>
-<img src="/img/qr-home.svg" alt="QR code that opens the app" class="sqr"></div>
+<p class="qfprivate">Hosts and The room only. Not for the projector.</p>
 </header>
+<p class="flag" data-qflocked hidden>This page is for hosts and The room only. Sign in on <a href="/hosts">the Hosts page</a> or <a href="/the-room">The room</a> first, then come back.</p>
 <p class="filemsg" data-status hidden></p>
 <main class="qfgrid" data-qfgrid>
 {qf_cards}
 </main>
-<footer class="sfoot"><span><b data-qftotal>0</b> people have answered</span><span><a href="/hear#step-4">Answer quick fire</a> · Totals only. Nobody can see who answered what.</span></footer>
+<footer class="sfoot"><span><b data-qftotal>0</b> people have answered</span><span>Totals only. Nobody can see who answered what.</span></footer>
 <script>window.QF_ORDER={_json.dumps([[n,o] for n,_,o in QUICK])};</script>
 <script src="/js/quick.js" defer></script>
 </body></html>'''
@@ -1300,7 +1299,7 @@ hostsp = hero('Hosts and facilitators', 'This part is', 'for hosts.',
 <div class="teamgrid three">
 <a class="teamcard alt" href="/"><b>Welcome and QR code</b><span>The main page. Put it up as people arrive.</span></a>
 <a class="teamcard alt" href="/screen"><b>Live poll</b><span>Dr Ru’s three questions in Hear. Answers appear as the room sends them.</span></a>
-<a class="teamcard alt" href="/quickfire"><b>Quick fire, live results</b><span>Totals for Dr Ru’s seven quick fire questions, updating as people send. Put it on the projector. Counts only, no names.</span></a>
+<a class="teamcard alt" href="/quickfire"><b>Quick fire, live totals</b><span>Totals for Dr Ru’s seven quick fire questions as people send them. Hosts and The room only. Counts, no names.</span></a>
 <a class="teamcard alt" href="/screen#host"><b>Live poll, host controls</b><span>Show the answers that are waiting, hide one, or clear the screen. Needs the host code.</span></a>
 </div>
 <h2>Today so far</h2>
@@ -1443,6 +1442,7 @@ evalpage = """
 </div></div>
 <div class="wrap">
 <div data-evpanel="results">
+<p class="evnote"><a href="/quickfire">Quick fire, live totals</a> opens the seven quick fire questions as bar charts.</p>
 <p class="evnote">Today only, Sydney time. Updates every 15 seconds. No names: consent forms, stage spots and contact details are not shown here.</p>
 <ul class="evtiles" data-evtiles></ul>
 <div data-evcompare></div>

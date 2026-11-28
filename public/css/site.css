@@ -282,6 +282,7 @@ body.screen{min-height:100vh;display:flex;flex-direction:column;background:#fff;
 .screen .wcol .count{min-width:56px;height:56px;border-radius:28px;font-size:26px}
 .screen .ans{padding:16px 20px;border-radius:16px}
 .screen .ans p{font-size:clamp(20px,1.7vw,30px)}
+.qfprivate{margin:0;font-size:18px;font-weight:700;color:var(--coral-text)}
 .qfh{font-size:30px;margin:10px 0 0;color:var(--navy)}
 .qfgrid{flex:1;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:22px;align-content:start}
 .qf{background:var(--blush-2);border-radius:18px;padding:20px 22px 22px}

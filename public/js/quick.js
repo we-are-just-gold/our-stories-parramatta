@@ -1,6 +1,8 @@
 (function(){
   var grid=document.querySelector('[data-qfgrid]'); if(!grid) return;
-  var total=document.querySelector('[data-qftotal]'), status=document.querySelector('[data-status]');
+  var total=document.querySelector('[data-qftotal]'), status=document.querySelector('[data-status]'), locked=document.querySelector('[data-qflocked]');
+  var k='', code=''; try{ k=localStorage.getItem('os_team')||''; code=sessionStorage.getItem('os_eval')||''; }catch(e){}
+  if(!k && !code){ locked.hidden=false; grid.hidden=true; return; }
   var norm=function(s){ return String(s).replace(/[’']/g,"'").trim().toLowerCase(); };
   function draw(j){
     if(total) total.textContent=j.total||0;
@@ -17,7 +19,8 @@
     });
   }
   function load(){
-    fetch('/api/eval?tally=quick-fire',{cache:'no-store'}).then(function(r){ if(!r.ok) throw r; return r.json(); })
+    fetch('/api/eval',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({tally:'quick-fire',k:k,code:code})})
+      .then(function(r){ if(r.status===403){ locked.hidden=false; grid.hidden=true; throw 0; } if(!r.ok) throw r; return r.json(); })
       .then(function(j){ draw(j); if(status) status.hidden=true; })
       .catch(function(){ if(status){ status.textContent='Waiting for the connection'; status.hidden=false; } });
   }
