@@ -45,6 +45,7 @@
 <div class="evbar">
 <div class="dtabs evtabs" role="tablist" aria-label="The room">
 <button type="button" role="tab" class="dtab is-on" data-evtab="results" aria-selected="true">Live results</button>
+<button type="button" role="tab" class="dtab" data-evtab="stage" aria-selected="false">Stage list</button>
 <button type="button" role="tab" class="dtab" data-evtab="notes" aria-selected="false">Notes <b data-n-notes>0</b></button>
 </div>
 <button type="button" class="dlock" data-evlock>Lock</button>
@@ -59,6 +60,14 @@
 <div data-evcompare></div>
 <nav class="evjump" aria-label="Go to" data-evjump></nav>
 <div data-evbody></div>
+</div>
+<div data-evpanel="stage" hidden>
+<div class="stagebox" data-stagebox>
+<h2>Stage list</h2>
+<p class="hint" data-stagemsg>Loading</p>
+<div data-stageout></div>
+</div>
+<script src="/js/stage.js" defer></script>
 </div>
 <div data-evpanel="notes" hidden>
 <form class="evadd" data-noteform>

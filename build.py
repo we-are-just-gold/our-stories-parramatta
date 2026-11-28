@@ -1302,6 +1302,12 @@ hostsp = hero('Hosts and facilitators', 'This part is', 'for hosts.',
 <a class="teamcard alt" href="/quickfire"><b>Quick fire, live totals</b><span>Totals for Dr Ru’s seven quick fire questions as people send them. Hosts and The room only. Counts, no names.</span></a>
 <a class="teamcard alt" href="/screen#host"><b>Live poll, host controls</b><span>Show the answers that are waiting, hide one, or clear the screen. Needs the host code.</span></a>
 </div>
+<div class="stagebox" data-stagebox>
+<h2>Stage list</h2>
+<p class="hint" data-stagemsg>Loading</p>
+<div data-stageout></div>
+</div>
+<script src="/js/stage.js" defer></script>
 <h2>Today so far</h2>
 <p>How many of each have been sent today. Counts only, no names. It updates every 30 seconds.</p>
 ''' + COUNTS + '''
@@ -1434,6 +1440,7 @@ evalpage = """
 <div class="evbar">
 <div class="dtabs evtabs" role="tablist" aria-label="The room">
 <button type="button" role="tab" class="dtab is-on" data-evtab="results" aria-selected="true">Live results</button>
+<button type="button" role="tab" class="dtab" data-evtab="stage" aria-selected="false">Stage list</button>
 <button type="button" role="tab" class="dtab" data-evtab="notes" aria-selected="false">Notes <b data-n-notes>0</b></button>
 </div>
 <button type="button" class="dlock" data-evlock>Lock</button>
@@ -1448,6 +1455,14 @@ evalpage = """
 <div data-evcompare></div>
 <nav class="evjump" aria-label="Go to" data-evjump></nav>
 <div data-evbody></div>
+</div>
+<div data-evpanel="stage" hidden>
+<div class="stagebox" data-stagebox>
+<h2>Stage list</h2>
+<p class="hint" data-stagemsg>Loading</p>
+<div data-stageout></div>
+</div>
+<script src="/js/stage.js" defer></script>
 </div>
 <div data-evpanel="notes" hidden>
 <form class="evadd" data-noteform>
