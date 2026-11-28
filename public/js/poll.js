@@ -12,9 +12,20 @@
       if(btn){ btn.disabled=true; btn.textContent='Sending'; }
       var record=fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).catch(function(){});
       var live=fetch('/api/poll',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).then(function(r){ return r.ok; }).catch(function(){ return false; });
-      Promise.all([record,live]).then(function(r){ location.href = r[1] ? '/results' : '/thanks'; });
+      Promise.all([record,live]).then(function(){
+        var ty=document.querySelector('[data-pollthanks]');
+        if(!ty){ location.href='/results'; return; }
+        f.reset(); f.hidden=true; ty.hidden=false; if(msg) msg.hidden=true;
+        if(btn){ btn.disabled=false; btn.textContent='Send my answers'; }
+        try{ ty.focus({preventScroll:true}); }catch(e){} ty.scrollIntoView({behavior:'smooth',block:'center'});
+      });
     });
   }
+  var more=document.querySelector('[data-pollmore]');
+  if(more && f) more.addEventListener('click',function(){
+    var ty=document.querySelector('[data-pollthanks]'); ty.hidden=true; f.hidden=false;
+    var first=f.querySelector('textarea'); f.scrollIntoView({behavior:'smooth',block:'start'}); if(first) setTimeout(function(){ first.focus(); },300);
+  });
   // Showing: the results page on a phone and the big screen
   var wall=document.querySelector('[data-wall]');
   if(!wall) return;

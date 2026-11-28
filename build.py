@@ -782,6 +782,14 @@ hear_steps = '\n'.join([
                      + big_area('i_wish', 'In my community, I wish', rows=3)
                      + '<p class="filemsg" data-pollmsg hidden></p>',
                      'Send my answers')
+         + '<div class="pollthanks" data-pollthanks hidden tabindex="-1">'
+           '<h3>Thank you. Your answers are in.</h3>'
+           '<p>They go up on the screen in the room once the host shows them. No name is attached.</p>'
+           '<p><strong>Got more to say?</strong> Every answer counts. Send as many as you like, about anything in your community.</p>'
+           '<p class="pollthanks-acts"><button type="button" class="btn" data-pollmore>Add another answer</button>'
+           '<a class="btn ghost" href="/results">See what the room is saying</a></p>'
+           '<p class="hint">When Dr Ru moves on, the next step is <a href="#step-4">Quick fire</a>.</p>'
+           '</div>'
          + '<p class="hint" style="margin-top:14px">No name. Your answers show on the screen in the room, so everyone can see what the room is saying. ' + CARE + '</p>'
          + '<p><a class="btn ghost" href="/results">See what the room is saying</a></p>'
          + '<script src="/js/poll.js" defer></script>'),
