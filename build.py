@@ -864,7 +864,7 @@ create_steps = '\n'.join([
          '<p>Talk to Doug or Hawanatu before you share. You can also keep your story for another day. '
          'You decide if, when and how it is shared.</p></div>'),
     step(4, 'Your story',
-         '<p>Write it here if you want to, in full, with or without your name. Wrote it by hand? Take a photo of the page and send that. It does not need to be finished or tidy. You decide what you tell.</p>'
+         '<p>Write it here if you want to, in full, with or without your name. Add up to five pictures: you, your work, or the pages if you wrote it by hand. It does not need to be finished or tidy. You decide what you tell.</p>'
          '<p><a class="btn" href="/share-your-story">Share your story</a></p>'),
     step(5, '<span id="stage"></span>A stage spot in Share',
          '<p>Stage spots come after the circles in Share. They are photographed and filmed. Only if you want one. Your facilitators confirm the time for each spot on the day.</p>'
