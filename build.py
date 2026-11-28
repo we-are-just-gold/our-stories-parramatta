@@ -1551,8 +1551,10 @@ page('privacy.html', 'Privacy notice. Our Stories, Parramatta',
 thanks = '''<section class="start">
 <div class="wrap">
 <p class="eyebrow">Received</p>
-<h1 class="h-start">Thank you. That is in.</h1>
-<p class="lead" style="margin:10px 0 24px">Back to your session, or on to the next step.</p>
+<h1 class="h-start" data-tyh>Thank you. That is in.</h1>
+<p class="lead" style="margin:10px 0 24px" data-tyl>It has come through safely. Back to your session, or on to the next step.</p>
+<p class="tyacts" data-tyacts hidden><a class="btn" href="/" data-tyback>Back</a><a class="btn ghost" href="/" data-tyagain hidden>Send another</a></p>
+<script src="/js/thanks.js"></script>
 <p data-deskback hidden><a class="btn" href="/desk">Back to the welcome desk</a></p>
 <script>try{if(sessionStorage.getItem('desk_saved')){document.querySelector('[data-deskback]').hidden=false;location.replace('/desk');}}catch(e){}</script>
 ''' + tiles() + '''<h2 class="h-sub">And for everyone, any time</h2>''' + actions() + '''

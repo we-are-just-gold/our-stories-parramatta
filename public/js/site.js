@@ -18,6 +18,11 @@
       try{ var pre=sessionStorage.getItem('os_prefill'); if(pre){ sessionStorage.removeItem('os_prefill'); var ni=f.querySelector('input[name="name"]'); if(ni&&!ni.value) ni.value=pre; } }catch(e){}
     }
     f.addEventListener('submit',function(){
+      // For the thank you page: what was sent, and where to go back to
+      try{
+        var st=f.closest('[id^="step-"]');
+        sessionStorage.setItem('os_sent',JSON.stringify({form:name,from:location.pathname.replace(/\.html$/,'')+(st?'#'+st.id:''),t:Date.now()}));
+      }catch(e){}
       if(!(desk && name==='consent')){ var d=read(); d[name]=1; write(d); }
       try{ navigator.sendBeacon('/api/count',new Blob([JSON.stringify({form:name})],{type:'application/json'})); }catch(e){}
       // Copy survey and session answers to the live evaluation (no names or contact details; the server keeps only what it needs)
@@ -35,6 +40,7 @@
       }
     });
   });
+  try{ var sp=location.pathname.replace(/\.html$/,''); if(/^\/(hear|create|share|lunch|welcome)$/.test(sp)) sessionStorage.setItem('os_session',sp); }catch(e){}
   var d=read();
   document.querySelectorAll('[data-key]').forEach(function(a){
     if(d[a.getAttribute('data-key')]){ var t=a.querySelector('.done'); if(t) t.hidden=false; a.classList.add('is-done'); }

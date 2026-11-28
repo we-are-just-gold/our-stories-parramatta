@@ -206,6 +206,7 @@ input[type=file]{font:inherit;font-size:16px;border:1.5px dashed var(--field);bo
 .pics span{flex:1;font-size:15px;overflow-wrap:anywhere}
 .pics button{flex:none;font:inherit;font-size:14px;font-weight:600;border:1.5px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:6px 14px;cursor:pointer}
 .filemsg{margin:10px 0 0;font-size:16px;font-weight:600;color:var(--navy)}
+.tyacts{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 36px}
 .pollthanks{background:var(--blush);border-left:6px solid var(--coral);border-radius:14px;padding:22px 22px 18px;margin-top:8px}
 .pollthanks:focus{outline:none}
 .pollthanks h3{margin:0 0 10px;font-size:24px}
