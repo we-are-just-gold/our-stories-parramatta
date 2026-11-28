@@ -765,6 +765,21 @@ START = ('<p>The arrival survey. 10 short questions about you and your community
 END = ('<p>The end of day survey. About five minutes on what you heard, who you met and what you will carry home.</p>'
        '<p><a class="btn end" href="/end-of-day-survey" data-key="end-of-day-survey">End your day</a></p>')
 
+QUICK = [('confident_making_friends_in_neighbourhood', 'Do you feel confident you can make friends in your neighbourhood?',
+                             ['Very confident', 'Confident', 'Not confident']),
+                            ('how_often_speak_to_neighbours', 'How often do you speak to your neighbours?',
+                             ['At least once a week', 'Once a month', 'Very rarely', 'Have never spoken to them']),
+                            ('neighbours_help_one_another', 'Do people in your neighbourhood help one another when someone needs it?',
+                             ['Yes, all the time', 'Sometimes', 'Never']),
+                            ('feel_safe_walking_in_neighbourhood', 'How safe do you feel when you walk around your neighbourhood?',
+                             ['Very safe', 'Sometimes safe', 'Not safe at all']),
+                            ('know_where_to_find_volunteering', 'If you wanted to volunteer, do you know where you could go to find more information about volunteering?',
+                             ['Yes, I know', 'I am not sure', 'I don’t know', 'I do not want to volunteer']),
+                            ('confident_about_future', 'How confident do you feel about your future?',
+                             ['Very confident', 'Confident', 'Unsure', 'Not confident at all']),
+                            ('left_out_or_seen_left_out', 'Have you been left out, or seen someone else left out, because of race, sexuality or neurodivergence?',
+                             ['Often', 'Sometimes', 'Rarely', 'Never'])]
+
 hear_steps = '\n'.join([
     step(1, 'First session today? Start your day',
          '<p>Dr Ru gives the room five minutes for this after the welcome.</p>' + START),
@@ -794,24 +809,12 @@ hear_steps = '\n'.join([
          + '<p><a class="btn ghost" href="/results">See what the room is saying</a></p>'
          + '<script src="/js/poll.js" defer></script>'),
     step(4, 'Quick fire',
-         '<p>Seven quick questions from Dr Ru. These do not go on the screen.</p>'
+         '<p>Seven quick questions from Dr Ru. The room sees the totals on the screen, never who answered what.</p>'
          + mini_form('quick-fire',
-                     picks([('confident_making_friends_in_neighbourhood', 'Do you feel confident you can make friends in your neighbourhood?',
-                             ['Very confident', 'Confident', 'Not confident']),
-                            ('how_often_speak_to_neighbours', 'How often do you speak to your neighbours?',
-                             ['At least once a week', 'Once a month', 'Very rarely', 'Have never spoken to them']),
-                            ('neighbours_help_one_another', 'Do people in your neighbourhood help one another when someone needs it?',
-                             ['Yes, all the time', 'Sometimes', 'Never']),
-                            ('feel_safe_walking_in_neighbourhood', 'How safe do you feel when you walk around your neighbourhood?',
-                             ['Very safe', 'Sometimes safe', 'Not safe at all']),
-                            ('know_where_to_find_volunteering', 'If you wanted to volunteer, do you know where you could go to find more information about volunteering?',
-                             ['Yes, I know', 'I am not sure', 'I don’t know', 'I do not want to volunteer']),
-                            ('confident_about_future', 'How confident do you feel about your future?',
-                             ['Very confident', 'Confident', 'Unsure', 'Not confident at all']),
-                            ('left_out_or_seen_left_out', 'Have you been left out, or seen someone else left out, because of race, sexuality or neurodivergence?',
-                             ['Often', 'Sometimes', 'Rarely', 'Never'])])
+                     picks(QUICK)
                      + '<p class="hint" style="margin-top:18px">No name. Skip any you like.</p>',
-                     'Send')),
+                     'Send').replace('action="/thanks"', 'action="/quickfire"', 1)
+         + '<p><a class="btn ghost" href="/quickfire">See how the room answered</a></p>'),
     step(5, 'Anything else that stayed with you?',
          mini_form('through-the-day',
                    big_area('insight', 'What stayed with you from Hear?', rows=4),
@@ -963,6 +966,32 @@ screen = f'''<!doctype html>
 <script src="/js/poll.js" defer></script>
 </body></html>'''
 open(os.path.join(ROOT, 'screen.html'), 'w').write(screen)
+
+# ---------- quick fire, live results ----------
+import json as _json
+qf_cards = '\n'.join(
+    f'<li class="qf" data-qf="{n}"><h2>{e(t)}</h2><ul class="qfbars">'
+    + ''.join(f'<li data-opt="{e(o)}"><span class="qfl">{e(o)}</span><span class="qfbar"><i></i></span><b class="qfn">0</b></li>' for o in opts_)
+    + '</ul></li>' for n, t, opts_ in QUICK)
+quickp = f'''<!doctype html>
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex"><title>Quick fire. Our Stories, Parramatta</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/css/site.css"></head>
+<body class="screen qfscreen">
+<header class="shead">
+<div><img src="/img/our-stories.png" alt="Our Stories, Parramatta" class="slogo"><h1 class="qfh">Quick fire. How the room answered.</h1></div>
+<div class="sjoin"><div><p class="sk">Scan, then tap Hear, the light blue one</p><p class="su">ourstoriesparramatta.netlify.app</p></div>
+<img src="/img/qr-home.svg" alt="QR code that opens the app" class="sqr"></div>
+</header>
+<p class="filemsg" data-status hidden></p>
+<main class="qfgrid" data-qfgrid>
+{qf_cards}
+</main>
+<footer class="sfoot"><span><b data-qftotal>0</b> people have answered</span><span><a href="/hear#step-4">Answer quick fire</a> · Totals only. Nobody can see who answered what.</span></footer>
+<script>window.QF_ORDER={_json.dumps([[n,o] for n,_,o in QUICK])};</script>
+<script src="/js/quick.js" defer></script>
+</body></html>'''
+open(os.path.join(ROOT, 'quickfire.html'), 'w').write(quickp)
 
 # ---------- lunch ----------
 lunchp = f'''<section class="page-hero s-lunch">
@@ -1271,6 +1300,7 @@ hostsp = hero('Hosts and facilitators', 'This part is', 'for hosts.',
 <div class="teamgrid three">
 <a class="teamcard alt" href="/"><b>Welcome and QR code</b><span>The main page. Put it up as people arrive.</span></a>
 <a class="teamcard alt" href="/screen"><b>Live poll</b><span>Dr Ru’s three questions in Hear. Answers appear as the room sends them.</span></a>
+<a class="teamcard alt" href="/quickfire"><b>Quick fire, live results</b><span>Totals for Dr Ru’s seven quick fire questions, updating as people send. Put it on the projector. Counts only, no names.</span></a>
 <a class="teamcard alt" href="/screen#host"><b>Live poll, host controls</b><span>Show the answers that are waiting, hide one, or clear the screen. Needs the host code.</span></a>
 </div>
 <h2>Today so far</h2>

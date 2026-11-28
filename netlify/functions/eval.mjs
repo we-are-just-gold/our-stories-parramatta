@@ -46,7 +46,18 @@ export function keep(form, data) {
 }
 
 export async function handle(req, store) {
-  if (req.method !== "POST") return json({ error: "use POST" }, 405);
+  if (req.method !== "POST") {
+    // Public totals for quick fire only: counts per answer for today, never a single answer set.
+    const u = new URL(req.url);
+    if (u.searchParams.get("tally") !== "quick-fire") return json({ error: "use POST" }, 405);
+    const { blobs } = await store.list({ prefix: `a/${sydneyDay(Date.now())}/quick-fire/` });
+    const items = (await Promise.all(blobs.map((x) => store.get(x.key, { type: "json" })))).filter(Boolean);
+    const counts = {};
+    for (const it of items) for (const [k, v] of Object.entries(it.data || {})) {
+      for (const x of [].concat(v)) { const t = String(x).trim(); if (!t) continue; (counts[k] ||= {})[t] = (counts[k][t] || 0) + 1; }
+    }
+    return json({ total: items.length, counts });
+  }
   let b;
   try { b = await req.json(); } catch { return json({ error: "bad request" }, 400); }
   if (b.form) {

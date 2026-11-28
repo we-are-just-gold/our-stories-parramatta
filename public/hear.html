@@ -48,7 +48,7 @@
 <div class="field"><label for="f186">In my community, I like</label><textarea id="f186" name="i_like" rows="3"></textarea></div><div class="field"><label for="f187">In my community, I do not like</label><textarea id="f187" name="i_do_not_like" rows="3"></textarea></div><div class="field"><label for="f188">In my community, I wish</label><textarea id="f188" name="i_wish" rows="3"></textarea></div><p class="filemsg" data-pollmsg hidden></p>
 <div class="submit"><button class="btn" type="submit">Send my answers</button></div>
 </form><div class="pollthanks" data-pollthanks hidden tabindex="-1"><h3>Thank you. Your answers are in.</h3><p>They go up on the screen in the room once the host shows them. No name is attached.</p><p><strong>Got more to say?</strong> Every answer counts. Send as many as you like, about anything in your community.</p><p class="pollthanks-acts"><button type="button" class="btn" data-pollmore>Add another answer</button><a class="btn ghost" href="/results">See what the room is saying</a></p><p class="hint">When Dr Ru moves on, the next step is <a href="#step-4">Quick fire</a>.</p></div><p class="hint" style="margin-top:14px">No name. Your answers show on the screen in the room, so everyone can see what the room is saying. Leave out names and personal details, yours and other people’s. Share only what you are comfortable sharing. If something brings things up, the <a href="/#support">support numbers</a> are here.</p><p><a class="btn ghost" href="/results">See what the room is saying</a></p><script src="/js/poll.js" defer></script></div></li>
-<li class="stp" id="step-4"><span class="sn" aria-hidden="true">4</span><div class="sb"><h2>Quick fire</h2><p>Seven quick questions from Dr Ru. These do not go on the screen.</p><form name="quick-fire" method="POST" action="/thanks" data-netlify="true" netlify-honeypot="bot-field" data-form>
+<li class="stp" id="step-4"><span class="sn" aria-hidden="true">4</span><div class="sb"><h2>Quick fire</h2><p>Seven quick questions from Dr Ru. The room sees the totals on the screen, never who answered what.</p><form name="quick-fire" method="POST" action="/quickfire" data-netlify="true" netlify-honeypot="bot-field" data-form>
 <input type="hidden" name="form-name" value="quick-fire">
 <p class="bot"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 <div class="stmt" role="group" aria-labelledby="f189"><p class="s" id="f189">Do you feel confident you can make friends in your neighbourhood?</p>
@@ -98,7 +98,7 @@
 <div class="opt"><input type="radio" id="f220" name="left_out_or_seen_left_out" value="Never"><label for="f220">Never</label></div>
 </div></div><p class="hint" style="margin-top:18px">No name. Skip any you like.</p>
 <div class="submit"><button class="btn" type="submit">Send</button></div>
-</form></div></li>
+</form><p><a class="btn ghost" href="/quickfire">See how the room answered</a></p></div></li>
 <li class="stp" id="step-5"><span class="sn" aria-hidden="true">5</span><div class="sb"><h2>Anything else that stayed with you?</h2><form name="through-the-day" method="POST" action="/thanks" data-netlify="true" netlify-honeypot="bot-field" data-form>
 <input type="hidden" name="form-name" value="through-the-day"><input type="hidden" name="session" value="Hear">
 <p class="bot"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
